@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "miko1991",
+      "name": "Mikolaj Marciniak",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/27098411?v=4",
+      "profile": "https://github.com/miko1991",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "number-one",
+  "projectOwner": "MichaelJolley",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
