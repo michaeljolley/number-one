@@ -13,6 +13,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "MichaelJolley",
+      "name": "Michael Jolley",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1228996?v=4",
+      "profile": "https://baldbeardedbuilder.com/",
+      "contributions": [
+        "code",
+        "ideas",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
