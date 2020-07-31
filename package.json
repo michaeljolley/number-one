@@ -1,0 +1,48 @@
+{
+  "name": "number-one",
+  "version": "1.0.0",
+  "description": "A Node.js based Twitch chat bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build:copy": "copyfiles src/overlays/wwwroot/**/* dist/overlays/wwwroot -u 3",
+    "build:copyjs": "copyfiles dist/overlays/scripts/*.js dist/overlays/wwwroot/js -u 3",
+    "build:dev": "tsc",
+    "build:scss": "node-sass --output-style compressed --include-path src src/overlays src/overlays/styles -o src/overlays/wwwroot/",
+    "dev": "nodemon -L -e js,ts,htm,env,scss,json --watch src --exec \"npm run build:dev && npm run build:scss && npm run build:copy && npm run start\"",
+    "build": "npm run build:dev && npm run build:copy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelJolley/number-one.git"
+  },
+  "author": "Michael Jolley <mike@sparcapp.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichaelJolley/number-one/issues"
+  },
+  "homepage": "https://github.com/MichaelJolley/number-one#readme",
+  "dependencies": {
+    "@types/node": "^14.0.27",
+    "axios": "^0.19.2",
+    "comfy.js": "^1.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "faunadb": "^2.14.2",
+    "socket.io": "^2.3.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/socket.io": "^2.1.10",
+    "@types/tmi.js": "^1.4.0",
+    "copyfiles": "^2.3.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "node-sass": "^4.14.1",
+    "ts-loader": "^8.0.1",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.9.7"
+  }
+}
