@@ -1,0 +1,15 @@
+export enum Events {
+  OnChatMessage = 'onChatMessage',
+  OnCheer = 'onCheer',
+  OnCreditRoll = 'onCreditRoll',
+  OnDonation = 'onDonation',
+  OnFollow = 'onFollow',
+  OnJoin = 'onJoin',
+  OnPart = 'onPart',
+  OnSoundEffect = 'onSoundEffect',
+  OnStop = 'onStop',
+  OnStreamEnd = 'onStreamEnd',
+  OnStreamStart = 'onStreamStart',
+  OnSub = 'onSub',
+  OnRaid = 'onRaid',
+}
