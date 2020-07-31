@@ -2,7 +2,7 @@ import ComfyJS, { Extra, UserFlags } from 'comfy.js'
 import { SubMethods } from 'tmi.js'
 
 import { log, LogLevel } from '../common'
-import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User, OnJoinEvent, OnPartEvent } from '../models'
+import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User, OnJoinEvent, OnPartEvent, Stream, OnPointRedemptionEvent, OnCommandEvent, OnStreamStartEvent, OnStreamEndEvent } from '../models'
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations/twitch-api'
 
@@ -25,13 +25,26 @@ export class ChatMonitor {
     ComfyJS.onSub = this.onSub.bind(this)
     ComfyJS.onSubGift = this.onSubGift.bind(this)
     ComfyJS.onSubMysteryGift = this.onSubMysteryGift.bind(this)
+
+    EventBus.eventEmitter.addListener(Events.OnStreamStart,
+      (onStreamStartEvent: OnStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
+    EventBus.eventEmitter.addListener(Events.OnStreamEnd,
+      (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
   }
+
+  private currentStream?: Stream
 
   /**
    * Initializes chat to connect to Twitch and begin listening
    */
   public init(): void {
     ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName)
+  }
+
+  private emit(event: Events, payload: any) {
+    if (this.currentStream) {
+      EventBus.eventEmitter.emit(event, payload)
+    }
   }
 
   /**
@@ -55,7 +68,10 @@ export class ChatMonitor {
       }
 
       if (userInfo) {
-        EventBus.eventEmitter.emit(Events.OnChatMessage, new OnChatMessageEvent(userInfo, message, flags, self, extra))
+        this.emit(Events.OnChatMessage, new OnChatMessageEvent(userInfo, message, flags, self, extra))
+        if (flags.customReward) {
+          this.emit(Events.OnPointRedemption, new OnPointRedemptionEvent(userInfo, message, flags, self, extra))
+        }
       }
     }
   }
@@ -80,7 +96,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      EventBus.eventEmitter.emit(Events.OnChatMessage, new OnCheerEvent(userInfo, message, bits, flags, extra))
+      this.emit(Events.OnChatMessage, new OnCheerEvent(userInfo, message, bits, flags, extra))
     }
   }
 
@@ -100,11 +116,27 @@ export class ChatMonitor {
       userInfo = await Twitch.getUser(user)
     }
     catch (err) {
-      log(LogLevel.Error, `onJoin: ${err}`)
+      log(LogLevel.Error, `onCommand: getUser: ${err}`)
     }
 
-    if (userInfo) {
+    if (!this.currentStream) {
+      let stream: Stream
+      try {
+        const streamDate = new Date().toLocaleDateString('en-US');
+        stream = await Twitch.getStream(streamDate)
+      }
+      catch (err) {
+        log(LogLevel.Error, `onCommand: getStream: ${err}`)
+      }
 
+      if (stream && !stream.ended_at) {
+        this.currentStream = stream
+      }
+    }
+
+    // Only respond to commands if we're streaming
+    if (userInfo) {
+      this.emit(Events.OnCommand, new OnCommandEvent(userInfo, command, message, flags, extra))
     }
   }
 
@@ -125,7 +157,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      EventBus.eventEmitter.emit(Events.OnJoin, new OnJoinEvent(userInfo, self))
+      this.emit(Events.OnJoin, new OnJoinEvent(userInfo, self))
     }
   }
 
@@ -146,7 +178,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      EventBus.eventEmitter.emit(Events.OnPart, new OnPartEvent(userInfo, self))
+      this.emit(Events.OnPart, new OnPartEvent(userInfo, self))
     }
   }
 
@@ -177,7 +209,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      EventBus.eventEmitter.emit(Events.OnRaid, new OnRaidEvent(userInfo, viewers))
+      this.emit(Events.OnRaid, new OnRaidEvent(userInfo, viewers))
     }
   }
 
@@ -208,7 +240,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      EventBus.eventEmitter.emit(Events.OnSub, new OnSubEvent(userInfo, message, subTierInfo, extra))
+      this.emit(Events.OnSub, new OnSubEvent(userInfo, message, subTierInfo, extra))
     }
   }
 
@@ -241,7 +273,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      EventBus.eventEmitter.emit(Events.OnSub, new OnSubEvent(userInfo, '', subTierInfo, extra, null, gifterInfo))
+      this.emit(Events.OnSub, new OnSubEvent(userInfo, '', subTierInfo, extra, null, gifterInfo))
     }
   }
 
@@ -266,7 +298,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      EventBus.eventEmitter.emit(Events.OnSub, new OnSubEvent(userInfo, message, subTierInfo, extra, cumulativeMonths))
+      this.emit(Events.OnSub, new OnSubEvent(userInfo, message, subTierInfo, extra, cumulativeMonths))
     }
   }
 
@@ -281,6 +313,23 @@ export class ChatMonitor {
   private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: Extra): void {
     log(LogLevel.Info, `onSubMysteryGift: ${gifterUser} gifted ${numbOfSubs}`)
   }
+
+  /**
+   * Fires when a stream start event occurs 
+   * @param onStreamStartEvent 
+   */
+  private onStreamStart(onStreamStartEvent: OnStreamStartEvent) {
+    this.currentStream = onStreamStartEvent.stream
+  }
+
+  /**
+   * Fires when a stream end event occurs 
+   * @param onStreamEndEvent 
+   */
+  private onStreamEnd(onStreamEndEvent: OnStreamEndEvent) {
+    this.currentStream = undefined
+  }
+
 
   /**
    * Handler for errors in the Twitch client and/or connection

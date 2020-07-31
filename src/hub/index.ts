@@ -15,7 +15,8 @@ import {
   OnStreamEndEvent,
   OnStreamStartEvent,
   OnSubEvent,
-  OnRaidEvent
+  OnRaidEvent,
+  OnPointRedemptionEvent
 } from "../models"
 
 export class IO {
@@ -34,19 +35,21 @@ export class IO {
     EventBus.eventEmitter.addListener(Events.OnDonation,
       (onDonationEvent: OnDonationEvent) => this.onDonation(onDonationEvent))
     EventBus.eventEmitter.addListener(Events.OnFollow,
-      (onFollowEvent) => this.onFollow(onFollowEvent))
+      (onFollowEvent: OnFollowEvent) => this.onFollow(onFollowEvent))
     EventBus.eventEmitter.addListener(Events.OnJoin,
-      (onJoinEvent) => this.onJoin(onJoinEvent))
+      (onJoinEvent: OnJoinEvent) => this.onJoin(onJoinEvent))
     EventBus.eventEmitter.addListener(Events.OnPart,
-      (onPartEvent) => this.onPart(onPartEvent))
+      (onPartEvent: OnPartEvent) => this.onPart(onPartEvent))
+    EventBus.eventEmitter.addListener(Events.OnPointRedemption,
+      (onPointRedemptionEvent: OnPointRedemptionEvent) => this.onPointRedemption(onPointRedemptionEvent))
     EventBus.eventEmitter.addListener(Events.OnSoundEffect,
-      (onSoundEffectEvent) => this.onSoundEffect(onSoundEffectEvent))
+      (onSoundEffectEvent: OnSoundEffectEvent) => this.onSoundEffect(onSoundEffectEvent))
     EventBus.eventEmitter.addListener(Events.OnStop,
-      (onStopEvent) => this.onStop(onStopEvent))
+      (onStopEvent: OnStopEvent) => this.onStop(onStopEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamEnd,
-      (onStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
+      (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamStart,
-      (onStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
+      (onStreamStartEvent: OnStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
     EventBus.eventEmitter.addListener(Events.OnSub,
       (onSubEvent: OnSubEvent) => this.onSub(onSubEvent))
     EventBus.eventEmitter.addListener(Events.OnRaid,
@@ -79,6 +82,10 @@ export class IO {
 
   private onPart(onPartEvent: OnPartEvent) {
     this.io.emit(Events.OnPart, onPartEvent)
+  }
+
+  private onPointRedemption(onPointRedemptionEvent: OnPointRedemptionEvent) {
+    this.io.emit(Events.OnPointRedemption, onPointRedemptionEvent)
   }
 
   private onSoundEffect(onSoundEffectEvent: OnSoundEffectEvent) {
