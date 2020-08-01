@@ -1,25 +1,25 @@
-import { OnChatMessageEvent, OnSayEvent, OnSoundEffectEvent } from "../../models"
+import { OnCommandEvent, OnSayEvent, OnSoundEffectEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
  * Alerts the streamer to pay attention to chat
- * @param onChatMessageEvent 
+ * @param onCommandEvent 
  */
-export function Attention(onChatMessageEvent: OnChatMessageEvent) {
+export function Attention(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 120
 
   // The broadcaster is allowed to bypass throttling. Otherwise,
   // only proceed if the command hasn't been used within the cooldown.
-  if (onChatMessageEvent.flags.broadcaster ||
-    onChatMessageEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
+  if (onCommandEvent.flags.broadcaster ||
+    onCommandEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
     return
   }
 
-  const user = onChatMessageEvent.user
+  const user = onCommandEvent.user
   const username = user.display_name || user.login
 
-  const message = `Yo @${onChatMessageEvent.extra.channel}, ${username} is trying to get your attention!`
+  const message = `Yo @${onCommandEvent.extra.channel}, ${username} is trying to get your attention!`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

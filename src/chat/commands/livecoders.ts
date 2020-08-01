@@ -2,10 +2,10 @@ import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
- * Sends a message to chat with a link to the Awesum.io repo
+ * Sends a message to chat re: the Live Coders team
  * @param onCommandEvent 
  */
-export function AwesumRepo(onCommandEvent: OnCommandEvent) {
+export function LiveCoders(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
@@ -16,7 +16,7 @@ export function AwesumRepo(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `The Awesum.io repository can be found at https://github.com/MichaelJolley/awesum.io`
+  const message = `Check out the entire Live Coders team and give them all a follow at https://livecoders.dev`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

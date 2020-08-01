@@ -1,14 +1,14 @@
-import { OnChatMessageEvent, OnSayEvent, OnSoundEffectEvent } from "../../models"
+import { OnCommandEvent, OnSayEvent, OnSoundEffectEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
  * Dispatches events to shame people for bad themes
- * @param onChatMessageEvent 
+ * @param onCommandEvent 
  */
-export function Theme(onChatMessageEvent: OnChatMessageEvent) {
+export function Theme(onCommandEvent: OnCommandEvent) {
 
-  const user = onChatMessageEvent.user
-  const incomingMessage = onChatMessageEvent.message
+  const user = onCommandEvent.user
+  const incomingMessage = onCommandEvent.message
 
   const lowerMessage = incomingMessage.toLocaleLowerCase().trim()
   const words = lowerMessage.split(" ")

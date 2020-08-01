@@ -1,18 +1,18 @@
-import { OnChatMessageEvent, OnSayEvent } from "../../models"
+import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
  * Sends a message to chat with a link to the BBB Code of Conduct
- * @param onChatMessageEvent 
+ * @param onCommandEvent 
  */
-export function Conduct(onChatMessageEvent: OnChatMessageEvent) {
+export function Conduct(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
   // The broadcaster is allowed to bypass throttling. Otherwise,
   // only proceed if the command hasn't been used within the cooldown.
-  if (onChatMessageEvent.flags.broadcaster ||
-    onChatMessageEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
+  if (onCommandEvent.flags.broadcaster ||
+    onCommandEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
     return
   }
 

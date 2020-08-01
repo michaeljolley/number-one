@@ -1,15 +1,15 @@
-import { OnChatMessageEvent, OnStopEvent } from "../../models"
+import { OnCommandEvent, OnStopEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
  * Sends command to stop A/V effects
- * @param onChatMessageEvent 
+ * @param onCommandEvent 
  */
-export function Stop(onChatMessageEvent: OnChatMessageEvent) {
+export function Stop(onCommandEvent: OnCommandEvent) {
 
   // Only the broadcaster & mods should be able to stop effects
-  if (!onChatMessageEvent.flags.broadcaster &&
-    !onChatMessageEvent.flags.mod) {
+  if (!onCommandEvent.flags.broadcaster &&
+    !onCommandEvent.flags.mod) {
     return
   }
 

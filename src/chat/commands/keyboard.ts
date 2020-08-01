@@ -2,10 +2,10 @@ import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
- * Sends a message to chat with a link to the Awesum.io repo
+ * Sends a message to chat re: the keyboard Michael uses
  * @param onCommandEvent 
  */
-export function AwesumRepo(onCommandEvent: OnCommandEvent) {
+export function Keyboard(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
@@ -16,7 +16,7 @@ export function AwesumRepo(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `The Awesum.io repository can be found at https://github.com/MichaelJolley/awesum.io`
+  const message = `Mike is using the Drop ALT mechanical keyboard.  You can find it at https://drop.com/buy/massdrop-alt-mechanical-keyboard`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

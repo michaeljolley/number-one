@@ -2,10 +2,10 @@ import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
- * Sends a message to chat with a link to the Awesum.io repo
+ * Sends a message to chat with details about Backpack Buddies
  * @param onCommandEvent 
  */
-export function AwesumRepo(onCommandEvent: OnCommandEvent) {
+export function Giving(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
@@ -16,7 +16,7 @@ export function AwesumRepo(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `The Awesum.io repository can be found at https://github.com/MichaelJolley/awesum.io`
+  const message = `The Bald Bearded Builder is currently supporting Backpack Buddies, helping feed underprivileged children who don't know where their next meal comes from. Please consider donating at http://bbb.dev/bpb and learning more about the charity at http://stclairbuddies.org`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

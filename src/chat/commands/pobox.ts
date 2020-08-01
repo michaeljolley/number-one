@@ -2,10 +2,10 @@ import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
- * Sends a message to chat with a link to the Awesum.io repo
+ * Sends a message to chat with details about sending stuff to BBB
  * @param onCommandEvent 
  */
-export function AwesumRepo(onCommandEvent: OnCommandEvent) {
+export function POBox(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
@@ -16,7 +16,7 @@ export function AwesumRepo(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `The Awesum.io repository can be found at https://github.com/MichaelJolley/awesum.io`
+  const message = `You can send candles, swag, art supplies (for the girls) to our PO Box: Bald. Bearded. Builder. PO Box 795, Odenville, AL 35120`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

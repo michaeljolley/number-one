@@ -2,10 +2,10 @@ import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
- * Sends a message to chat with a link to the Awesum.io repo
+ * Sends a message to chat info on the Heroines of JavaScript
  * @param onCommandEvent 
  */
-export function AwesumRepo(onCommandEvent: OnCommandEvent) {
+export function Heroines(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
@@ -16,7 +16,7 @@ export function AwesumRepo(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `The Awesum.io repository can be found at https://github.com/MichaelJolley/awesum.io`
+  const message = `The Heroines of JavaScript cards are created by FrontEnd Foxes and support their scholarship fund. Lauryn (13) & Layla (10) interview a new heroine every other Sunday.  Check our events to catch the next one.  You can learn more at https://women-in-tech.online/ and https://frontendfoxes.org`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

@@ -1,18 +1,18 @@
-import { OnChatMessageEvent, OnSayEvent } from "../../models"
+import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
  * Sends a message to chat with backstory of the fart candle
- * @param onChatMessageEvent 
+ * @param onCommandEvent 
  */
-export function Discord(onChatMessageEvent: OnChatMessageEvent) {
+export function Discord(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
   // The broadcaster is allowed to bypass throttling. Otherwise,
   // only proceed if the command hasn't been used within the cooldown.
-  if (onChatMessageEvent.flags.broadcaster ||
-    onChatMessageEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
+  if (onCommandEvent.flags.broadcaster ||
+    onCommandEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
     return
   }
 

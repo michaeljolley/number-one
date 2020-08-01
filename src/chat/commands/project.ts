@@ -1,11 +1,11 @@
-import { OnCommandEvent, OnSayEvent } from "../../models"
+import { OnSayEvent, OnCommandEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 
 /**
- * Sends a message to chat with a link to the Awesum.io repo
+ * Sends a message to chat re: what we're working on
  * @param onCommandEvent 
  */
-export function AwesumRepo(onCommandEvent: OnCommandEvent) {
+export function Project(onCommandEvent: OnCommandEvent) {
 
   const cooldownSeconds = 300
 
@@ -16,7 +16,11 @@ export function AwesumRepo(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `The Awesum.io repository can be found at https://github.com/MichaelJolley/awesum.io`
+  const user = onCommandEvent.user
+  const stream = onCommandEvent.stream
+  const username = user.display_name || user.login
+
+  const message = `@${username}, today's topic is: ${stream.title}`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))
