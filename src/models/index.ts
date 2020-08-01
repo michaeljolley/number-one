@@ -14,6 +14,7 @@ export * from './OnPartEvent'
 export * from './OnPointRedemptionEvent'
 export * from './OnCreditRollEvent'
 export * from './OnFollowEvent'
+export * from './OnSayEvent'
 export * from './OnSoundEffectEvent'
 export * from './OnStopEvent'
 

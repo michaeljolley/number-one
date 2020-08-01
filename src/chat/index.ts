@@ -5,6 +5,7 @@ import { log, LogLevel } from '../common'
 import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User, OnJoinEvent, OnPartEvent, Stream, OnPointRedemptionEvent, OnCommandEvent, OnStreamStartEvent, OnStreamEndEvent } from '../models'
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations/twitch-api'
+import { OnSayEvent } from '../models/OnSayEvent'
 
 /**
  * ChatMonitor connects and monitors chat messages within Twitch
@@ -30,6 +31,8 @@ export class ChatMonitor {
       (onStreamStartEvent: OnStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamEnd,
       (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
+    EventBus.eventEmitter.addListener(Events.OnSay,
+      (onSayEvent: OnSayEvent) => this.onSay(onSayEvent))
   }
 
   private currentStream?: Stream
@@ -45,6 +48,10 @@ export class ChatMonitor {
     if (this.currentStream) {
       EventBus.eventEmitter.emit(event, payload)
     }
+  }
+
+  private onSay(onSayEvent: OnSayEvent) {
+    ComfyJS.Say(onSayEvent.message, this.config.twitchChannelName)
   }
 
   /**
@@ -135,8 +142,8 @@ export class ChatMonitor {
     }
 
     // Only respond to commands if we're streaming
-    if (userInfo) {
-      this.emit(Events.OnCommand, new OnCommandEvent(userInfo, command, message, flags, extra))
+    if (userInfo && this.currentStream) {
+      this.emit(Events.OnCommand, new OnCommandEvent(userInfo, command, message, flags, extra, this.currentStream))
     }
   }
 

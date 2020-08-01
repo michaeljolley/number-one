@@ -14,4 +14,5 @@ export enum Events {
   OnStreamStart = 'onStreamStart',
   OnSub = 'onSub',
   OnRaid = 'onRaid',
+  OnSay = 'onSay'
 }
