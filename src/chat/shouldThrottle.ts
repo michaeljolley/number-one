@@ -8,12 +8,14 @@ export function ShouldThrottle(
   let throttle: boolean = false
 
   if (timePeriod.any &&
+    timePeriod.any > 0 &&
     timePeriod.any < cooldownSeconds * 1000) {
     throttle = true
   }
 
   if (userThrottle &&
     timePeriod.user &&
+    timePeriod.user > 0 &&
     timePeriod.user < cooldownSeconds * 1000) {
     throttle = true
   }

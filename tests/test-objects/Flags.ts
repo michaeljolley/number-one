@@ -1,49 +1,62 @@
 import { UserFlags } from 'comfy.js'
 
-export const viewerFlags: UserFlags = {
-  subscriber: false,
-  vip: false,
-  broadcaster: false,
-  founder: false,
-  mod: false
+export function viewerFlags(): UserFlags {
+  return {
+    subscriber: false,
+    vip: false,
+    broadcaster: false,
+    founder: false,
+    mod: false
+  }
 }
 
-export const subscriberFlags: UserFlags = {
-  subscriber: true,
-  vip: false,
-  broadcaster: false,
-  founder: false,
-  mod: false
+export function subscriberFlags(): UserFlags {
+  return {
+    subscriber: true,
+    vip: false,
+    broadcaster: false,
+    founder: false,
+    mod: false
+  }
 }
 
-export const vipFlags: UserFlags = {
-  subscriber: false,
-  vip: true,
-  broadcaster: false,
-  founder: false,
-  mod: false
+export function vipFlags(): UserFlags {
+  return {
+    subscriber: false,
+    vip: true,
+    broadcaster: false,
+    founder: false,
+    mod: false
+  }
+
 }
 
-export const broadcasterFlags: UserFlags = {
-  subscriber: false,
-  vip: false,
-  broadcaster: true,
-  founder: false,
-  mod: false
+export function broadcasterFlags(): UserFlags {
+  return {
+    subscriber: false,
+    vip: false,
+    broadcaster: true,
+    founder: false,
+    mod: false
+  }
 }
 
-export const moderatorFlags: UserFlags = {
-  subscriber: false,
-  vip: false,
-  broadcaster: false,
-  founder: false,
-  mod: true
+export function moderatorFlags(): UserFlags {
+  return {
+    subscriber: false,
+    vip: false,
+    broadcaster: false,
+    founder: false,
+    mod: true
+  }
 }
 
-export const founderFlags: UserFlags = {
-  subscriber: false,
-  vip: false,
-  broadcaster: false,
-  founder: true,
-  mod: false
+export function founderFlags(): UserFlags {
+  return {
+    subscriber: false,
+    vip: false,
+    broadcaster: false,
+    founder: true,
+    mod: false
+  }
 }

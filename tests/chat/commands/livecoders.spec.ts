@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Attention } from '../../../src/chat/commands/attention'
+import { LiveCoders } from '../../../src/chat/commands/livecoders'
 import { OnCommandEvent } from '../../../src/models'
 import { EventBus, Events } from '../../../src/events'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'awesum',
-    '!awesum',
+    'livecoders',
+    '!livecoders',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Attention', () => {
+describe('Commands: LiveCoders', () => {
 
   it('should send message to chat', () => {
     var spy = sinon.spy()
@@ -32,51 +32,34 @@ describe('Commands: Attention', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Attention(onCommandEvent)
-
-    expect(spy.called).to.equal(true)
-  })
-
-  it('should send sound effect', () => {
-    var spy = sinon.spy()
-
-    const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnSoundEffect, spy)
-
-    Attention(onCommandEvent)
+    LiveCoders(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
 
   it('should not send events if on cooldown', () => {
-    var saySpy = sinon.spy()
-    var sfxSpy = sinon.spy()
+    var spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnSoundEffect, sfxSpy)
-    emitter.on(Events.OnSay, saySpy)
+    emitter.on(Events.OnSay, spy)
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Attention(onCommandEvent)
+    LiveCoders(onCommandEvent)
 
-    expect(saySpy.called).to.equal(false)
-    expect(sfxSpy.called).to.equal(false)
+    expect(spy.called).to.equal(false)
   })
 
   it('should not send events if on user cooldown', () => {
-    var saySpy = sinon.spy()
-    var sfxSpy = sinon.spy()
+    var spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnSoundEffect, sfxSpy)
-    emitter.on(Events.OnSay, saySpy)
+    emitter.on(Events.OnSay, spy)
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    Attention(onCommandEvent)
+    LiveCoders(onCommandEvent)
 
-    expect(saySpy.called).to.equal(false)
-    expect(sfxSpy.called).to.equal(false)
+    expect(spy.called).to.equal(false)
   })
 })

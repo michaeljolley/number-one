@@ -1,5 +1,5 @@
-import { OnCommandEvent, OnSayEvent, OnSoundEffectEvent } from "../../models"
-import { EventBus, Events } from "../../events"
+import { OnCommandEvent, OnSayEvent, OnSoundEffectEvent } from '../../models'
+import { EventBus, Events } from '../../events'
 import { ShouldThrottle } from '../shouldThrottle'
 
 /**

@@ -1,5 +1,6 @@
 import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
+import { ShouldThrottle } from '../shouldThrottle'
 
 /**
  * Sends a message to chat info on the Heroines of JavaScript
@@ -12,7 +13,7 @@ export function Heroines(onCommandEvent: OnCommandEvent) {
   // The broadcaster is allowed to bypass throttling. Otherwise,
   // only proceed if the command hasn't been used within the cooldown.
   if (onCommandEvent.flags.broadcaster ||
-    onCommandEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
+    ShouldThrottle(onCommandEvent.extra.sinceLastCommand, cooldownSeconds, true)) {
     return
   }
 
