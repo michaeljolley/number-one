@@ -1,5 +1,6 @@
 import { OnCommandEvent, OnSayEvent, OnSoundEffectEvent } from "../../models"
 import { EventBus, Events } from "../../events"
+import { ShouldThrottle } from '../shouldThrottle'
 
 /**
  * Alerts the streamer to pay attention to chat
@@ -12,7 +13,7 @@ export function Attention(onCommandEvent: OnCommandEvent) {
   // The broadcaster is allowed to bypass throttling. Otherwise,
   // only proceed if the command hasn't been used within the cooldown.
   if (onCommandEvent.flags.broadcaster ||
-    onCommandEvent.extra.sinceLastCommand.any < cooldownSeconds * 1000) {
+    ShouldThrottle(onCommandEvent.extra.sinceLastCommand, cooldownSeconds, true)) {
     return
   }
 
