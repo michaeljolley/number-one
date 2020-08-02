@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "build:copy": "copyfiles src/overlays/wwwroot/**/* dist/overlays/wwwroot -u 3",
-    "build:copyjs": "copyfiles dist/overlays/scripts/*.js dist/overlays/wwwroot/js -u 3",
-    "build:assets": "copyfiles assets/**/* dist/overlays/wwwroot/ ",
-    "build:dev": "tsc",
+    "build": "npm run build:typescript && npm run build:scss && npm run copy",
+    "build:typescript": "tsc",
     "build:scss": "node-sass --output-style compressed --include-path src src/overlays src/overlays/styles -o src/overlays/wwwroot/",
-    "dev": "nodemon -L -e js,ts,htm,env,scss,json --watch src --exec \"npm run build:dev && npm run build:scss && npm run build:copy && npm run build:assets && npm run start\"",
-    "build": "npm run build:dev && npm run build:copy",
+    "copy": "npm run copy:overlay:js && npm run copy:overlay:web && npm run copy:assets",
+    "copy:overlay:web": "copyfiles src/overlays/wwwroot/**/* dist/overlays/wwwroot -u 3",
+    "copy:overlay:js": "copyfiles dist/overlays/scripts/*.js dist/overlays/wwwroot/js -u 3",
+    "copy:assets": "copyfiles assets/**/* dist/overlays/wwwroot/ ",
+    "dev": "nodemon -L -e js,ts,htm,env,scss,json --watch src --exec \"npm run build && npm run start\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -43,7 +44,6 @@
     "eslint-config-prettier": "^6.11.0",
     "node-sass": "^4.14.1",
     "ts-loader": "^8.0.1",
-    "tsc": "^1.20150623.0",
     "typescript": "^3.9.7"
   }
 }

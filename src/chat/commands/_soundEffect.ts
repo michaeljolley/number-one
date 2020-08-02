@@ -21,7 +21,7 @@ export function _SoundEffect(onCommandEvent: OnCommandEvent) {
   const filename = `${onCommandEvent.command.toLocaleLowerCase()}.mp3`
   const fullpath = `/overlays/wwwroot/assets/audio/clips/${filename}`
 
-  if (fs.existsSync(filename)) {
+  if (fs.existsSync(fullpath)) {
     // Send a the sfx to Socket.io
     EventBus.eventEmitter.emit(Events.OnSoundEffect, new OnSoundEffectEvent(filename))
   }
