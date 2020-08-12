@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Stop } from '../../../src/chat/commands/stop'
-import { OnCommandEvent } from '../../../src/models'
-import { EventBus, Events } from '../../../src/events'
+import { POBox } from '../../../chat/commands/pobox'
+import { OnCommandEvent } from '../../../models'
+import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'stop',
-    '!stop',
+    'pobox',
+    '!pobox',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,41 +24,41 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Stop', () => {
+describe('Commands: POBox', () => {
 
-  it('should emit stop command for broadcaster', () => {
+  it('should send message to chat', () => {
     var spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnStop, spy)
+    emitter.on(Events.OnSay, spy)
 
-    onCommandEvent.flags.broadcaster = true
-
-    Stop(onCommandEvent)
+    POBox(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
 
-  it('should emit stop command for mods', () => {
+  it('should not send events if on cooldown', () => {
     var spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnStop, spy)
+    emitter.on(Events.OnSay, spy)
 
-    onCommandEvent.flags.mod = true
+    onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Stop(onCommandEvent)
+    POBox(onCommandEvent)
 
-    expect(spy.called).to.equal(true)
+    expect(spy.called).to.equal(false)
   })
 
-  it('should not emit for non mods/broadcaster', () => {
+  it('should not send events if on user cooldown', () => {
     var spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnStop, spy)
+    emitter.on(Events.OnSay, spy)
 
-    Stop(onCommandEvent)
+    onCommandEvent.extra.sinceLastCommand.user = 10
+
+    POBox(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })

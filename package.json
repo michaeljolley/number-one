@@ -13,7 +13,7 @@
     "copy:overlay:js": "copyfiles dist/overlays/scripts/*.js dist/overlays/wwwroot/js -u 3",
     "copy:assets": "copyfiles assets/**/* dist/overlays/wwwroot/ ",
     "dev": "nodemon -L -e js,ts,htm,env,scss,json --watch src --exec \"npm run build && npm run start\"",
-    "test": "mocha -r ts-node/register tests/**/*spec.ts"
+    "test": "mocha -r ts-node/register src/**/*spec.ts"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "comfy.js": "^1.1.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "faunadb": "^2.14.2",
+    "nexmo": "^2.7.0-beta-1",
     "socket.io": "^2.3.0",
     "uuid": "^8.3.0"
   },

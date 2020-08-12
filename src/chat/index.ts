@@ -45,9 +45,9 @@ export class ChatMonitor {
   }
 
   private emit(event: Events, payload: any) {
-    if (this.currentStream) {
-      EventBus.eventEmitter.emit(event, payload)
-    }
+    // if (this.currentStream) {
+    EventBus.eventEmitter.emit(event, payload)
+    // }
   }
 
   private onSay(onSayEvent: OnSayEvent) {
@@ -103,7 +103,7 @@ export class ChatMonitor {
     }
 
     if (userInfo) {
-      this.emit(Events.OnChatMessage, new OnCheerEvent(userInfo, message, bits, flags, extra))
+      this.emit(Events.OnCheer, new OnCheerEvent(userInfo, message, bits, flags, extra))
     }
   }
 

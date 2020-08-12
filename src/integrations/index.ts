@@ -1,2 +1,2 @@
-export * from './fauna'
 export * from './twitch-api'
+export * from './vonage'

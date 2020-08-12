@@ -4,7 +4,6 @@ export class Stream {
     public started_at: string,
     public streamDate: string,
     public title: string,
-    public _id?: string,
     public ended_at?: string
   ) { }
 }

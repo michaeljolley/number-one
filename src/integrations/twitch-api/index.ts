@@ -1,7 +1,6 @@
 import { TwitchAPI } from './api'
 import { User, Stream, Config } from '../../models'
 import { Cache, CacheType } from '../../cache'
-import { Fauna } from '../fauna'
 import { LogLevel, log } from '../../common'
 
 export abstract class Twitch {
@@ -25,20 +24,14 @@ export abstract class Twitch {
       let apiUser: User
 
       try {
-        apiUser = await this.twitchAPI.getUser(login)
+        user = await this.twitchAPI.getUser(login)
       }
       catch (err) {
         log(LogLevel.Error, `Twitch:getUser - API:getUser: ${err}`)
       }
 
-      if (apiUser) {
-        try {
-          user = await Fauna.saveUser(apiUser)
-          Cache.set(CacheType.User, user)
-        }
-        catch (err) {
-          log(LogLevel.Error, `Twitch:getUser - fauna:saveUser: ${err}`)
-        }
+      if (user) {
+        Cache.set(CacheType.User, user)
       }
     }
 
@@ -56,21 +49,15 @@ export abstract class Twitch {
       let apiStream
 
       try {
-        apiStream = await this.twitchAPI.getStream(streamDate)
+        stream = await this.twitchAPI.getStream(streamDate)
       }
       catch (err) {
         log(LogLevel.Error, `Twitch:getStream - API:getStream: ${err}`)
         log(LogLevel.Error, err)
       }
 
-      if (apiStream) {
-        try {
-          stream = await Fauna.saveStream(apiStream)
-          Cache.set(CacheType.Stream, stream)
-        }
-        catch (err) {
-          log(LogLevel.Error, `Twitch:getStream - fauna:saveStream: ${err}`)
-        }
+      if (stream) {
+        Cache.set(CacheType.Stream, stream)
       }
     }
 

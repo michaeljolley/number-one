@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { GitHub } from '../../../src/chat/commands/github'
-import { OnCommandEvent } from '../../../src/models'
-import { EventBus, Events } from '../../../src/events'
+import { Discord } from '../../../chat/commands/discord'
+import { OnCommandEvent } from '../../../models'
+import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'github',
-    '!github',
+    'discord',
+    '!discord',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: GitHub', () => {
+describe('Commands: Discord', () => {
 
   it('should send message to chat', () => {
     var spy = sinon.spy()
@@ -32,7 +32,7 @@ describe('Commands: GitHub', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    GitHub(onCommandEvent)
+    Discord(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
@@ -45,7 +45,7 @@ describe('Commands: GitHub', () => {
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    GitHub(onCommandEvent)
+    Discord(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
@@ -58,7 +58,7 @@ describe('Commands: GitHub', () => {
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    GitHub(onCommandEvent)
+    Discord(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })

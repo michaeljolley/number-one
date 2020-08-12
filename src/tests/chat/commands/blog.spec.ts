@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Project } from '../../../src/chat/commands/project'
-import { OnCommandEvent } from '../../../src/models'
-import { EventBus, Events } from '../../../src/events'
+import { Blog } from '../../../chat/commands/blog'
+import { OnCommandEvent } from '../../../models'
+import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'project',
-    '!project',
+    'blog',
+    '!blog',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Project', () => {
+describe('Commands: Blog', () => {
 
   it('should send message to chat', () => {
     var spy = sinon.spy()
@@ -32,7 +32,7 @@ describe('Commands: Project', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Project(onCommandEvent)
+    Blog(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
@@ -45,7 +45,7 @@ describe('Commands: Project', () => {
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Project(onCommandEvent)
+    Blog(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
@@ -58,7 +58,7 @@ describe('Commands: Project', () => {
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    Project(onCommandEvent)
+    Blog(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })

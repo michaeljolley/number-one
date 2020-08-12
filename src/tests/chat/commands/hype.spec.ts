@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Hype } from '../../../src/chat/commands/hype'
-import { OnCommandEvent } from '../../../src/models'
-import { EventBus, Events } from '../../../src/events'
+import { Hype } from '../../../chat/commands/hype'
+import { OnCommandEvent } from '../../../models'
+import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
 

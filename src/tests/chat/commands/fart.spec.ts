@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Font } from '../../../src/chat/commands/font'
-import { OnCommandEvent } from '../../../src/models'
-import { EventBus, Events } from '../../../src/events'
+import { Fart } from '../../../chat/commands/fart'
+import { OnCommandEvent } from '../../../models'
+import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'font',
-    '!font',
+    'fart',
+    '!fart',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Font', () => {
+describe('Commands: Fart', () => {
 
   it('should send message to chat', () => {
     var spy = sinon.spy()
@@ -32,7 +32,7 @@ describe('Commands: Font', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Font(onCommandEvent)
+    Fart(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
@@ -45,7 +45,7 @@ describe('Commands: Font', () => {
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Font(onCommandEvent)
+    Fart(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
@@ -58,7 +58,7 @@ describe('Commands: Font', () => {
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    Font(onCommandEvent)
+    Fart(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })

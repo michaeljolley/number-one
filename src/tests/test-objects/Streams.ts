@@ -1,4 +1,4 @@
-import { Stream } from '../../src/models'
+import { Stream } from '../../models'
 
 export function activeStream() {
   return new Stream(
@@ -6,7 +6,6 @@ export function activeStream() {
     '01/01/2020',
     '01/01/2020',
     'we streamz fer teh lulz',
-    '20202-20202-20202-20202',
     null
   )
 }
@@ -17,7 +16,6 @@ export function endedStream() {
     '01/01/2020',
     '01/01/2020',
     'we streamz fer teh lulz',
-    '20202-20202-20202-20202',
     '01/01/2020'
   )
 }

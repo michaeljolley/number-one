@@ -9,7 +9,7 @@ import { ChatMonitor } from './chat'
 import { webhookRouter } from './webhooks'
 import { overlayRouter } from './overlays'
 import { log, LogLevel } from './common'
-import { Fauna, Twitch } from './integrations'
+import { Twitch, Vonage } from './integrations'
 import { IO } from './hub'
 
 dotenv.config()
@@ -47,7 +47,8 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   const app = express()
   const server = http.createServer(app)
 
-  Fauna.init()
+  const vonage = new Vonage()
+
   Twitch.init(config)
 
   const io = new IO(server)

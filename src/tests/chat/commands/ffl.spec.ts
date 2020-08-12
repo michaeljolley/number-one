@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Heroines } from '../../../src/chat/commands/heroines'
-import { OnCommandEvent } from '../../../src/models'
-import { EventBus, Events } from '../../../src/events'
+import { FFL } from '../../../chat/commands/ffl'
+import { OnCommandEvent } from '../../../models'
+import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'heroines',
-    '!heroines',
+    'ffl',
+    '!ffl',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Heroines', () => {
+describe('Commands: FFL', () => {
 
   it('should send message to chat', () => {
     var spy = sinon.spy()
@@ -32,7 +32,7 @@ describe('Commands: Heroines', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Heroines(onCommandEvent)
+    FFL(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
@@ -45,7 +45,7 @@ describe('Commands: Heroines', () => {
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Heroines(onCommandEvent)
+    FFL(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
@@ -58,7 +58,7 @@ describe('Commands: Heroines', () => {
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    Heroines(onCommandEvent)
+    FFL(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })

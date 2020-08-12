@@ -2,9 +2,9 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Keyboard } from '../../../src/chat/commands/keyboard'
-import { OnCommandEvent } from '../../../src/models'
-import { EventBus, Events } from '../../../src/events'
+import { Awesum } from '../../../chat/commands/awesum'
+import { OnCommandEvent } from '../../../models'
+import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'keyboard',
-    '!keyboard',
+    'awesum',
+    '!awesum',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Keyboard', () => {
+describe('Commands: Awesum', () => {
 
   it('should send message to chat', () => {
     var spy = sinon.spy()
@@ -32,7 +32,7 @@ describe('Commands: Keyboard', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Keyboard(onCommandEvent)
+    Awesum(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
@@ -45,7 +45,7 @@ describe('Commands: Keyboard', () => {
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Keyboard(onCommandEvent)
+    Awesum(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
@@ -58,7 +58,7 @@ describe('Commands: Keyboard', () => {
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    Keyboard(onCommandEvent)
+    Awesum(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
