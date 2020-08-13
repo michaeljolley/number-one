@@ -129,7 +129,7 @@ export class ChatMonitor {
     if (!this.currentStream) {
       let stream: Stream
       try {
-        const streamDate = new Date().toLocaleDateString('en-US');
+        const streamDate = new Date().toLocaleDateString('en-US')
         stream = await Twitch.getStream(streamDate)
       }
       catch (err) {

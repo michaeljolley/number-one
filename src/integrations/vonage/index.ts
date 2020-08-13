@@ -8,16 +8,24 @@ import {
   OnChatMessageEvent,
   OnDonationEvent,
   OnRaidEvent,
-  OnPointRedemptionEvent
+  OnPointRedemptionEvent,
+  Stream,
+  OnStreamStartEvent,
+  OnStreamEndEvent,
+  IUserEvent
 } from '../../models'
 import { EventBus, Events, Listener } from '../../events'
+import { Twitch } from '../twitch-api'
+import { VonageUser, VonageConversation, VonageMember } from './models'
+
 
 export class Vonage {
 
-  private streamDate: string = '2020-08-12'
-
   private _nexmoClient: any
-  private _currentConversation: any | undefined
+  private _currentStream?: Stream
+  private _currentConversationId?: string
+  private _users: [VonageUser?] = []
+  private _members: [VonageMember?] = []
 
   private _listeners: Array<Listener<any>> = [
     new Listener<OnChatMessageEvent>(
@@ -49,6 +57,14 @@ export class Vonage {
       Events.OnPointRedemption,
       (onPointRedemptionEvent: OnPointRedemptionEvent) =>
         this.sendEvent(Events.OnPointRedemption, onPointRedemptionEvent)),
+    new Listener<OnStreamStartEvent>(
+      Events.OnStreamStart,
+      (onStreamStartEvent: OnStreamStartEvent) =>
+        this.streamStart(onStreamStartEvent)),
+    new Listener<OnStreamEndEvent>(
+      Events.OnStreamEnd,
+      (onStreamEndEvent: OnStreamEndEvent) =>
+        this.streamEnd(onStreamEndEvent)),
   ]
 
   constructor() {
@@ -65,26 +81,31 @@ export class Vonage {
     }
   }
 
-  destroy() {
-    for (const listener of this._listeners) {
-      EventBus.eventEmitter.removeListener(
-        listener.type,
-        (arg: any) => listener.listener(arg))
+  private streamStart(onStreamStartevent: OnStreamStartEvent): void {
+    this._currentStream = onStreamStartevent.stream
+    if (!this._currentConversationId) {
+      this.getConversation()
+      if (!this._currentConversationId) {
+        this.createConversation()
+      }
     }
+  }
+
+  private streamEnd(onStreamEndEvent: OnStreamEndEvent): void {
+    this._currentStream = undefined
+    this._currentConversationId = undefined
+    this._users = []
+    this._members = []
   }
 
   /**
    * Creates a new conversation to store data re: the stream
-   * @param name Name of the conversation
-   * @param displayname Display name of the conversation
    */
-  public async createConversation(name: string, displayName: string): Promise<any> {
-    let newConversation: any
-
+  public createConversation() {
     try {
       this._nexmoClient.conversations.create({
-        name,
-        display_name: displayName
+        name: this._currentStream.streamDate,
+        display_name: this._currentStream.streamDate
       }, (error, result) => {
         if (error) {
           if (error.body && error.body.description) {
@@ -95,20 +116,20 @@ export class Vonage {
           }
         }
         else {
-          newConversation = result
+          console.log(JSON.stringify(result))
+          const body = result.body
+          this._currentConversationId = body.id
         }
       })
     }
     catch (err) {
       log(LogLevel.Error, `Nexmo:createConversation - ${err}`)
     }
-    return newConversation
   }
 
-  public async getConversation(): any | undefined {
-
+  public getConversation(): void {
     try {
-      this._nexmoClient.conversations.get(this.streamDate, (error, result) => {
+      this._nexmoClient.conversations.get(this._currentStream.streamDate, (error, result) => {
         if (error) {
           if (error.body && error.body.description) {
             log(LogLevel.Error, `Vonage:getConversation - ${error.body.description}`)
@@ -118,7 +139,9 @@ export class Vonage {
           }
         }
         else {
-          this._currentConversation = result
+          console.log(JSON.stringify(result))
+          const conversation: VonageConversation = result.body as VonageConversation
+          this._currentConversationId = conversation.uuid
         }
       })
     }
@@ -127,9 +150,38 @@ export class Vonage {
     }
   }
 
-  private async sendEvent(type: Events, body: any) {
-    if (!this._currentConversation) {
-      this._currentConversation = await this.createConversation(this.streamDate, this.streamDate)
+  private async sendEvent(type: Events, body: IUserEvent) {
+    const streamDate = new Date().toLocaleDateString('en-US')
+
+    if (!this._currentStream) {
+      try {
+        const stream = await Twitch.getStream(streamDate)
+        if (stream) {
+          this._currentStream = stream
+        }
+      }
+      catch (error) {
+        log(LogLevel.Error, error)
+      }
+    }
+
+    if (this._currentStream) {
+
+      if (!this._currentConversationId) {
+        if (!this._currentConversationId) {
+          this.getConversation()
+          if (!this._currentConversationId) {
+            this.createConversation()
+          }
+        }
+      }
+
+      if (this._currentConversationId) {
+
+
+
+      }
+
     }
 
     if (this._currentConversation) {

@@ -1,6 +1,8 @@
 export * from './Config'
 export * from './TwitchTokenResponse'
 
+export * from './IUserEvent'
+
 export * from './OnChatMessageEvent'
 export * from './OnCheerEvent'
 export * from './OnCommandEvent'

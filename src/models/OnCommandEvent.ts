@@ -1,8 +1,9 @@
 import { User } from "./User";
 import { UserFlags, Extra } from "comfy.js";
 import { Stream } from "./Stream";
+import { IUserEvent } from "./IUserEvent"
 
-export class OnCommandEvent {
+export class OnCommandEvent implements IUserEvent {
   constructor(
     public user: User,
     public command: string,
