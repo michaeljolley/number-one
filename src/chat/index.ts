@@ -6,11 +6,14 @@ import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations/twitch-api'
 import { OnSayEvent } from '../models/OnSayEvent'
+import { CommandMonitor } from './commandMonitor'
 
 /**
  * ChatMonitor connects and monitors chat messages within Twitch
  */
 export class ChatMonitor {
+
+  commandMonitor: CommandMonitor
 
   constructor(private config: Config) {
     ComfyJS.onChat = this.onChat.bind(this)
@@ -33,6 +36,8 @@ export class ChatMonitor {
       (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
     EventBus.eventEmitter.addListener(Events.OnSay,
       (onSayEvent: OnSayEvent) => this.onSay(onSayEvent))
+
+    this.commandMonitor = new CommandMonitor()
   }
 
   private currentStream?: Stream

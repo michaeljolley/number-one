@@ -11,7 +11,7 @@ export function Font(onCommandEvent: OnCommandEvent) {
 
   // The broadcaster is allowed to bypass throttling. Otherwise,
   // only proceed if the command hasn't been used within the cooldown.
-  if (onCommandEvent.flags.broadcaster ||
+  if (!onCommandEvent.flags.broadcaster &&
     ShouldThrottle(onCommandEvent.extra.sinceLastCommand, cooldownSeconds, true)) {
     return
   }

@@ -1,4 +1,5 @@
 import { TimePeriod } from "comfy.js";
+import { log, LogLevel } from "../common";
 
 export function ShouldThrottle(
   timePeriod: TimePeriod,

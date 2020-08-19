@@ -12,12 +12,12 @@ export function Hardware(onCommandEvent: OnCommandEvent) {
 
   // The broadcaster is allowed to bypass throttling. Otherwise,
   // only proceed if the command hasn't been used within the cooldown.
-  if (onCommandEvent.flags.broadcaster ||
+  if (!onCommandEvent.flags.broadcaster &&
     ShouldThrottle(onCommandEvent.extra.sinceLastCommand, cooldownSeconds, true)) {
     return
   }
 
-  const message = ``
+  const message = `We done did the do`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

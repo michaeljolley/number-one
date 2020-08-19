@@ -10,7 +10,7 @@ import {
   Stream,
   OnStreamStartEvent,
   OnStreamEndEvent,
-  IUserEvent
+  IUserEvent, OnCommandEvent
 } from '../../models'
 import { EventBus, Events, Listener } from '../../events'
 import { Twitch } from '../twitch-api'
@@ -33,6 +33,10 @@ export class Vonage {
       Events.OnCheer,
       (onCheerEvent: OnCheerEvent) =>
         this.sendEvent(Events.OnCheer, onCheerEvent)),
+    new Listener<OnCommandEvent>(
+      Events.OnCommand,
+      (onCommandEvent: OnCommandEvent) =>
+        this.sendEvent(Events.OnCommand, onCommandEvent)),
     new Listener<OnFollowEvent>(
       Events.OnFollow,
       (onFollowEvent: OnFollowEvent) =>
