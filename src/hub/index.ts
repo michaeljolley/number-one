@@ -26,6 +26,14 @@ export class IO {
   constructor(server: HttpServer) {
     this.io = io(server)
 
+    this.io.on('connect', (conn) => {
+      // Ensure the connection is from the bots overlays and not
+      // and external actor.
+      if (conn.handshake.headers.host !== process.env.HOST) {
+        conn.disconnect(true)
+      }
+    })
+
     EventBus.eventEmitter.addListener(Events.OnChatMessage,
       (onChatMessageEvent: OnChatMessageEvent) => this.onChatMessage(onChatMessageEvent))
     EventBus.eventEmitter.addListener(Events.OnCheer,

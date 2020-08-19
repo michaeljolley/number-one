@@ -2,6 +2,8 @@ import { TwitchAPI } from './api'
 import { User, Stream, Config } from '../../models'
 import { Cache, CacheType } from '../../cache'
 import { LogLevel, log } from '../../common'
+import { Fauna } from '../fauna'
+import { VonageClient } from '../vonage/vonageClient'
 
 export abstract class Twitch {
 
@@ -18,18 +20,41 @@ export abstract class Twitch {
    * @param login Twitch login of user to retrieve
    */
   public static async getUser(login: string): Promise<User | undefined> {
+    login = login.toLocaleLowerCase()
+
     let user: User = Cache.get(CacheType.User, login) as User | undefined
 
-    if (!user && this.config) {
-      let apiUser: User
+    if (!user) {
 
       try {
-        user = await this.twitchAPI.getUser(login)
+        user = await Fauna.getUser(login)
       }
       catch (err) {
-        log(LogLevel.Error, `Twitch:getUser - API:getUser: ${err}`)
+        log(LogLevel.Error, `Twitch:getUser - Fauna:getUser: ${err}`)
       }
 
+      if (!user) {
+        let apiUser: User
+        try {
+          apiUser = await this.twitchAPI.getUser(login)
+        }
+        catch (err) {
+          log(LogLevel.Error, `Twitch:getUser - API:getUser: ${err}`)
+        }
+
+        // Get/Create Vonage User
+        if (apiUser) {
+          try {
+            apiUser = await VonageClient.createUser(apiUser)
+          }
+          catch (err) {
+            log(LogLevel.Error, `Twitch:getUser - VonageClient:createUser: ${err}`)
+          }
+          if (apiUser && apiUser.vonageUserId) {
+            user = await Fauna.saveUser(apiUser)
+          }
+        }
+      }
       if (user) {
         Cache.set(CacheType.User, user)
       }
