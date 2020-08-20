@@ -3,6 +3,7 @@ import { log, LogLevel } from '../../common'
 import { VonageUser, VonageConversation, VonageMember } from './models'
 import { User } from '../../models'
 import { Events } from '../../events'
+import { VonageConversationEvent } from './models/VonageConversationEvent'
 
 export abstract class VonageClient {
 
@@ -62,6 +63,31 @@ export abstract class VonageClient {
         }
         else {
           resolve(result as VonageConversation)
+        }
+      })
+    })
+  }
+
+  /**
+   * Gets events that occurred in the conversation
+   * @param conversationId Unique Id of the conversation
+   * @param eventType type of event to return
+   */
+  public static async getConversationEvents(conversationId: string, eventType: Events): Promise<VonageConversationEvent[]> {
+    return new Promise((resolve, reject) => {
+      this._nexmoClient.conversations.events.get(conversationId, (error, result) => {
+        if (error) {
+          if (error.body && error.body.description) {
+            log(LogLevel.Error, `Vonage:getConversationEvents - ${error.body.description}`)
+          }
+          else {
+            log(LogLevel.Error, 'Vonage:getConversationEvents - Something bad happened')
+          }
+          reject(undefined)
+        }
+        else {
+          const results = result as [VonageConversationEvent]
+          resolve(results.filter(f => f.type === `custom:${eventType}`))
         }
       })
     })

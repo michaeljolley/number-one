@@ -3,6 +3,7 @@ import { Server as HttpServer } from 'http'
 
 import { EventBus, Events } from '../events'
 import {
+  OnArchiveCallbackEvent,
   OnChatMessageEvent,
   OnCheerEvent,
   OnCreditRollEvent,
@@ -62,6 +63,8 @@ export class IO {
       (onSubEvent: OnSubEvent) => this.onSub(onSubEvent))
     EventBus.eventEmitter.addListener(Events.OnRaid,
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
+    EventBus.eventEmitter.addListener(Events.OnArchiveCallback,
+      (onArchiveCallbackEvent: OnArchiveCallbackEvent) => this.onArchiveCallback(onArchiveCallbackEvent))
   }
 
   private onChatMessage(onChatMessageEvent: OnChatMessageEvent) {
@@ -119,7 +122,8 @@ export class IO {
   private onRaid(onRaidEvent: OnRaidEvent) {
     this.io.emit(Events.OnRaid, onRaidEvent)
   }
+
+  private onArchiveCallback(onArchiveCallbackEvent: OnArchiveCallbackEvent) {
+    this.io.emit(Events.OnArchiveCallback, onArchiveCallbackEvent)
+  }
 }
-
-
-

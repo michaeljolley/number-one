@@ -3,6 +3,7 @@ export * from './TwitchTokenResponse'
 
 export * from './IUserEvent'
 
+export * from './OnArchiveCallbackEvent'
 export * from './OnChatMessageEvent'
 export * from './OnCheerEvent'
 export * from './OnCommandEvent'
@@ -22,3 +23,6 @@ export * from './OnStopEvent'
 
 export * from './Stream'
 export * from './User'
+
+export * from './AMAVideo'
+export * from './ArchiveCallback'

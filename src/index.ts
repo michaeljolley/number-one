@@ -1,4 +1,6 @@
 import dotenv from 'dotenv'
+dotenv.config()
+
 import axios, { AxiosResponse } from 'axios'
 import http from 'http'
 import express from 'express'
@@ -9,10 +11,8 @@ import { ChatMonitor } from './chat'
 import { webhookRouter } from './webhooks'
 import { overlayRouter } from './overlays'
 import { log, LogLevel } from './common'
-import { Fauna, Twitch, Vonage } from './integrations'
+import { Fauna, Twitch, Vonage, vonageRouter } from './integrations'
 import { IO } from './hub'
-
-dotenv.config()
 
 // Identify the Twitch credentials first
 const TWITCH_API = 'https://id.twitch.tv/oauth2/token'
@@ -59,6 +59,8 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   app.use('/webhooks', webhookRouter)
 
   app.use('/overlays', overlayRouter)
+
+  app.use('/vonage', vonageRouter)
 
   server.listen(port, () => {
     console.log(`Server is listening on port ${port}`)

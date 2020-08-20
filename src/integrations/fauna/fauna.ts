@@ -1,6 +1,7 @@
 import { Client, query, ClientConfig } from 'faunadb'
 import { Stream, User } from '../../models'
 import { log, LogLevel } from '../../common'
+import { AMAVideo } from '../../models/AMAVideo'
 
 export abstract class FaunaClient {
 
@@ -132,6 +133,63 @@ export abstract class FaunaClient {
       }
     }
     return savedStream
+  }
+
+  public static async saveAMAVideo(video: AMAVideo): Promise<AMAVideo> {
+    let savedVideo: AMAVideo
+
+    const existingAMAVideo: AMAVideo = await this.getAMAVideo(video.sessionId)
+
+    if (video._id || existingAMAVideo) {
+      const _id = video._id || existingAMAVideo._id
+      // Update AMA Video
+      try {
+        let response = await this.client.query(
+          query.Replace(query.Ref(query.Collection("videos"), _id), {
+            data: video
+          })
+        )
+        savedVideo = this.mapResponse(response)
+      }
+      catch (err) {
+        log(LogLevel.Error, `Fauna:saveAMAVideo - Update: ${err}`)
+      }
+    }
+    else {
+      // Create AMA Video
+      try {
+        let response = await this.client.query(
+          query.Create(query.Collection("videos"), {
+            data: video
+          })
+        )
+        savedVideo = this.mapResponse(response)
+      }
+      catch (err) {
+        log(LogLevel.Error, `Fauna:saveAMAVideo - Create: ${err}`)
+      }
+    }
+    return savedVideo
+  }
+
+  public static async getAMAVideo(sessionId: string): Promise<AMAVideo | undefined> {
+    let video: AMAVideo
+    try {
+      let response = await this.client.query(
+        query.Map(
+          query.Paginate(
+            query.Match(query.Index("videos_sessionId"), sessionId)),
+          query.Lambda("videos", query.Get((query.Var("videos"))))
+        )
+      ) as any
+      if (response.data && response.data.length > 0) {
+        video = this.mapResponse(response.data[0])
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:getAMAVideo - ${err}`)
+    }
+    return video
   }
 
 }

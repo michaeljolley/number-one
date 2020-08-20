@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Project } from '../../../chat/commands/project'
+import { Theme } from '../../../chat/commands/theme'
 import { OnCommandEvent } from '../../../models'
 import { EventBus, Events } from '../../../events'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'project',
-    '!project',
+    'theme',
+    '!theme lasers',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Project', () => {
+describe('Commands: Theme', () => {
 
   it('should send message to chat', () => {
     var spy = sinon.spy()
@@ -32,33 +32,49 @@ describe('Commands: Project', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Project(onCommandEvent)
+    Theme(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
 
-  it('should not send events if on cooldown', () => {
+  it('should not send events if theme is okay', () => {
     var spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    onCommandEvent.extra.sinceLastCommand.any = 10
+    onCommandEvent = new OnCommandEvent(
+      user(),
+      'theme',
+      '!theme dracula',
+      viewerFlags(),
+      onCommandExtra(),
+      activeStream())
 
-    Project(onCommandEvent)
+    Theme(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
 
-  it('should not send events if on user cooldown', () => {
+
+  it('should not send events if user is dot_commie and theme is lasers', () => {
     var spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    onCommandEvent.extra.sinceLastCommand.user = 10
+    let callingUser = user()
+    callingUser.login = 'dot_commie'
 
-    Project(onCommandEvent)
+    onCommandEvent = new OnCommandEvent(
+      callingUser,
+      'theme',
+      '!theme lasers',
+      viewerFlags(),
+      onCommandExtra(),
+      activeStream())
+
+    Theme(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })

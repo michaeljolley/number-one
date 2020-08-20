@@ -15,4 +15,5 @@ export enum Events {
   OnSub = 'onSub',
   OnRaid = 'onRaid',
   OnSay = 'onSay',
+  OnArchiveCallback = 'onArchiveCallback'
 }

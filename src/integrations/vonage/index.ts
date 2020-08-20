@@ -18,6 +18,8 @@ import { VonageClient } from './vonageClient'
 import { VonageMember, VonageConversation } from './models'
 import { FaunaClient } from '../fauna/fauna'
 
+export * from './vonageRouter'
+
 export class Vonage {
 
   private _currentStream?: Stream
