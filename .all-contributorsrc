@@ -60,6 +60,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "ForTheJim",
+      "name": "Jim",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1657542?v=4",
+      "profile": "https://github.com/ForTheJim",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
