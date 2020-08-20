@@ -1,3 +1,4 @@
+import { AMA } from "./commands/ama";
 import { Attention } from "./commands/attention";
 import { Awesum } from "./commands/awesum";
 import { AwesumRepo } from "./commands/awesumrepo";
@@ -25,6 +26,7 @@ export abstract class CommandRegistry {
   private static commands: [Command?] = []
 
   public static init() {
+    this.commands.push(new Command('ama', AMA))
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
     this.commands.push(new Command('awesumrepo', AwesumRepo))
