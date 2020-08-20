@@ -3,7 +3,7 @@ import { EventBus, Events } from "../../events"
 import { ShouldThrottle } from '../shouldThrottle'
 
 /**
- * Sends a message to chat with details about sending stuff to BBB
+ * Sends a message to chat with details about sending questions to BBB
  * @param onCommandEvent 
  */
 export function AMA(onCommandEvent: OnCommandEvent) {
