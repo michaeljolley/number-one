@@ -69,7 +69,7 @@ Next you'll need to copy the `.env-example` file and rename it to `.env` then co
 
 ## Environment Varbiables
 
-Before you get started, you will need to gather some information (and possibly create an account) from multiple endpoints we use. For example, you will need know your Twitch channel ID and client ID and secret.
+Before you get started, you will need to gather some information (and possibly create an account) from multiple endpoints we use. For example, you will need know your Twitch channel ID, client ID and secret.
 
 ### Twitch
 
