@@ -2,6 +2,10 @@
 .nexmo-app
 private.key
 
+# compiled css
+src/web/overlays/wwwroot/styles
+src/web/video/wwwroot/styles
+
 # dotenv environment variables file
 .env
 .env.test
