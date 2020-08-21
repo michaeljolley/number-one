@@ -1,0 +1,76 @@
+{
+	"folders": [
+		{
+			"name": "NUMBER-ONE",
+			"path": "."
+		}
+	],
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.node-debug2",
+			"editorconfig.editorconfig",
+			"ms-azuretools.vscode-docket",
+			"github.vscode-pull-request-github",
+		]
+	},
+	"tasks":{
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Setup Environment",
+				"type": "shell",
+				"command": "npm i -g nodemon ts-node typescript && npm i",
+				"problemMatcher": [],
+				"presentation": {
+					"echo": false,
+					"reveal": "never",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": true,
+					"clear": false
+				}
+			},
+			{
+				"label": "Build Source",
+				"type": "shell",
+				"command": "npm run build",
+				"problemMatcher": [
+					"$tsc"
+				],
+				"presentation": {
+					"echo": false,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "shared",
+					"showReuseMessage": true,
+					"clear": false
+				}
+			}
+		]
+	},
+	"launch": {
+		"configurations": [
+			{
+				"console": "integratedTerminal",
+				"internalConsoleOptions": "neverOpen",
+				"name": "Default",
+				"program": "${workspaceFolder}/src/index.ts",
+				"request": "launch",
+				"restart": true,
+				"runtimeExecutable": "nodemon",
+				"skipFiles": [
+					"<node_internals>/**",
+					"node_modules/**"
+				],
+				"type": "pwa-node"
+			}
+		],
+		"compounds": [
+			{
+				"name": "Compound",
+				"configurations": []
+			}
+		]
+	}
+}
