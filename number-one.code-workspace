@@ -20,7 +20,7 @@
 			{
 				"label": "Setup Environment",
 				"type": "shell",
-				"command": "npm i -g nodemon ts-node typescript && npm i",
+				"command": "npm install",
 				"problemMatcher": [],
 				"presentation": {
 					"echo": false,
@@ -52,16 +52,17 @@
 	"launch": {
 		"configurations": [
 			{
-				"console": "integratedTerminal",
-				"internalConsoleOptions": "neverOpen",
-				"name": "Default",
-				"program": "${workspaceFolder}/src/index.ts",
+				"name": "Launch",
+				"console": "internalConsole",
 				"request": "launch",
-				"restart": true,
-				"runtimeExecutable": "nodemon",
+				"runtimeArgs": [
+					"run-script",
+					"dev"
+				],
+				"runtimeExecutable": "npm",
 				"skipFiles": [
 					"<node_internals>/**",
-					"node_modules/**"
+					"dist/**"
 				],
 				"type": "pwa-node"
 			}
