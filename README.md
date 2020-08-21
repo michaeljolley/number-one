@@ -1,9 +1,44 @@
 
 # number-one
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-## Contributors ✨
+
+Number One is a [Twitch](https://twitch.tv) chat bot that provides the following features:
+
+- Responds to commands in the chatroom (i.e. !help)
+- Provides overlays that can be added to the stream to provide context, information, etc
+- An admin panel to control various commands and features of the bot
+- Stores all events of a stream in a Vonage Conversation for later analysis
+- Provides mechanism for viewers to join a stream via their webcam/microphone
+
+## Environment Variables
+
+| Variable              | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| HOST                  | Url the application is running at                |
+| PORT                  | Port the application is running under            |
+| TWITCH_CHANNEL_ID     | Twitch's unique identifier for the channel       |
+| TWITCH_CLIENT_ID      | Twitch's API Client ID                           |
+| TWITCH_CLIENT_SECRET  | Twitch's API Client Secret                       |
+| TWITCH_CHANNEL        | Twitch channel to connect to                     |
+| TWITCH_BOT_USERNAME   | Twitch bot login                                 |
+| TWITCH_BOT_AUTH_TOKEN | OAuth token for the Twitch account used as a bot |
+| NEXMO_API_KEY         | Vonage (previously Nexmo) API key                |
+| NEXMO_API_SECRET      | Vonage (previously Nexmo) API Secret             |
+| NEXMO_APPLICATION_ID  | Vonage (previously Nexmo) Application Id         |
+| FAUNADB_SECRET        | Fauna Secret Key                                 |
+| VIDEO_API_KEY         | Vonage Video API (previously TokBox) API key     |
+| VIDEO_API_SECRET      | Vonage (previously TokBox) API Secret            |
+
+## Release Notes
+
+See [CHANGELOG.md](CHANGELOG.md)
+
+## Contributors
+
+Want to contribute? Check out our [Code of Conduct](CODE_OF_CONDUCT.md) and [Contributing](CONTRIBUTING.md) docs. This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
