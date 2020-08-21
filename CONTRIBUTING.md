@@ -5,7 +5,7 @@ in this project, you agree to abide by our [code of conduct](CODE_OF_CONDUCT.md)
 
 ### Any enhancements/bugs/etc you see?
 
-Add an issue. We'll review it, add labels and reply within a few days.
+Add an [issue](https://github.com/MichaelJolley/number-one/issues/new/choose). We'll review it, add labels and reply within a few days.
 
 ### See an issue you'd like to work on?
 
@@ -23,9 +23,17 @@ We love pull requests from everyone.
 
 Fork, then clone the repo:
 
-    git clone git@github.com:your-username/number-one.git
+SSH
 
-**All changes should be based from the `dev` branch.**
+    git clone -b dev git@github.com:your-username/number-one.git
+    git remote add upstream git@github.com:michaelJolley/number-one
+
+HTTPS
+
+    git clone -b dev https://github.com/your-username/number-one.git
+    git remote add upstream https://github.com/michaelJolley/number-one
+
+> **All changes should be based from the `dev` branch.**
 
 Push to your fork and [submit a pull request](https://github.com/michaeljolley/number-one/compare/) against the `dev` branch.
 
@@ -41,5 +49,77 @@ Some things that will increase the chance that your pull request is accepted:
 - Update [CHANGELOG](CHANGELOG.md) with any changes
 - **Write tests.**
 - Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+
+
+# Get your Environment ready
+
+The following information is provided to help you get up and contributing as quickly as possible. If you need help, please feel free to stop by our discord channel and reach out anytime! [Bald Bearded Builder Discord][DISCORD].
+
+## Visual Studio Code
+
+We use Visual Studio Code as our preferred development editor, but you can use whichever editor you're must comfortable with. However, if you decide to use Visual Studio Code we have provided a workspace which includes the recommended extensions as well as default tasks and launch settings so you can easily get up and contributing and testing your code easily.
+
+One of the first things you should do when you launch Visual Studio Code is run the `setupenv` task which will install the required node modules (both locally and globally).
+
+1. Press your **F1** key
+1. Type, **Task: Run Task**
+1. Choose **Setup Environment**
+
+Next you'll need to copy the `.env-example` file and rename it to `.env` then complete the following:
+
+## Environment Varbiables
+
+Before you get started, you will need to gather some information (and possibly create an account) from multiple endpoints we use. For example, you will need know your Twitch channel ID and client ID and secret.
+
+### Twitch
+
+#### How to find your Twitch channel ID
+
+- Visit your **Stream Key & Preferences** page: `https://dashboard.twitch.tv/u/<your-twitch-name>/settings/channel` 
+- Click the **Show** button within the *Primary Stream key* setting
+- Select the number between the _ (underscore) characters. For example, your Twitch ID would be **1234567890** using the following example: `live_1234567890_xasdfAdafsaSDfasdfAd79S`
+- Copy your *Twitch ID* to the `.env` **TWITCH_CHANNEL_ID** value
+
+#### Create a Twitch API extension
+
+- Visit the [Twitch Developers](https://dev.twitch.tv) webpage and login to your account
+- Click the **Create an Extension** button
+- Name the extension something memorable to you. For example: `number-one-bot`
+- Copy the *Twitch API Client ID* and add it to the `.env` **TWITCH_CLIENT_ID** value
+- Click the **Extension Settings** button in the upper-right corner of the page
+- Click the **Generate Secret** button, then copy the result to the `.env` **TWITCH_CLIENT_SECRET** value
+- Change the OAuth Redirect URL to: `https://localhost:3000`
+
+#### Get your Twitch Bot OAuth token
+
+- Visit the [Twitch Chat OAuth Password Generator]() and click the **Connect** button
+- Once you log in, you'll be presented with your OAuth token. Copy this token to the `.env` **TWITCH_BOT_AUTH_TOKEN** value
+
+### NEXMO API extension
+
+- Visit [Vonage API Dashboard](https://dashboard.nexmo.com/sign-up) and either sign-up or login
+- Once in the Dashboard, click the **Getting Started** link on the left sidebar, then copy the API Key and API Secret to your `.env` **NEXMO_API_KEY** and **NEXMO_API_SECRET** values
+- Click the *Your applications* link on the left sidebar, then *Create a new application* and follow the instructions
+- Once your new application is generated, copy the *Application ID* to the `.env` **NEXMO_APPLICATION_ID** value
+
+### Video API
+
+- Before you leave the Vonage API Dashboard, click on the **Video** link on the left sidebar, then click **Getting started**, finally **Try it free** or **Log in**
+- Click **Create project** then **Create Custom Project** and finally name your project and click **Create** (keep the default preferred codec)
+- Copy the *API KEY* to the `.env` **VIDEO_API_KEY** value
+- Copy the *SECRET* to the `.env` **VIDEO_API_SECRET** value
+
+### Fauna DB
+
+- Visit your [Fauna Dashboard](https://dashboard.fauna.com/) and once logged in, click on your account button in the upper-right corner and choose **Account settings**
+- Click on the **Account API Keys** near the bottom of the page
+- In the *Create Key* section, create a new admin key. Once you click the *Create New Admin Key* button, copy the secret key to the `.env` **FAUNADB_SECRET** value
+
+
+**CONGRATULATIONS**, you made it! Now have all your environment variables configured and you're ready to start coding and debugging your contribution. So, get coding and we can't wait to see your first PR!
+
+[readme]: README.md
+[DISCORD]: https://discord.gg/rY5edQ
+
 
 [readme]: README.md
