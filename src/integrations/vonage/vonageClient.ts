@@ -10,12 +10,16 @@ export abstract class VonageClient {
   private static _nexmoClient: any
 
   public static init() {
-    this._nexmoClient = new Nexmo({
-      apiKey: process.env.NEXMO_API_KEY,
-      apiSecret: process.env.NEXMO_API_SECRET,
-      applicationId: process.env.NEXMO_APPLICATION_ID,
-      privateKey: './private.key'
-    })
+    if (process.env.NEXMO_API_KEY &&
+      process.env.NEXMO_API_SECRET &&
+      process.env.NEXMO_APPLICATION_ID) {
+      this._nexmoClient = new Nexmo({
+        apiKey: process.env.NEXMO_API_KEY,
+        apiSecret: process.env.NEXMO_API_SECRET,
+        applicationId: process.env.NEXMO_APPLICATION_ID,
+        privateKey: './private.key'
+      })
+    }
   }
 
   /**
@@ -23,6 +27,9 @@ export abstract class VonageClient {
    * @param streamDate Date the stream started
    */
   public static async createConversation(streamDate: string): Promise<string | undefined> {
+    if (!this._nexmoClient) {
+      return undefined
+    }
 
     return new Promise((resolve, reject) => {
       this._nexmoClient.conversations.create({
@@ -50,6 +57,10 @@ export abstract class VonageClient {
    * @param conversationId Unique Id of the conversation
    */
   public static async getConversation(conversationId: string): Promise<VonageConversation | undefined> {
+    if (!this._nexmoClient) {
+      return undefined
+    }
+
     return new Promise((resolve, reject) => {
       this._nexmoClient.conversations.get(conversationId, (error, result) => {
         if (error) {
@@ -74,6 +85,10 @@ export abstract class VonageClient {
    * @param eventType type of event to return
    */
   public static async getConversationEvents(conversationId: string, eventType: Events): Promise<VonageConversationEvent[]> {
+    if (!this._nexmoClient) {
+      return undefined
+    }
+
     return new Promise((resolve, reject) => {
       this._nexmoClient.conversations.events.get(conversationId, (error, result) => {
         if (error) {
@@ -94,6 +109,10 @@ export abstract class VonageClient {
   }
 
   public static async createUser(user: User): Promise<User | undefined> {
+    if (!this._nexmoClient) {
+      return undefined
+    }
+
     return new Promise((resolve, reject) => {
       this._nexmoClient.users.create({
         "name": user.id,
@@ -118,6 +137,10 @@ export abstract class VonageClient {
   }
 
   public static async createMember(conversationId: string, userId: string): Promise<VonageMember | undefined> {
+    if (!this._nexmoClient) {
+      return undefined
+    }
+
     return new Promise((resolve, reject) => {
       this._nexmoClient.conversations.members.create(conversationId,
         { "action": "join", "user_id": userId, "channel": { "type": "app" } },
@@ -139,6 +162,10 @@ export abstract class VonageClient {
   }
 
   public static sendEvent(conversationId: string, type: Events, memberId: string, body: object) {
+    if (!this._nexmoClient) {
+      return
+    }
+
     try {
       this._nexmoClient.conversations.events.create(conversationId, {
         "type": `custom:${type}`,

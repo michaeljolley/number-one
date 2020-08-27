@@ -8,10 +8,12 @@ export abstract class FaunaClient {
   private static client: Client
 
   public static init() {
-    let config: ClientConfig = {
-      secret: process.env.FAUNADB_SECRET
+    if (process.env.FAUNADB_SECRET) {
+      let config: ClientConfig = {
+        secret: process.env.FAUNADB_SECRET
+      }
+      this.client = new Client(config)
     }
-    this.client = new Client(config)
   }
 
   private static mapResponse(payload: any): any {
@@ -22,6 +24,10 @@ export abstract class FaunaClient {
   }
 
   public static async getUser(login: string): Promise<User | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
     let user: User
     try {
       let response = await this.client.query(
@@ -42,6 +48,10 @@ export abstract class FaunaClient {
   }
 
   public static async saveUser(user: User): Promise<User> {
+    if (!this.client) {
+      return undefined
+    }
+
     let savedUser: User
 
     const existingUser: User = await this.getUser(user.login)
@@ -79,6 +89,10 @@ export abstract class FaunaClient {
   }
 
   public static async getStream(streamDate: string): Promise<Stream | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
     let stream: Stream
     try {
       let response = await this.client.query(
@@ -99,6 +113,10 @@ export abstract class FaunaClient {
   }
 
   public static async saveStream(stream: Stream): Promise<Stream> {
+    if (!this.client) {
+      return undefined
+    }
+
     let savedStream: Stream
 
     const existingStream: Stream = await this.getStream(stream.streamDate)
@@ -136,6 +154,10 @@ export abstract class FaunaClient {
   }
 
   public static async saveAMAVideo(video: AMAVideo): Promise<AMAVideo> {
+    if (!this.client) {
+      return undefined
+    }
+
     let savedVideo: AMAVideo
 
     const existingAMAVideo: AMAVideo = await this.getAMAVideo(video.sessionId)
@@ -173,6 +195,10 @@ export abstract class FaunaClient {
   }
 
   public static async getAMAVideo(sessionId: string): Promise<AMAVideo | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
     let video: AMAVideo
     try {
       let response = await this.client.query(
@@ -191,5 +217,4 @@ export abstract class FaunaClient {
     }
     return video
   }
-
 }

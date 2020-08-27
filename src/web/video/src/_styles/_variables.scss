@@ -1,0 +1,29 @@
+/**
+ * Variables
+ * ----------------------------------------------------------------------------
+ */
+
+ $purple: rgb(135,31,255);
+ $magenta: rgb(214,33,156);
+ $cyan:rgb(128,199,245);
+ $peach:rgb(255,166,140);
+ $orange:rgb(250,117,84);
+ $white:rgb(255,255,255);
+ $black:rgb(0,0,0);
+ $gray1: rgb(217,220,227);
+ $gray2: rgb(194,196,204);
+ $gray3: rgb(135,138,145);
+ $gray4: rgb(84,87,94);
+
+$gradient-magenta-peach: linear-gradient($magenta, $peach);
+$gradient-cyan-magenta: linear-gradient($cyan, $magenta);
+$gradient-purple-peach: linear-gradient($purple, $peach);
+$gradient-cyan-purple: linear-gradient($cyan, $purple);
+
+$brand-twitter: #1DA1F2;
+$brand-slack: #4A154B;
+
+/* Media Query Breakpoints */
+$breakpoint-phone: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;

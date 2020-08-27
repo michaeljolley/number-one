@@ -10,6 +10,7 @@ import { Config, TwitchTokenResponse } from './models'
 import { ChatMonitor } from './chat'
 import { webhookRouter } from './webhooks'
 import { overlayRouter, videoRouter } from './web'
+import { userRouter } from './users'
 import { log, LogLevel } from './common'
 import { Fauna, Twitch, Vonage, vonageRouter } from './integrations'
 import { IO } from './hub'
@@ -60,9 +61,11 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
 
   app.use('/overlays', overlayRouter)
 
+  app.use('/vonage', vonageRouter)
+
   app.use('/video', videoRouter)
 
-  app.use('/vonage', vonageRouter)
+  app.use('/users', userRouter)
 
   server.listen(port, () => {
     console.log(`Server is listening on port ${port}`)
