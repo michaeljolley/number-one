@@ -92,7 +92,7 @@ Before you get started, you will need to gather some information (and possibly c
 
 #### Get your Twitch Bot OAuth token
 
-- Visit the [Twitch Chat OAuth Password Generator]() and click the **Connect** button
+- Visit the [Twitch Chat OAuth Password Generator](https://twitchapps.com/tmi) and click the **Connect** button
 - Once you log in, you'll be presented with your OAuth token. Copy this token to the `.env` **TWITCH_BOT_AUTH_TOKEN** value
 
 ### NEXMO API extension
