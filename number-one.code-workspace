@@ -10,7 +10,7 @@
 		"recommendations": [
 			"ms-vscode.node-debug2",
 			"editorconfig.editorconfig",
-			"ms-azuretools.vscode-docket",
+			"ms-azuretools.vscode-docker",
 			"github.vscode-pull-request-github",
 		]
 	},
