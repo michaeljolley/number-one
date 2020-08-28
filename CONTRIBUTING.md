@@ -50,8 +50,7 @@ Some things that will increase the chance that your pull request is accepted:
 - **Write tests.**
 - Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
-
-# Get your Environment ready
+# Get Your Environment Ready
 
 The following information is provided to help you get up and contributing as quickly as possible. If you need help, please feel free to stop by our discord channel and reach out anytime! [Bald Bearded Builder Discord][DISCORD].
 
@@ -115,11 +114,9 @@ Before you get started, you will need to gather some information (and possibly c
 - Click on the **Account API Keys** near the bottom of the page
 - In the *Create Key* section, create a new admin key. Once you click the *Create New Admin Key* button, copy the secret key to the `.env` **FAUNADB_SECRET** value
 
+---
 
 **CONGRATULATIONS**, you made it! Now have all your environment variables configured and you're ready to start coding and debugging your contribution. So, get coding and we can't wait to see your first PR!
 
 [readme]: README.md
 [DISCORD]: https://discord.gg/rY5edQ
-
-
-[readme]: README.md
