@@ -1,6 +1,14 @@
 {
 	"folders": [
 		{
+			"name": "BOT",
+			"path": "./bot"
+		},
+		{
+			"name": "VIDEO",
+			"path": "./web-video"
+		},
+		{
 			"name": "NUMBER-ONE",
 			"path": "."
 		}
@@ -18,60 +26,100 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"label": "Setup Environment",
+				"label": "nodemon: bot",
+				"detail": "Run the development environment for the bot",
 				"type": "shell",
-				"command": "npm install",
-				"problemMatcher": [],
+				"group": "build",
+				"command": "npm run dev",
+				"isBackground": true,				
 				"presentation": {
-					"echo": false,
-					"reveal": "never",
-					"focus": false,
-					"panel": "shared",
-					"showReuseMessage": true,
-					"clear": false
-				}
-			},
-			{
-				"label": "Build Source",
-				"type": "shell",
-				"command": "npm run build",
-				"problemMatcher": [
-					"$tsc"
-				],
-				"presentation": {
-					"echo": false,
+					"echo": true,
 					"reveal": "silent",
 					"focus": false,
-					"panel": "shared",
-					"showReuseMessage": true,
+					"panel": "dedicated",
+					"showReuseMessage": false,
 					"clear": false
+				},
+				"problemMatcher": [
+					"$tsc",
+					"$node-sass",
+					"$eslint-compact",
+					{
+						"owner": "nodemon",
+						"background": {
+							"activeOnStart": true,
+							"beginsPattern": "starting",
+							"endsPattern": "Server is listening|app crashed"
+						},
+						"pattern":[
+							{
+								"regexp": "^([^\\\\s].*)\\\\((\\\\d+,\\\\d+)\\\\):\\\\s*(.*)$",
+								"file": 1,
+								"location": 2,
+								"message": 3
+							}
+						]
+					}
+				],
+				"options": {
+					"cwd": "${workspaceFolder:BOT}",
+					"env": {
+						"NODE_ENV": "development",
+						"DOTENV_CONFIG_PATH": "${workspaceFolder:NUMBER-ONE}/.env"
+					}
+				},
+			},
+			{
+				"label": "vuejs: video",
+				"detail": "Run the development environment for the /video endpoint",
+				"type": "shell",
+				"command": "npm run serve",
+				"isBackground": true,
+				"presentation": {
+					"echo": true,
+					"reveal": "silent",
+					"focus": false,
+					"panel": "dedicated",
+					"showReuseMessage": false,
+					"clear": false
+				},
+				"problemMatcher": [
+					{
+						"owner": "vue-webpack",
+						"fileLocation": "autoDetect",
+						"background": {
+							"activeOnStart": true,
+							"beginsPattern": "Starting development|Compiling...",
+							"endsPattern": "Compiled successfully|\\d+ problem"
+						},
+						"pattern":[
+							{
+								"regexp": "^(\\w:.*)$",
+								"file": 1
+							},
+							{
+								"regexp": "^\\s{2}(\\d+):(\\d+)\\s{2}(error|warning)\\s{2}(.*)$",
+								"line": 1,
+								"column": 2,
+								"severity": 3,
+								"message": 4
+							}
+						]
+					}
+				], 
+				"group": "build",
+				"options": {
+					"cwd": "${workspaceFolder:VIDEO}",
+					"env": {
+						"NODE_ENV": "development",
+						"DOTENV_CONFIG_PATH": "${workspaceFolder:NUMBER-ONE}/.env"
+					}
 				}
 			}
 		]
 	},
 	"launch": {
-		"configurations": [
-			{
-				"name": "Launch",
-				"console": "internalConsole",
-				"request": "launch",
-				"runtimeArgs": [
-					"run-script",
-					"dev"
-				],
-				"runtimeExecutable": "npm",
-				"skipFiles": [
-					"<node_internals>/**",
-					"dist/**"
-				],
-				"type": "pwa-node"
-			}
-		],
-		"compounds": [
-			{
-				"name": "Compound",
-				"configurations": []
-			}
-		]
+		"configurations": [],
+		"compounds": []
 	}
 }

@@ -24,3 +24,5 @@ const app = createApp(App)
 app.config.devtools = true;
 
 app.mount('#app')
+
+console.log(`VUE_APP_AUTH0_DOMAIN: ${process.env.VUE_APP_AUTH0_DOMAIN}`)

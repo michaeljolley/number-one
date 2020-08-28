@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 3000",
+    "serve": "vue-cli-service serve --port 3001",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.11.0",
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0",

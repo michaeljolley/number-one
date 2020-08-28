@@ -68,7 +68,7 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   app.use('/users', userRouter)
 
   server.listen(port, () => {
-    console.log(`Server is listening on port ${port}`)
+    console.log(`Server is listening at http://localhost:${port}`)
   })
 
   const chatMonitor: ChatMonitor = new ChatMonitor(config)
