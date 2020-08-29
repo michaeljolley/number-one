@@ -114,6 +114,10 @@ Before you get started, you will need to gather some information (and possibly c
 - Click on the **Account API Keys** near the bottom of the page
 - In the *Create Key* section, create a new admin key. Once you click the *Create New Admin Key* button, copy the secret key to the `.env` **FAUNADB_SECRET** value
 
+### Auth0
+
+> TODO: Create documentation about setting up an Auth0 application, using the custom social connections extension and gathering the needed information to link Auth0 with Twitch and this application.
+
 ---
 
 **CONGRATULATIONS**, you made it! Now have all your environment variables configured and you're ready to start coding and debugging your contribution. So, get coding and we can't wait to see your first PR!

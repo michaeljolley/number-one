@@ -15,22 +15,24 @@ Number One is a [Twitch](https://twitch.tv) chat bot that provides the following
 
 ## Environment Variables
 
-| Variable              | Description                                      |
-| --------------------- | ------------------------------------------------ |
-| HOST                  | Url the application is running at                |
-| PORT                  | Port the application is running under            |
-| TWITCH_CHANNEL_ID     | Twitch's unique identifier for the channel       |
-| TWITCH_CLIENT_ID      | Twitch's API Client ID                           |
-| TWITCH_CLIENT_SECRET  | Twitch's API Client Secret                       |
-| TWITCH_CHANNEL        | Twitch channel to connect to                     |
-| TWITCH_BOT_USERNAME   | Twitch bot login                                 |
-| TWITCH_BOT_AUTH_TOKEN | OAuth token for the Twitch account used as a bot |
-| NEXMO_API_KEY         | Vonage (previously Nexmo) API key                |
-| NEXMO_API_SECRET      | Vonage (previously Nexmo) API Secret             |
-| NEXMO_APPLICATION_ID  | Vonage (previously Nexmo) Application Id         |
-| FAUNADB_SECRET        | Fauna Secret Key                                 |
-| VIDEO_API_KEY         | Vonage Video API (previously TokBox) API key     |
-| VIDEO_API_SECRET      | Vonage (previously TokBox) API Secret            |
+| Variable                | Description                                      |
+| ----------------------- | ------------------------------------------------ |
+| HOST                    | Url the application is running at                |
+| PORT                    | Port the application is running under            |
+| TWITCH_CHANNEL_ID       | Twitch's unique identifier for the channel       |
+| TWITCH_CLIENT_ID        | Twitch's API Client ID                           |
+| TWITCH_CLIENT_SECRET    | Twitch's API Client Secret                       |
+| TWITCH_CHANNEL          | Twitch channel to connect to                     |
+| TWITCH_BOT_USERNAME     | Twitch bot login                                 |
+| TWITCH_BOT_AUTH_TOKEN   | OAuth token for the Twitch account used as a bot |
+| NEXMO_API_KEY           | Vonage (previously Nexmo) API key                |
+| NEXMO_API_SECRET        | Vonage (previously Nexmo) API Secret             |
+| NEXMO_APPLICATION_ID    | Vonage (previously Nexmo) Application Id         |
+| FAUNADB_SECRET          | Fauna Secret Key                                 |
+| VIDEO_API_KEY           | Vonage Video API (previously TokBox) API key     |
+| VIDEO_API_SECRET        | Vonage (previously TokBox) API Secret            |
+| VUE_APP_AUTH0_DOMAIN    | Auth0 domain used for your authentication        |
+| VUE_APP_AUTH0_CLIENT_ID | Auth0 application client identifier              |
 
 ## Release Notes
 
