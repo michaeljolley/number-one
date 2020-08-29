@@ -119,7 +119,38 @@
 		]
 	},
 	"launch": {
-		"configurations": [],
-		"compounds": []
+		"configurations": [
+			{
+				"name": "Attach Bot",
+				"internalConsoleOptions": "neverOpen",
+				"request": "attach",
+				"skipFiles": [
+					"<node_internals/**",
+					"${workspaceFolder:BOT}/node_modules/**"
+				],
+				"type": "pwa-node",
+				"port": 9229,
+				"preLaunchTask": "nodemon: bot"
+			},
+			{
+				"type": "pwa-msedge",
+				"request": "launch",
+				"name": "Launch Video",
+				"url": "http://localhost:3001/video",
+				"webRoot": "${workspaceFolder:VIDEO}",
+				"sourceMapPathOverrides": {
+					"meteor://💻app/*": "${webRoot}/*",
+					"webpack:///./~/*": "${webRoot}/node_modules/*",
+					"webpack://?:*/*": "${webRoot}/*"
+				},
+				"preLaunchTask": "vuejs: video"
+			}
+		],
+		"compounds": [
+			{
+				"name": "BOT + VIDEO",
+				"configurations": ["Attach Bot", "Launch Video"]
+			}
+		]
 	}
 }

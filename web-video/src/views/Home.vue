@@ -15,7 +15,6 @@
         <li>Login via Twitch (don't worry, we don't store your login info)</li>
       </ul>
       <p>{{url}}</p>
-      <p>{{host}}</p>
       <p>
         <router-link class="button" to="recorder">Login with Twitch</router-link>
       </p>
@@ -29,8 +28,7 @@ export default {
     user: function () {
       return this.$auth.user;
     },
-  },
-  
+  }  
 };
 </script>
 <style scoped lang="scss">

@@ -3,6 +3,7 @@ module.exports = {
   outputDir: '../dist/web/video/wwwroot',
   publicPath: '/video',
   css: {
+    sourceMap: true,
     loaderOptions: {
       scss: {
         prependData: `
@@ -12,13 +13,15 @@ module.exports = {
       }
     }
   },
+  configureWebpack: {
+    devtool: 'source-map'
+  },
   devServer: {
-    proxy: [
-      {
-        context: [ '/users' ],
+    proxy: {
+      '/users': {
         target: 'http://localhost:3000',
         changeOrigin: true
       }
-    ]
+    }
   }
 }
