@@ -1,0 +1,33 @@
+{
+  "name": "number-one",
+  "version": "1.0.0",
+  "description": "A Node.js based Twitch chat bot",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "cd ./bot && npm run build && cd ../web-video && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelJolley/number-one.git"
+  },
+  "author": "Michael Jolley <mike@sparcapp.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichaelJolley/number-one/issues"
+  },
+  "homepage": "https://github.com/MichaelJolley/number-one#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "comfy.js": "^1.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "faunadb": "^2.14.2",
+    "http-proxy-middleware": "^1.0.5",
+    "nexmo": "^2.7.0-beta-1",
+    "opentok": "^2.10.0",
+    "socket.io": "^2.3.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {}
+}
