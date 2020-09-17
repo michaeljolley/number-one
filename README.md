@@ -32,6 +32,14 @@ Number One is a [Twitch](https://twitch.tv) chat bot that provides the following
 | VIDEO_API_KEY         | Vonage Video API (previously TokBox) API key     |
 | VIDEO_API_SECRET      | Vonage (previously TokBox) API Secret            |
 
+### TWITCH_CLIENT_ID and TWITCH_CLIENT_SECRET
+
+The `TWITCH_CLIENT_ID` and `TWITCH_CLIENT_SECRET` can be obtained through the [Twitch Developer Console](https://dev.twitch.tv/console), specifically under [Applications](https://dev.twitch.tv/console/apps).  You will need to register a new application.  Once you've supplied the required information, the Client ID is listed near the bottom of the page, and there exists a "New Secret" button for obtaining the Client Secret. 
+
+### TWITCH_BOT_AUTH_TOKEN
+
+The `TWITCH_BOT_AUTH_TOKEN` can be obtained from the [Twitch Chat OAuth Password Generator](https://twitchapps.com/tmi/).  Note that you will need to be signed in as the bot's account prior to generating the token.
+
 ## Release Notes
 
 See [CHANGELOG.md](CHANGELOG.md)
