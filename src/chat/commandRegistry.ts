@@ -1,4 +1,3 @@
-import { AMA } from "./commands/ama";
 import { Attention } from "./commands/attention";
 import { Awesum } from "./commands/awesum";
 import { AwesumRepo } from "./commands/awesumrepo";
@@ -14,6 +13,7 @@ import { Hardware } from "./commands/hardware";
 import { Heroines } from "./commands/heroines";
 import { Hype } from "./commands/hype";
 import { Instagram } from "./commands/instagram";
+import { JSDefender } from "./commands/jsdefender";
 import { Keyboard } from "./commands/keyboard";
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
@@ -26,7 +26,6 @@ export abstract class CommandRegistry {
   private static commands: [Command?] = []
 
   public static init() {
-    this.commands.push(new Command('ama', AMA))
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
     this.commands.push(new Command('awesumrepo', AwesumRepo))
@@ -48,6 +47,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('project', Project))
     this.commands.push(new Command('stop', Stop))
     this.commands.push(new Command('theme', Theme))
+    this.commands.push(new Command('jsdefender', JSDefender))
   }
 
   public static getCommand(commandName: string): Command | undefined {

@@ -3,7 +3,6 @@ import { User, Stream, Config } from '../../models'
 import { Cache, CacheType } from '../../cache'
 import { LogLevel, log } from '../../common'
 import { Fauna } from '../fauna'
-import { VonageClient } from '../vonage/vonageClient'
 
 export abstract class Twitch {
 
@@ -33,7 +32,11 @@ export abstract class Twitch {
         log(LogLevel.Error, `Twitch:getUser - Fauna:getUser: ${err}`)
       }
 
-      if (!user) {
+      var date = new Date();
+      date.setDate(date.getDate() - 1);
+
+      if (!user ||
+        (!user.lastUpdated || user.lastUpdated < date)) {
         let apiUser: User
         try {
           apiUser = await this.twitchAPI.getUser(login)
@@ -42,17 +45,8 @@ export abstract class Twitch {
           log(LogLevel.Error, `Twitch:getUser - API:getUser: ${err}`)
         }
 
-        // Get/Create Vonage User
         if (apiUser) {
-          try {
-            apiUser = await VonageClient.createUser(apiUser)
-          }
-          catch (err) {
-            log(LogLevel.Error, `Twitch:getUser - VonageClient:createUser: ${err}`)
-          }
-          if (apiUser && apiUser.vonageUserId) {
-            user = await Fauna.saveUser(apiUser)
-          }
+          user = await Fauna.saveUser(apiUser)
         }
       }
       if (user) {
@@ -71,8 +65,6 @@ export abstract class Twitch {
     let stream: Stream = Cache.get(CacheType.Stream, streamDate) as Stream | undefined
 
     if (!stream && this.config) {
-      let apiStream
-
       try {
         stream = await this.twitchAPI.getStream(streamDate)
       }

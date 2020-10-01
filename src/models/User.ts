@@ -4,7 +4,7 @@ export class User {
     public avatar_url: string,
     public id: string,
     public display_name?: string,
+    public lastUpdated?: Date,
     public _id?: string,
-    public vonageUserId?: string,
   ) { }
 }

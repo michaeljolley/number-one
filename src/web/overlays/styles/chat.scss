@@ -1,31 +1,85 @@
+@import "main";
 
-#chat {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-
+.chat {
   display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  height: 98vh;
+  position: absolute;
+  right: 0;
+  width: 400px;
 
-  .bubble {
+  .list-move {
+    transition: transform .5s;
+  }
 
-    padding: 20px;
-    max-width: 200px;
-    background-color: #ffffff;
+  .message {
+    width: 100%;
+    margin-bottom: 25px;
+    position: relative;
+    display: flex;
+    align-items: center;
 
-    .message {
-      font-size: 1.5em;
-    }
-
-    .profile {
-      img {
-        border-radius: 20px;
-        height: 40px;
+    &.hide {
+      .panel {
+        animation: fade 1s backwards;
       }
     }
 
+    .panel {
+      
+      display: flex;
+      flex-direction: row-reverse;
+      width: 400px;
+      background-color: $darkblue;
+      
+      border-top: 5px solid;
+      border-image-source: $gradient;
+      border-image-slice: 1;
+      
+      opacity: 0;
+      animation: fade 1s forwards;
+      
+      .bubble {
+        padding: 15px;
+        width: 340px;
+        word-wrap: break-word;
+        white-space: pre-line;
 
+        display: flex;
+        flex-direction: column;
+        
+        font-size: 1.2em;
+        color: $white;
+        
+        .name {
+          font-family: 'Roboto';
+          font-size: .8em;
+          font-weight: bold;
+          background: $gradient;
+          background-clip: text;
+          margin-top: 10px;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      }
+  
+      .user {
+        width: 60px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-position-y: bottom;
+        background-color: $white;
+      }    
+    }
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
