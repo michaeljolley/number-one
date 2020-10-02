@@ -71,7 +71,12 @@ export class ChatMonitor {
   private async onChat(user: string, message: string, flags: UserFlags, self: boolean, extra: Extra) {
     log(LogLevel.Info, `onChat: ${user}: ${message}`)
 
-    if (!self && user.toLocaleLowerCase() !== process.env.TWITCH_BOT_USERNAME.toLocaleLowerCase()) {
+    user = user.toLocaleLowerCase();
+
+    if (!self
+      && user !== process.env.TWITCH_BOT_USERNAME.toLocaleLowerCase()
+      && user !== process.env.TWITCH_CHANNEL.toLocaleLowerCase()) {
+
       let userInfo: User
 
       try {
@@ -107,6 +112,28 @@ export class ChatMonitor {
         'blink'
       ]
     });
+
+    tempMessage = tempMessage.replace(/@(\w*)/gm, `<span>$&</span>`);
+
+    // const regex = /@(\w*)/gm;
+    // let m;
+
+    // while ((m = regex.exec(tempMessage)) !== null) {
+    //   // This is necessary to avoid infinite loops with zero-width matches
+    //   if (m.index === regex.lastIndex) {
+    //     regex.lastIndex++;
+    //   }
+
+    //   // The result can be accessed through the `m`-variable.
+    //   m.forEach((match, groupIndex) => {
+    //     if (groupIndex === 0) {
+    //       tempMessage
+    //     }
+    //     console.log(`Found match, group ${groupIndex}: ${match}`);
+    //   });
+    // }
+
+
     const emotes = [];
 
     // If the message has emotes, modify message to include img tags to the emote

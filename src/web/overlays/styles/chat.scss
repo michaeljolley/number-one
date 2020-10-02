@@ -18,15 +18,17 @@
     position: relative;
     display: flex;
     align-items: center;
+    
+    box-shadow: -0.5em 0.6em 1em -0.4em $darkblue;
 
     &.hide {
+      box-shadow: none;
       .panel {
         animation: fade 1s backwards;
       }
     }
 
     .panel {
-      
       display: flex;
       flex-direction: row-reverse;
       width: 400px;
@@ -50,6 +52,10 @@
         
         font-size: 1.2em;
         color: $white;
+
+        span {
+          color: $neonpink;
+        }
         
         .name {
           font-family: 'Roboto';
@@ -71,6 +77,24 @@
         background-position-y: bottom;
         background-color: $white;
       }    
+    }
+    
+    &.mod {
+      .panel {
+        background-color: $lightgray;
+        .bubble {
+          color: $purple;
+        }
+      }
+    }
+ 
+    &.vip {
+      .panel {
+        background-color: $white;
+        .bubble {
+          color: $darkblue;
+        }
+      }
     }
   }
 }
