@@ -1,7 +1,7 @@
 Vue.config.devtools = true;
 
 Vue.component('letter', {
-  template: '<span v-bind:class="[assignedClass,{ off: hideMe}]">{{letter}}</span>',
+  template: '<span class="letter" v-bind:class="[assignedClass,{ off: hideMe}]">{{letter}}</span>',
   props: ['letter'],
   data: function () {
     return {
@@ -39,7 +39,8 @@ const app = new Vue({
       activeAlert: {
         line1: null,
         line2: null,
-        line3: null
+        line3: null,
+        line4: null
       },
       activeAudio: null,
     };
@@ -58,6 +59,7 @@ const app = new Vue({
       let line1;
       let line2;
       let line3;
+      let line4;
       let audio;
 
       switch (nextAlert.type) {
@@ -66,21 +68,34 @@ const app = new Vue({
           line2 = 'Follower';
           break;
         case 'onSub':
+          line1 = 'Thanks';
+          line2 = name;
+          line3 = 'for the sub';
           break;
-
         case 'onRaid':
           line1 = 'Raid';
           line2 = name;
           line3 = 'Alert';
-          audio = null;
+          break;
+        case 'onCheer':
+          line1 = 'Thanks';
+          line2 = name;
+          line3 = 'for the bits';
+          break;
+        case 'onDonation':
+          line1 = "You're";
+          line2 = name;
+          line3 = 'the goat!';
+          audio = 'goat';
           break;
       }
 
       this.alerts.shift();
       this.activeAlert = {
-        line1: line1.split(''),
-        line2: line2.split(''),
-        line3: line3.split('')
+        line1: line1 ? line1.split('') : null,
+        line2: line2 ? line2.split('') : null,
+        line3: line3 ? line3.split('') : null,
+        line4: line4 ? line4.split('') : null
       };
       this.activeAudio = audio;
 
@@ -88,10 +103,11 @@ const app = new Vue({
         this.activeAlert = {
           line1: null,
           line2: null,
-          line3: null
+          line3: null,
+          line4: null
         };
         this.audio = null;
-      }, 12000);
+      }, 10000);
     },
     onInterval() {
       if (!this.activeAlert.line1 &&
@@ -115,6 +131,14 @@ const app = new Vue({
       this.addAlert('onRaid', onRaidEvent);
     });
 
+    this.socket.on('onCheer', onCheerEvent => {
+      this.addAlert('onCheer', onCheerEvent);
+    });
+
+    this.socket.on('onDonation', onDonationEvent => {
+      this.addAlert('onDonation', onDonationEvent);
+    });
+
     console.log("We're loaded and listening the socket.io hub");
 
     setInterval(this.onInterval, 2000);
@@ -129,6 +153,11 @@ const app = new Vue({
       <transition name="fade">
         <div class="sign blue" v-if="activeAlert.line2">
           <letter v-for="(letter, index) in activeAlert.line2" :key="index" :letter="letter"/>
+        </div>
+      </transition>
+      <transition name="fade">
+        <div class="sign blue small" v-if="activeAlert.line4">
+          <letter v-for="(letter, index) in activeAlert.line4" :key="index" :letter="letter"/>
         </div>
       </transition>
       <transition name="fade">
