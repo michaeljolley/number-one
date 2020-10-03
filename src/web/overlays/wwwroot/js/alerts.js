@@ -1,12 +1,47 @@
 Vue.config.devtools = true;
 
+Vue.component('letter', {
+  template: '<span v-bind:class="[assignedClass,{ off: hideMe}]">{{letter}}</span>',
+  props: ['letter'],
+  data: function () {
+    return {
+      hideMe: false,
+      classes: ['', 'flicker', 'fast-flicker', 'fast-flicker2'],
+      assignedClass: null
+    }
+  },
+  methods: {
+    finish: function () {
+      this.hideMe = true;
+      this.assignedClass = null;
+    }
+  },
+  mounted: function () {
+    setTimeout(() => {
+      const turnOff = Math.floor(Math.random() * 6) + 3;
+
+      const randomClass = Math.floor(Math.random() * 4);
+      if (randomClass !== 0) {
+        this.assignedClass = this.classes[randomClass];
+      }
+
+      setTimeout(this.finish, turnOff * 1000);
+    }, 2500);
+  }
+});
+
 const app = new Vue({
   el: '#app',
   data: function () {
     return {
       alerts: [],
       socket: null,
-      activeAlert: 'A New Follower has Joined the Community!'
+      activeAlert: {
+        line1: null,
+        line2: null,
+        line3: null
+      },
+      activeAudio: null,
     };
   },
   methods: {
@@ -17,33 +52,55 @@ const app = new Vue({
       });
     },
     processNextAlert() {
-      if (!this.activeAlert && this.alerts.length > 0) {
-        const nextAlert = this.alerts[0];
-        let message;
-        let name = nextAlert.data.user.display_name || nextAlert.data.user.login;
-        switch (nextAlert.type) {
-          case 'onFollow':
-            message = 'A New Follower has Joined the Community!';
-            break;
-          case 'onSub':
-            const months = nextAlert.data.cumulativeMonths;
-            if (months > 1) {
-              message = `Welcome the Newest Member of the Builders Club, ${name}!`;
-            } else {
-              message = `${name} has now Spent ${months} months in the Builders Club!`;
-            }
-            break;
-          case 'onRaid':
-            message = `Welcome ${name} and your ${nextAlert.data.viewers} friends!`;
-            break;
-        }
+      const nextAlert = this.alerts[0];
+      let name = nextAlert.data.user.display_name || nextAlert.data.user.login;
 
-        this.alerts.shift();
-        this.activeAlert = message;
+      let line1;
+      let line2;
+      let line3;
+      let audio;
+
+      switch (nextAlert.type) {
+        case 'onFollow':
+          line1 = 'New';
+          line2 = 'Follower';
+          break;
+        case 'onSub':
+          break;
+
+        case 'onRaid':
+          line1 = 'Raid';
+          line2 = name;
+          line3 = 'Alert';
+          audio = null;
+          break;
+      }
+
+      this.alerts.shift();
+      this.activeAlert = {
+        line1: line1.split(''),
+        line2: line2.split(''),
+        line3: line3.split('')
+      };
+      this.activeAudio = audio;
+
+      setTimeout(() => {
+        this.activeAlert = {
+          line1: null,
+          line2: null,
+          line3: null
+        };
+        this.audio = null;
+      }, 12000);
+    },
+    onInterval() {
+      if (!this.activeAlert.line1 &&
+        this.alerts.length > 0) {
+        this.processNextAlert();
       }
     }
   },
-  created() {
+  mounted() {
     this.socket = io.connect('/');
 
     this.socket.on('onFollow', onFollowEvent => {
@@ -59,6 +116,25 @@ const app = new Vue({
     });
 
     console.log("We're loaded and listening the socket.io hub");
+
+    setInterval(this.onInterval, 2000);
   },
-  template: '<div class="alerts"><div v-if="activeAlert" class="message">{{activeAlert}}</div></div>'
+  template:
+    `<div class="alerts" v-if="activeAlert">
+      <transition name="fade">
+        <div class="sign pink" v-if="activeAlert.line1">
+          <letter v-for="(letter, index) in activeAlert.line1" :key="index" :letter="letter"/>
+        </div>
+      </transition>
+      <transition name="fade">
+        <div class="sign blue" v-if="activeAlert.line2">
+          <letter v-for="(letter, index) in activeAlert.line2" :key="index" :letter="letter"/>
+        </div>
+      </transition>
+      <transition name="fade">
+        <div class="sign pink" v-if="activeAlert.line3">
+          <letter v-for="(letter, index) in activeAlert.line3" :key="index" :letter="letter"/>
+        </div>
+      </transition>
+    </div>`
 })
