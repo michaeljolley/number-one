@@ -1,17 +1,18 @@
 import { Client, query, ClientConfig } from 'faunadb'
 import { Stream, User } from '../../models'
 import { log, LogLevel } from '../../common'
-import { AMAVideo } from '../../models/AMAVideo'
 
 export abstract class FaunaClient {
 
   private static client: Client
 
   public static init() {
-    let config: ClientConfig = {
-      secret: process.env.FAUNADB_SECRET
+    if (process.env.FAUNADB_SECRET) {
+      let config: ClientConfig = {
+        secret: process.env.FAUNADB_SECRET
+      }
+      this.client = new Client(config)
     }
-    this.client = new Client(config)
   }
 
   private static mapResponse(payload: any): any {
@@ -22,6 +23,10 @@ export abstract class FaunaClient {
   }
 
   public static async getUser(login: string): Promise<User | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
     let user: User
     try {
       let response = await this.client.query(
@@ -42,6 +47,10 @@ export abstract class FaunaClient {
   }
 
   public static async saveUser(user: User): Promise<User> {
+    if (!this.client) {
+      return undefined
+    }
+
     let savedUser: User
 
     const existingUser: User = await this.getUser(user.login)
@@ -79,6 +88,10 @@ export abstract class FaunaClient {
   }
 
   public static async getStream(streamDate: string): Promise<Stream | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
     let stream: Stream
     try {
       let response = await this.client.query(
@@ -99,6 +112,10 @@ export abstract class FaunaClient {
   }
 
   public static async saveStream(stream: Stream): Promise<Stream> {
+    if (!this.client) {
+      return undefined
+    }
+
     let savedStream: Stream
 
     const existingStream: Stream = await this.getStream(stream.streamDate)
@@ -134,62 +151,4 @@ export abstract class FaunaClient {
     }
     return savedStream
   }
-
-  public static async saveAMAVideo(video: AMAVideo): Promise<AMAVideo> {
-    let savedVideo: AMAVideo
-
-    const existingAMAVideo: AMAVideo = await this.getAMAVideo(video.sessionId)
-
-    if (video._id || existingAMAVideo) {
-      const _id = video._id || existingAMAVideo._id
-      // Update AMA Video
-      try {
-        let response = await this.client.query(
-          query.Replace(query.Ref(query.Collection("videos"), _id), {
-            data: video
-          })
-        )
-        savedVideo = this.mapResponse(response)
-      }
-      catch (err) {
-        log(LogLevel.Error, `Fauna:saveAMAVideo - Update: ${err}`)
-      }
-    }
-    else {
-      // Create AMA Video
-      try {
-        let response = await this.client.query(
-          query.Create(query.Collection("videos"), {
-            data: video
-          })
-        )
-        savedVideo = this.mapResponse(response)
-      }
-      catch (err) {
-        log(LogLevel.Error, `Fauna:saveAMAVideo - Create: ${err}`)
-      }
-    }
-    return savedVideo
-  }
-
-  public static async getAMAVideo(sessionId: string): Promise<AMAVideo | undefined> {
-    let video: AMAVideo
-    try {
-      let response = await this.client.query(
-        query.Map(
-          query.Paginate(
-            query.Match(query.Index("videos_sessionId"), sessionId)),
-          query.Lambda("videos", query.Get((query.Var("videos"))))
-        )
-      ) as any
-      if (response.data && response.data.length > 0) {
-        video = this.mapResponse(response.data[0])
-      }
-    }
-    catch (err) {
-      log(LogLevel.Error, `Fauna:getAMAVideo - ${err}`)
-    }
-    return video
-  }
-
 }

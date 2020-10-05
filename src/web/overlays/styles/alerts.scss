@@ -1,0 +1,316 @@
+@import "main";
+
+$lightestneonpink: lighten($neonpink, 40%);
+$lightneonpink: lighten($neonpink, 10%);
+$darkneonpink: darken($neonpink, 20%);
+$darkestneonpink: darken($neonpink, 30%);
+$lightestneonblue: lighten($neonblue, 40%);
+$lightneonblue: lighten($neonblue, 10%);
+$darkneonblue: darken($neonblue, 20%);
+$darkestneonblue: darken($neonblue, 30%);
+
+.alerts {
+  margin: 50px;
+  font-family: "Monoton";
+  text-transform: uppercase;
+  font-size: 6em;
+
+  .letter {
+    display: inline-block;
+    min-width: 20px;
+  }
+}
+
+.sign {
+  display: table;
+  margin-left: calc(100% - 95%);
+
+  &.pink {
+    color: $neonpink;
+    text-shadow: 0 0 0.6rem $lightestneonpink, 0 0 1.5rem $lightneonpink,
+      -0.2rem 0.1rem 1rem $lightneonpink, 0.2rem 0.1rem 1rem $lightneonpink,
+      0 -0.5rem 2rem $darkneonpink, 0 0.5rem 3rem $neonpink;
+    animation: shinepink 2s forwards, flicker 3s infinite;
+    z-index: 50;
+
+    &:not(:first-child) {
+      margin-left: calc(100% - 90%);
+      margin-top: -10px;
+    }
+
+    .flicker {
+      animation: shinepink 5s forwards, blinkpink 1s 2s infinite;
+    }
+
+    .fast-flicker {
+      animation: shinepink 1s forwards, blinkpink 10s 1s infinite;
+    }
+
+    .fast-flicker2 {
+      animation: shinepink 2s forwards, blinkpink 7s 2s infinite;
+    }
+
+    .off {
+      color: $darkestneonpink;
+      text-shadow: none;
+    }
+  }
+
+  &.blue {
+    color: $neonblue;
+    text-shadow: 0 0 0.6rem $lightestneonblue, 0 0 1.5rem $lightneonblue,
+      -0.2rem 0.1rem 1rem $lightneonblue, 0.2rem 0.1rem 1rem $lightneonblue,
+      0 -0.5rem 2rem $darkneonblue, 0 0.5rem 3rem $neonblue;
+    animation: shineblue 2s forwards, flicker 3s infinite;
+    margin-top: -90px;
+    margin-left: unset;
+    z-index: 100;
+    position: absolute;
+
+    &.small {
+      font-size: .5em;
+      margin-left: calc(20% + 300px);
+      margin-top: 30px;
+      z-index: 200;
+      animation: shinebluesmall 2s forwards, flicker 3s infinite;
+      
+      text-shadow: 0 0 0.15rem $lightestneonblue, 0 0 .75rem $lightneonblue,
+      -0.2rem 0.1rem .25rem $lightneonblue, 0.2rem 0.1rem .25rem $lightneonblue,
+      0 -0.5rem .5rem $darkneonblue, 0 0.5rem .75rem $neonblue;
+    }
+
+    .flicker {
+      animation: shineblue 5s forwards, blinkblue 1s 2s infinite;
+    }
+
+    .fast-flicker {
+      animation: shineblue 1s forwards, blinkblue 10s 1s infinite;
+    }
+
+    .fast-flicker2 {
+      animation: shineblue 2s forwards, blinkblue 7s 2s infinite;
+    }
+
+    .off {
+      color: $darkestneonblue;
+      text-shadow: none;
+    }
+  }
+
+  &.fade-leave-active {
+    animation: unset;
+    transition: opacity 2s;
+  }
+  
+  &.fade-leave-to {
+    opacity: 0;
+  }
+}
+
+@keyframes blinkpink {
+  0%,
+  22%,
+  36%,
+  75% {
+    color: $lightestneonpink;
+    text-shadow: 0 0 0.6rem $lightestneonpink, 0 0 1.5rem $lightneonpink,
+      -0.2rem 0.1rem 1rem $lightneonpink, 0.2rem 0.1rem 1rem $lightneonpink,
+      0 -0.5rem 2rem $darkneonpink, 0 0.5rem 3rem $neonpink;
+  }
+  28%,
+  33% {
+    color: $lightneonpink;
+    text-shadow: none;
+  }
+  82%,
+  97% {
+    color: $neonpink;
+    text-shadow: none;
+  }
+}
+@keyframes blinkblue {
+  0%,
+  22%,
+  36%,
+  75% {
+    color: $lightestneonblue;
+    text-shadow: 0 0 0.6rem $lightestneonblue, 0 0 1.5rem $lightneonblue,
+      -0.2rem 0.1rem 1rem $lightneonblue, 0.2rem 0.1rem 1rem $lightneonblue,
+      0 -0.5rem 2rem $darkneonblue, 0 0.5rem 3rem $neonblue;
+  }
+  28%,
+  33% {
+    color: $lightneonblue;
+    text-shadow: none;
+  }
+  82%,
+  97% {
+    color: $neonblue;
+    text-shadow: none;
+  }
+}
+
+@keyframes shinepink {
+  0% {
+    color: $darkestneonpink;
+    text-shadow: none;
+  }
+  100% {
+    color: $lightestneonpink;
+    text-shadow: 0 0 0.6rem $lightestneonpink, 0 0 1.5rem $neonpink,
+      -0.2rem 0.1rem 1rem $lightneonpink, 0.2rem 0.1rem 1rem $lightneonpink,
+      0 -0.5rem 2rem $neonpink, 0 0.5rem 3rem $neonpink;
+  }
+}
+
+@keyframes shineblue {
+  0% {
+    color: $darkestneonblue;
+    text-shadow: none;
+  }
+  100% {
+    color: $lightestneonblue;
+    text-shadow: 0 0 0.6rem $lightestneonblue, 0 0 1.5rem $lightneonblue,
+      -0.2rem 0.1rem 1rem $lightneonblue, 0.2rem 0.1rem 1rem $lightneonblue,
+      0 -0.5rem 2rem $neonblue, 0 0.5rem 3rem $neonblue;
+  }
+}
+
+@keyframes shinebluesmall {
+  0% {
+    color: $darkestneonblue;
+    text-shadow: none;
+  }
+  100% {
+    color: $lightestneonblue;
+    text-shadow: 0 0 0.15rem $lightestneonblue, 0 0 .75rem $lightneonblue,
+      -0.2rem 0.1rem .25rem $lightneonblue, 0.2rem 0.1rem .25rem $lightneonblue,
+      0 -0.5rem .5rem $darkneonblue, 0 0.5rem .75rem $neonblue;
+  }
+}
+
+@keyframes flicker {
+  from {
+    opacity: 1;
+  }
+
+  4% {
+    opacity: 0.9;
+  }
+
+  6% {
+    opacity: 0.85;
+  }
+
+  8% {
+    opacity: 0.95;
+  }
+
+  10% {
+    opacity: 0.9;
+  }
+
+  11% {
+    opacity: 0.922;
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  14% {
+    opacity: 0.95;
+  }
+
+  16% {
+    opacity: 0.98;
+  }
+
+  17% {
+    opacity: 0.9;
+  }
+
+  19% {
+    opacity: 0.93;
+  }
+
+  20% {
+    opacity: 0.99;
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  26% {
+    opacity: 0.94;
+  }
+
+  28% {
+    opacity: 0.98;
+  }
+
+  37% {
+    opacity: 0.93;
+  }
+
+  38% {
+    opacity: 0.5;
+  }
+
+  39% {
+    opacity: 0.96;
+  }
+
+  42% {
+    opacity: 1;
+  }
+
+  44% {
+    opacity: 0.97;
+  }
+
+  46% {
+    opacity: 0.94;
+  }
+
+  56% {
+    opacity: 0.9;
+  }
+
+  58% {
+    opacity: 0.9;
+  }
+
+  60% {
+    opacity: 0.99;
+  }
+
+  68% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0.9;
+  }
+
+  72% {
+    opacity: 0.95;
+  }
+
+  93% {
+    opacity: 0.93;
+  }
+
+  95% {
+    opacity: 0.95;
+  }
+
+  97% {
+    opacity: 0.93;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

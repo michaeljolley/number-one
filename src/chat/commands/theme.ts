@@ -14,6 +14,7 @@ export function Theme(onCommandEvent: OnCommandEvent) {
   const words = lowerMessage.split(" ")
   const shamedThemes = [
     "hotdogstand",
+    "hot dog stand",
     "lasers",
     "powershell",
     "bbbdark",

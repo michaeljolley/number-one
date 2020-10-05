@@ -9,9 +9,9 @@ import qs from 'querystring'
 import { Config, TwitchTokenResponse } from './models'
 import { ChatMonitor } from './chat'
 import { webhookRouter } from './webhooks'
-import { overlayRouter } from './overlays'
+import { overlayRouter } from './web'
 import { log, LogLevel } from './common'
-import { Fauna, Twitch, Vonage, vonageRouter } from './integrations'
+import { Fauna, Twitch } from './integrations'
 import { IO } from './hub'
 
 // Identify the Twitch credentials first
@@ -47,8 +47,6 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   const app = express()
   const server = http.createServer(app)
 
-  const vonage = new Vonage()
-
   Twitch.init(config)
   Fauna.init()
 
@@ -59,8 +57,6 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   app.use('/webhooks', webhookRouter)
 
   app.use('/overlays', overlayRouter)
-
-  app.use('/vonage', vonageRouter)
 
   server.listen(port, () => {
     console.log(`Server is listening on port ${port}`)

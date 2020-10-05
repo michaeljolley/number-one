@@ -1,4 +1,4 @@
-import ComfyJS, { Extra, UserFlags } from 'comfy.js'
+import ComfyJS, { EmoteSet, Extra, UserFlags } from 'comfy.js'
 import { SubMethods } from 'tmi.js'
 
 import { log, LogLevel } from '../common'
@@ -7,6 +7,7 @@ import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations/twitch-api'
 import { OnSayEvent } from '../models/OnSayEvent'
 import { CommandMonitor } from './commandMonitor'
+import sanitizeHtml from 'sanitize-html'
 
 /**
  * ChatMonitor connects and monitors chat messages within Twitch
@@ -69,7 +70,13 @@ export class ChatMonitor {
    */
   private async onChat(user: string, message: string, flags: UserFlags, self: boolean, extra: Extra) {
     log(LogLevel.Info, `onChat: ${user}: ${message}`)
-    if (!self) {
+
+    user = user.toLocaleLowerCase();
+
+    if (!self
+      && user !== process.env.TWITCH_BOT_USERNAME.toLocaleLowerCase()
+      && user !== process.env.TWITCH_CHANNEL.toLocaleLowerCase()) {
+
       let userInfo: User
 
       try {
@@ -80,12 +87,95 @@ export class ChatMonitor {
       }
 
       if (userInfo) {
-        this.emit(Events.OnChatMessage, new OnChatMessageEvent(userInfo, message, flags, self, extra))
+        const processedChat = this.processChat(message, extra.messageEmotes);
+        if (processedChat.message.length > 0) {
+          this.emit(Events.OnChatMessage, new OnChatMessageEvent(userInfo, message, processedChat.message, flags, self, extra, extra.id, processedChat.emotes))
+        }
         if (flags.customReward) {
           this.emit(Events.OnPointRedemption, new OnPointRedemptionEvent(userInfo, message, flags, self, extra))
         }
       }
     }
+  }
+
+  private processChat(message: string, messageEmotes?: EmoteSet) {
+    let tempMessage: string = sanitizeHtml(message, {
+      allowedAttributes: {},
+      allowedTags: [
+        'marquee',
+        'em',
+        'strong',
+        'b',
+        'i',
+        'code',
+        'strike',
+        'blink'
+      ]
+    });
+
+    tempMessage = tempMessage.replace(/@(\w*)/gm, `<span>$&</span>`);
+
+    // const regex = /@(\w*)/gm;
+    // let m;
+
+    // while ((m = regex.exec(tempMessage)) !== null) {
+    //   // This is necessary to avoid infinite loops with zero-width matches
+    //   if (m.index === regex.lastIndex) {
+    //     regex.lastIndex++;
+    //   }
+
+    //   // The result can be accessed through the `m`-variable.
+    //   m.forEach((match, groupIndex) => {
+    //     if (groupIndex === 0) {
+    //       tempMessage
+    //     }
+    //     console.log(`Found match, group ${groupIndex}: ${match}`);
+    //   });
+    // }
+
+
+    const emotes = [];
+
+    // If the message has emotes, modify message to include img tags to the emote
+    if (messageEmotes) {
+      let emoteSet = [];
+
+      for (const emote of Object.keys(messageEmotes)) {
+        const emoteLocations = messageEmotes[emote];
+        emoteLocations.forEach(location => {
+          emoteSet.push(this.generateEmote(emote, location));
+        });
+      }
+
+      // Order the emotes descending so we can iterate
+      // through them with indexes
+      emoteSet.sort((a, b) => {
+        return b.end - a.end;
+      });
+
+      emoteSet.forEach(emote => {
+        emotes.push(emote.emoteUrl);
+
+        let emoteMessage = tempMessage.slice(0, emote.start);
+        emoteMessage += emote.emoteImageTag;
+        emoteMessage += tempMessage.slice(emote.end + 1, tempMessage.length);
+        tempMessage = emoteMessage;
+      });
+    }
+
+    return { message: tempMessage, emotes: emotes.map(m => m.emoteImageTag as string) };
+  }
+
+  private generateEmote(emoteId: string, position: string) {
+    const [start, end] = position.split('-').map(Number);
+
+    return {
+      emoteId,
+      emoteImageTag: `<img class='emote' src='https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/1.0'/>`,
+      emoteUrl: `https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/1.0`,
+      start,
+      end
+    };
   }
 
   /**

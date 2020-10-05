@@ -10,8 +10,7 @@ Number One is a [Twitch](https://twitch.tv) chat bot that provides the following
 - Responds to commands in the chatroom (i.e. !help)
 - Provides overlays that can be added to the stream to provide context, information, etc
 - An admin panel to control various commands and features of the bot
-- Stores all events of a stream in a Vonage Conversation for later analysis
-- Provides mechanism for viewers to join a stream via their webcam/microphone
+- Stores all events of a stream in a FaunaDb for later analysis
 
 ## Environment Variables
 
@@ -25,12 +24,7 @@ Number One is a [Twitch](https://twitch.tv) chat bot that provides the following
 | TWITCH_CHANNEL        | Twitch channel to connect to                     |
 | TWITCH_BOT_USERNAME   | Twitch bot login                                 |
 | TWITCH_BOT_AUTH_TOKEN | OAuth token for the Twitch account used as a bot |
-| NEXMO_API_KEY         | Vonage (previously Nexmo) API key                |
-| NEXMO_API_SECRET      | Vonage (previously Nexmo) API Secret             |
-| NEXMO_APPLICATION_ID  | Vonage (previously Nexmo) Application Id         |
 | FAUNADB_SECRET        | Fauna Secret Key                                 |
-| VIDEO_API_KEY         | Vonage Video API (previously TokBox) API key     |
-| VIDEO_API_SECRET      | Vonage (previously TokBox) API Secret            |
 
 ## Release Notes
 
@@ -62,4 +56,3 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-

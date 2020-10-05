@@ -1,1 +1,0 @@
-#chat{position:absolute;top:0;bottom:0;right:0;display:flex;justify-content:flex-end;flex-direction:column}#chat .bubble{padding:20px;max-width:200px;background-color:#ffffff}#chat .bubble .message{font-size:1.5em}#chat .bubble .profile img{border-radius:20px;height:40px}

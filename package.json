@@ -7,24 +7,26 @@
     "start": "node dist/index.js",
     "build": "npm run build:typescript && npm run build:scss && npm run copy",
     "build:typescript": "tsc",
-    "build:scss": "node-sass --output-style compressed --include-path src src/overlays src/overlays/styles -o src/overlays/wwwroot/",
-    "copy": "npm run copy:overlay:js && npm run copy:overlay:web && npm run copy:assets",
-    "copy:overlay:web": "copyfiles src/overlays/wwwroot/**/* dist/overlays/wwwroot -u 3",
-    "copy:overlay:js": "copyfiles dist/overlays/scripts/*.js dist/overlays/wwwroot/js -u 3",
-    "copy:assets": "copyfiles assets/**/* dist/overlays/wwwroot/ ",
-    "dev": "nodemon -L -e js,ts,htm,env,scss,json --watch src --exec \"npm run build && npm run start\"",
+    "build:scss:overlays": "node-sass --output-style compressed --include-path src src/web/overlays/styles  -o src/web/overlays/wwwroot/styles",
+    "build:scss": "npm run build:scss:overlays",
+    "copy": "npm run copy:web && npm run copy:assets",
+    "copy:web:overlay": "copyfiles src/web/overlays/wwwroot/**/* dist/web/overlays/wwwroot -u 4",
+    "copy:web": "npm run copy:web:overlay",
+    "copy:assets:overlays": "copyfiles assets/**/* dist/web/overlays/wwwroot/",
+    "copy:assets": "npm run copy:assets:overlays",
+    "dev": "nodemon -L -e js,ts,htm,env,scss,json,vue --watch src --exec \"npm run build && npm run start\"",
     "test": "mocha -r ts-node/register src/**/*spec.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MichaelJolley/number-one.git"
+    "url": "git+https://github.com/builders-club/number-one.git"
   },
   "author": "Michael Jolley <mike@sparcapp.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MichaelJolley/number-one/issues"
+    "url": "https://github.com/builders-club/number-one/issues"
   },
-  "homepage": "https://github.com/MichaelJolley/number-one#readme",
+  "homepage": "https://github.com/builders-club/number-one#readme",
   "dependencies": {
     "@types/node": "^14.0.27",
     "axios": "^0.19.2",
@@ -33,7 +35,7 @@
     "express": "^4.17.1",
     "faunadb": "^2.14.2",
     "nexmo": "^2.7.0-beta-1",
-    "opentok": "^2.10.0",
+    "sanitize-html": "^1.27.4",
     "socket.io": "^2.3.0",
     "uuid": "^8.3.0"
   },
