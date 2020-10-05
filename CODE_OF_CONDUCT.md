@@ -40,7 +40,7 @@ Additionally, don’t insult or demean others. This includes making unwelcome co
 
 ### BE WELCOMING AND OPEN
 
-Don’t engage in gatekeeping behaviors, like questioning the intelligence or knowledge of others as a way to prove their credentials. And don’t exclude people for prejudicial reasons.
+Don’t engage in gate-keeping behaviors, like questioning the intelligence or knowledge of others as a way to prove their credentials. And don’t exclude people for prejudicial reasons.
 
 ### RESPECT PRIVACY
 
@@ -80,7 +80,7 @@ Please do not use excessive curse words. Additionally, do not use graphic sexual
 
 ## Reporting
 
-If you are being harassed by a member of the Bald Bearded Builder community, or if you observe someone else being harassed, please report the behaviour using our [Code of Conduct Report Form](https://baldbeardedbuilder.com/report/).
+If you are being harassed by a member of the Bald Bearded Builder community, or if you observe someone else being harassed, please report the behavior using our [Code of Conduct Report Form](https://baldbeardedbuilder.com/report/).
 
 ### THANKS
 

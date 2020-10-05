@@ -7,8 +7,5 @@
       "./src"
     ],
     "esModuleInterop": true
-  },
-  "exclude": [
-    "./src/web/video/**/*.ts"
-  ]
+  }
 }
