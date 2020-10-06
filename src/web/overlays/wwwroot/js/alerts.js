@@ -40,9 +40,9 @@ const app = new Vue({
         line1: null,
         line2: null,
         line3: null,
-        line4: null
-      },
-      activeAudio: null,
+        line4: null,
+        audio: null
+      }
     };
   },
   methods: {
@@ -51,6 +51,21 @@ const app = new Vue({
         type,
         data
       });
+    },
+    playAudio() {
+      if (this.activeAlert &&
+        this.activeAlert.audio) {
+
+        let audio = this.$refs.audioFile;
+        audio.src = `/assets/audio/${this.activeAlert.audio}`;
+        audio.play().catch(error => {
+          console.log(error);
+        })
+      }
+    },
+    clearAudio() {
+      const audio = document.createElement('audio');
+      audio.src = '';
     },
     processNextAlert() {
       const nextAlert = this.alerts[0];
@@ -95,16 +110,18 @@ const app = new Vue({
         line1: line1 ? line1.split('') : null,
         line2: line2 ? line2.split('') : null,
         line3: line3 ? line3.split('') : null,
-        line4: line4 ? line4.split('') : null
+        line4: line4 ? line4.split('') : null,
+        audio
       };
-      this.activeAudio = audio;
+      this.playAudio();
 
       setTimeout(() => {
         this.activeAlert = {
           line1: null,
           line2: null,
           line3: null,
-          line4: null
+          line4: null,
+          audio: null
         };
         this.audio = null;
       }, 10000);
@@ -118,6 +135,9 @@ const app = new Vue({
   },
   mounted() {
     this.socket = io.connect('/');
+
+    const audio = document.createElement('audio');
+    audio.addEventListener('ended', this.clearAudio, false);
 
     this.socket.on('onFollow', onFollowEvent => {
       this.addAlert('onFollow', onFollowEvent);
@@ -145,6 +165,7 @@ const app = new Vue({
   },
   template:
     `<div class="alerts" v-if="activeAlert">
+      <audio rel="audioFile"/>
       <transition name="fade">
         <div class="sign pink" v-if="activeAlert.line1">
           <letter v-for="(letter, index) in activeAlert.line1" :key="index" :letter="letter"/>
