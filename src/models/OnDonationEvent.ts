@@ -1,9 +1,6 @@
-import { User } from "./User";
-import { IUserEvent } from "./IUserEvent"
-
-export class OnDonationEvent implements IUserEvent {
+export class OnDonationEvent {
   constructor(
-    public user: User,
+    public user: string,
     public amount: number,
     public message: string
   ) { }

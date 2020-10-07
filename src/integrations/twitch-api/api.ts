@@ -7,6 +7,7 @@ export class TwitchAPI {
   private twitchAPIEndpoint: string = 'https://api.twitch.tv/helix'
   private twitchAPIUserEndpoint: string = `${this.twitchAPIEndpoint}/users`
   private twitchAPIStreamEndpoint: string = `${this.twitchAPIEndpoint}/streams`
+  private twitchAPIWebhookEndpoint: string = `${this.twitchAPIEndpoint}/webhooks/hub`
 
   private headers: object
 
@@ -15,6 +16,30 @@ export class TwitchAPI {
       Authorization: `Bearer ${this.config.twitchChannelAuthToken}`,
       'Content-Type': 'application/json',
       'Client-ID': this.config.twitchClientId
+    }
+  }
+
+  /**
+   * Registers all webhooks with Twitch directed to this instance of the bot
+   */
+  public async registerWebhooks(): Promise<void> {
+
+    const payload = {
+      "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
+      "hub.mode": "subscribe",
+      "hub.topic": `https://api.twitch.tv/helix/users/follows?first=1&to_id=${this.config.twitchChannelId}`,
+      "hub.lease_seconds": 172800
+    };
+
+    try {
+      const response = await axios.post(
+        this.twitchAPIWebhookEndpoint,
+        payload,
+        {
+          headers: this.headers
+        });
+    } catch (err) {
+      log(LogLevel.Error, `TwitchAPI:registerWebhooks ${err}`);
     }
   }
 

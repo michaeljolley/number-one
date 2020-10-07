@@ -5,5 +5,6 @@ export class Config {
     public twitchChannelAuthToken: string,
     public twitchBotUsername: string,
     public twitchBotAuthToken: string,
-    public twitchChannelId?: string) { }
+    public twitchChannelId?: string,
+    public streamElementsJWT?: string) { }
 }

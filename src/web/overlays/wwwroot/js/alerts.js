@@ -57,7 +57,7 @@ const app = new Vue({
         this.activeAlert.audio) {
 
         let audio = this.$refs.audioFile;
-        audio.src = `/assets/audio/${this.activeAlert.audio}`;
+        audio.src = `assets/audio/alerts/${this.activeAlert.audio}.mp3`;
         audio.play().catch(error => {
           console.log(error);
         })
@@ -69,7 +69,13 @@ const app = new Vue({
     },
     processNextAlert() {
       const nextAlert = this.alerts[0];
-      let name = nextAlert.data.user.display_name || nextAlert.data.user.login;
+      let name;
+
+      if (nextAlert.type === 'onDonation') {
+        name = nextAlert.data.user;
+      } else {
+        name = nextAlert.data.user.display_name || nextAlert.data.user.login;
+      }
 
       let line1;
       let line2;
@@ -81,27 +87,31 @@ const app = new Vue({
         case 'onFollow':
           line1 = 'New';
           line2 = 'Follower';
+          audio = 'ohmy';
           break;
         case 'onSub':
           line1 = 'Thanks';
           line2 = name;
           line3 = 'for the sub';
+          audio = 'hair';
           break;
         case 'onRaid':
           line1 = 'Raid';
           line2 = name;
           line3 = 'Alert';
+          audio = 'goodbadugly';
           break;
         case 'onCheer':
-          line1 = 'Thanks';
+          line1 = ' ';
           line2 = name;
-          line3 = 'for the bits';
+          line3 = `cheered  ${nextAlert.data.bits} bits!`;
+          audio = 'cheer';
           break;
         case 'onDonation':
-          line1 = "You're";
+          line1 = 'Donation Alert!';
           line2 = name;
-          line3 = 'the goat!';
-          audio = 'goat';
+          line3 = `gave  $${nextAlert.data.amount}`;
+          audio = 'donate';
           break;
       }
 
@@ -165,7 +175,7 @@ const app = new Vue({
   },
   template:
     `<div class="alerts" v-if="activeAlert">
-      <audio rel="audioFile"/>
+      <audio ref="audioFile"/>
       <transition name="fade">
         <div class="sign pink" v-if="activeAlert.line1">
           <letter v-for="(letter, index) in activeAlert.line1" :key="index" :letter="letter"/>
