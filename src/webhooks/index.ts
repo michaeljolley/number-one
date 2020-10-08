@@ -8,6 +8,7 @@ import { OnCheerEvent, OnDonationEvent, OnFollowEvent, OnRaidEvent, OnSubEvent, 
 export const webhookRouter: express.Router = express.Router()
 
 webhookRouter.get('/follow', (request: Request, response: Response) => {
+  response.contentType('text/plain');
   response.status(200).send(request.query['hub.challenge']);
 })
 
@@ -28,6 +29,7 @@ webhookRouter.post('/follow', async (request: Request, response: Response) => {
     emit(Events.OnFollow, new OnFollowEvent(userInfo));
   }
 
+  response.contentType('text/plain');
   response.status(200).send(request.query['hub.challenge']);
 })
 
