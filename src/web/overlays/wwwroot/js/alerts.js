@@ -40,9 +40,15 @@ const app = new Vue({
         line1: null,
         line2: null,
         line3: null,
+<<<<<<< HEAD
         line4: null,
         audio: null
       }
+=======
+        line4: null
+      },
+      activeAudio: null,
+>>>>>>> main
     };
   },
   methods: {
@@ -52,6 +58,7 @@ const app = new Vue({
         data
       });
     },
+<<<<<<< HEAD
     playAudio() {
       if (this.activeAlert &&
         this.activeAlert.audio) {
@@ -76,6 +83,11 @@ const app = new Vue({
       } else {
         name = nextAlert.data.user.display_name || nextAlert.data.user.login;
       }
+=======
+    processNextAlert() {
+      const nextAlert = this.alerts[0];
+      let name = nextAlert.data.user.display_name || nextAlert.data.user.login;
+>>>>>>> main
 
       let line1;
       let line2;
@@ -87,18 +99,25 @@ const app = new Vue({
         case 'onFollow':
           line1 = 'New';
           line2 = 'Follower';
+<<<<<<< HEAD
           audio = 'ohmy';
+=======
+>>>>>>> main
           break;
         case 'onSub':
           line1 = 'Thanks';
           line2 = name;
           line3 = 'for the sub';
+<<<<<<< HEAD
           audio = 'hair';
+=======
+>>>>>>> main
           break;
         case 'onRaid':
           line1 = 'Raid';
           line2 = name;
           line3 = 'Alert';
+<<<<<<< HEAD
           audio = 'goodbadugly';
           break;
         case 'onCheer':
@@ -112,6 +131,19 @@ const app = new Vue({
           line2 = name;
           line3 = `gave  $${nextAlert.data.amount}`;
           audio = 'donate';
+=======
+          break;
+        case 'onCheer':
+          line1 = 'Thanks';
+          line2 = name;
+          line3 = 'for the bits';
+          break;
+        case 'onDonation':
+          line1 = "You're";
+          line2 = name;
+          line3 = 'the goat!';
+          audio = 'goat';
+>>>>>>> main
           break;
       }
 
@@ -120,18 +152,28 @@ const app = new Vue({
         line1: line1 ? line1.split('') : null,
         line2: line2 ? line2.split('') : null,
         line3: line3 ? line3.split('') : null,
+<<<<<<< HEAD
         line4: line4 ? line4.split('') : null,
         audio
       };
       this.playAudio();
+=======
+        line4: line4 ? line4.split('') : null
+      };
+      this.activeAudio = audio;
+>>>>>>> main
 
       setTimeout(() => {
         this.activeAlert = {
           line1: null,
           line2: null,
           line3: null,
+<<<<<<< HEAD
           line4: null,
           audio: null
+=======
+          line4: null
+>>>>>>> main
         };
         this.audio = null;
       }, 10000);
@@ -146,9 +188,12 @@ const app = new Vue({
   mounted() {
     this.socket = io.connect('/');
 
+<<<<<<< HEAD
     const audio = document.createElement('audio');
     audio.addEventListener('ended', this.clearAudio, false);
 
+=======
+>>>>>>> main
     this.socket.on('onFollow', onFollowEvent => {
       this.addAlert('onFollow', onFollowEvent);
     });
@@ -175,7 +220,10 @@ const app = new Vue({
   },
   template:
     `<div class="alerts" v-if="activeAlert">
+<<<<<<< HEAD
       <audio ref="audioFile"/>
+=======
+>>>>>>> main
       <transition name="fade">
         <div class="sign pink" v-if="activeAlert.line1">
           <letter v-for="(letter, index) in activeAlert.line1" :key="index" :letter="letter"/>

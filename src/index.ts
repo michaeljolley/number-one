@@ -49,7 +49,10 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   const app = express()
   const server = http.createServer(app)
 
+<<<<<<< HEAD
   const streamElements = new StreamElements(config);
+=======
+>>>>>>> main
   Twitch.init(config)
   Fauna.init()
 

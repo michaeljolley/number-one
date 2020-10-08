@@ -8,7 +8,10 @@ import { Twitch } from '../integrations/twitch-api'
 import { OnSayEvent } from '../models/OnSayEvent'
 import { CommandMonitor } from './commandMonitor'
 import sanitizeHtml from 'sanitize-html'
+<<<<<<< HEAD
 import { Emotes } from '../models/Emotes'
+=======
+>>>>>>> main
 
 /**
  * ChatMonitor connects and monitors chat messages within Twitch
@@ -100,7 +103,44 @@ export class ChatMonitor {
   }
 
   private processChat(message: string, messageEmotes?: EmoteSet) {
+<<<<<<< HEAD
     let tempMessage: string = message.replace(/<img/g, '<DEL');
+=======
+    let tempMessage: string = sanitizeHtml(message, {
+      allowedAttributes: {},
+      allowedTags: [
+        'marquee',
+        'em',
+        'strong',
+        'b',
+        'i',
+        'code',
+        'strike',
+        'blink'
+      ]
+    });
+
+    tempMessage = tempMessage.replace(/@(\w*)/gm, `<span>$&</span>`);
+
+    // const regex = /@(\w*)/gm;
+    // let m;
+
+    // while ((m = regex.exec(tempMessage)) !== null) {
+    //   // This is necessary to avoid infinite loops with zero-width matches
+    //   if (m.index === regex.lastIndex) {
+    //     regex.lastIndex++;
+    //   }
+
+    //   // The result can be accessed through the `m`-variable.
+    //   m.forEach((match, groupIndex) => {
+    //     if (groupIndex === 0) {
+    //       tempMessage
+    //     }
+    //     console.log(`Found match, group ${groupIndex}: ${match}`);
+    //   });
+    // }
+
+>>>>>>> main
 
     const emotes = [];
 
@@ -131,6 +171,7 @@ export class ChatMonitor {
       });
     }
 
+<<<<<<< HEAD
     tempMessage = sanitizeHtml(tempMessage, {
       allowedAttributes: {
         img: ['class',
@@ -151,6 +192,8 @@ export class ChatMonitor {
 
     tempMessage = tempMessage.replace(/@(\w*)/gm, `<span>$&</span>`);
 
+=======
+>>>>>>> main
     return { message: tempMessage, emotes: emotes.map(m => m.emoteImageTag as string) };
   }
 
