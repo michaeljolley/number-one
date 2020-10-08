@@ -17,7 +17,7 @@ export function GitHub(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const message = `Mike's GitHub account can be found at https://github.com/michaeljolley`
+  const message = `All of our code can be found at https://github.com/builders-club`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

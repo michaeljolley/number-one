@@ -38,6 +38,7 @@ export class TwitchAPI {
         {
           headers: this.headers
         });
+      log(LogLevel.Info, `TwitchAPI:registerWebhooks - Response = ${response.status}`);
     } catch (err) {
       log(LogLevel.Error, `TwitchAPI:registerWebhooks ${err}`);
     }
