@@ -2,7 +2,7 @@
 # number-one
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Number One is a [Twitch](https://twitch.tv) chat bot that provides the following features:
@@ -41,13 +41,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/miko1991"><img src="https://avatars0.githubusercontent.com/u/27098411?v=4" width="100px;" alt=""/><br /><sub><b>Mikolaj Marciniak</b></sub></a><br /><a href="https://github.com/MichaelJolley/number-one/commits?author=miko1991" title="Code">💻</a></td>
-    <td align="center"><a href="https://baldbeardedbuilder.com/"><img src="https://avatars2.githubusercontent.com/u/1228996?v=4" width="100px;" alt=""/><br /><sub><b>Michael Jolley</b></sub></a><br /><a href="https://github.com/MichaelJolley/number-one/commits?author=MichaelJolley" title="Code">💻</a> <a href="#ideas-MichaelJolley" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/MichaelJolley/number-one/commits?author=MichaelJolley" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/miko1991"><img src="https://avatars0.githubusercontent.com/u/27098411?v=4" width="100px;" alt=""/><br /><sub><b>Mikolaj Marciniak</b></sub></a><br /><a href="https://github.com/builders-club/number-one/commits?author=miko1991" title="Code">💻</a></td>
+    <td align="center"><a href="https://baldbeardedbuilder.com/"><img src="https://avatars2.githubusercontent.com/u/1228996?v=4" width="100px;" alt=""/><br /><sub><b>Michael Jolley</b></sub></a><br /><a href="https://github.com/builders-club/number-one/commits?author=MichaelJolley" title="Code">💻</a> <a href="#ideas-MichaelJolley" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/builders-club/number-one/commits?author=MichaelJolley" title="Documentation">📖</a></td>
     <td align="center"><a href="http://twitch.tv/whitep4nth3r"><img src="https://avatars0.githubusercontent.com/u/52798353?v=4" width="100px;" alt=""/><br /><sub><b>Salma @whitep4nth3r</b></sub></a><br /><a href="#ideas-whitep4nth3r" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://c-j.tech"><img src="https://avatars0.githubusercontent.com/u/3969086?v=4" width="100px;" alt=""/><br /><sub><b>Chris Jones</b></sub></a><br /><a href="#ideas-cmjchrisjones" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/Flyken271"><img src="https://avatars0.githubusercontent.com/u/39961800?v=4" width="100px;" alt=""/><br /><sub><b>Flyken</b></sub></a><br /><a href="#ideas-Flyken271" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/parithon"><img src="https://avatars3.githubusercontent.com/u/8602418?v=4" width="100px;" alt=""/><br /><sub><b>Anthony Conrad (parithon)</b></sub></a><br /><a href="#ideas-parithon" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/MichaelJolley/number-one/commits?author=parithon" title="Code">💻</a> <a href="https://github.com/MichaelJolley/number-one/commits?author=parithon" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/parithon"><img src="https://avatars3.githubusercontent.com/u/8602418?v=4" width="100px;" alt=""/><br /><sub><b>Anthony Conrad (parithon)</b></sub></a><br /><a href="#ideas-parithon" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/builders-club/number-one/commits?author=parithon" title="Code">💻</a> <a href="https://github.com/builders-club/number-one/commits?author=parithon" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/ForTheJim"><img src="https://avatars3.githubusercontent.com/u/1657542?v=4" width="100px;" alt=""/><br /><sub><b>Jim</b></sub></a><br /><a href="#ideas-ForTheJim" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/ElliottBrand"><img src="https://avatars2.githubusercontent.com/u/47930099?v=4" width="100px;" alt=""/><br /><sub><b>Steve Elliott</b></sub></a><br /><a href="#ideas-ElliottBrand" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/builders-club/number-one/commits?author=ElliottBrand" title="Code">💻</a></td>
   </tr>
 </table>
 
