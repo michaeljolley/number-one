@@ -71,11 +71,21 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "ElliottBrand",
+      "name": "Steve Elliott",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/47930099?v=4",
+      "profile": "https://github.com/ElliottBrand",
+      "contributions": [
+        "ideas",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "number-one",
-  "projectOwner": "MichaelJolley",
+  "projectOwner": "builders-club",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true
