@@ -37,6 +37,7 @@
     "nexmo": "^2.7.0-beta-1",
     "sanitize-html": "^1.27.4",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.1",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "@types/mocha": "^8.0.1",
     "@types/sinon": "^9.0.4",
     "@types/socket.io": "^2.1.10",
+    "@types/socket.io-client": "^1.4.34",
     "@types/tmi.js": "^1.4.0",
     "chai": "^4.2.0",
     "copyfiles": "^2.3.0",
