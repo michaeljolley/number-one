@@ -80,13 +80,22 @@
       "contributions": [
         "ideas",
         "code"
-        ]
-      },
-      {
+      ]
+    },
+    {
       "login": "mholloway24",
       "name": "Mike Holloway",
       "avatar_url": "https://avatars2.githubusercontent.com/u/40776983?v=4",
       "profile": "https://github.com/mholloway24",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "MaryJoStaebler",
+      "name": "Mary Jo",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/48457743?v=4",
+      "profile": "https://github.com/MaryJoStaebler",
       "contributions": [
         "bug"
       ]
