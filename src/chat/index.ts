@@ -48,10 +48,10 @@ export class ChatMonitor {
    * Initializes chat to connect to Twitch and begin listening
    */
   public init(): void {
-    ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName)
+    ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName, true)
   }
 
-  private emit(event: Events, payload: any) {
+  private emit(event: Events, payload: unknown) {
     // if (this.currentStream) {
     EventBus.eventEmitter.emit(event, payload)
     // }
@@ -279,7 +279,7 @@ export class ChatMonitor {
    * @param isFirstConnect 
    */
   private onConnected(address: string, port: number, isFirstConnect: boolean): void {
-    log(LogLevel.Info, `onConnected: ${address}`)
+    log(LogLevel.Info, `onConnected: ${address}:${port}`)
   }
 
   /**

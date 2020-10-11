@@ -1,4 +1,4 @@
-export const getTime = () => {
+export const getTime = (): { hours: string; minutes: string} => {
   const date = new Date()
   const rawMinutes = date.getMinutes()
   const rawHours = date.getHours()
@@ -8,7 +8,7 @@ export const getTime = () => {
 };
 
 export const log = (level: string, message: string): void => {
-  const captains: any = console
+  const captains: unknown = console
   const { hours, minutes } = getTime()
   captains[level](`[${hours}:${minutes}] ${message}`)
 };
