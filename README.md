@@ -52,7 +52,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/ElliottBrand"><img src="https://avatars2.githubusercontent.com/u/47930099?v=4" width="100px;" alt=""/><br /><sub><b>Steve Elliott</b></sub></a><br /><a href="#ideas-ElliottBrand" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/builders-club/number-one/commits?author=ElliottBrand" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/mholloway24"><img src="https://avatars2.githubusercontent.com/u/40776983?v=4" width="100px;" alt=""/><br /><sub><b>Mike Holloway</b></sub></a><br /><a href="https://github.com/builders-club/number-one/issues?q=author%3Amholloway24" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/MaryJoStaebler"><img src="https://avatars2.githubusercontent.com/u/48457743?v=4" width="100px;" alt=""/><br /><sub><b>Mary Jo</b></sub></a><br /><a href="https://github.com/builders-club/number-one/issues?q=author%3AMaryJoStaebler" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/MaryJoStaebler"><img src="https://avatars2.githubusercontent.com/u/48457743?v=4" width="100px;" alt=""/><br /><sub><b>Mary Jo</b></sub></a><br /><a href="https://github.com/builders-club/number-one/issues?q=author%3AMaryJoStaebler" title="Bug reports">🐛</a> <a href="#ideas-MaryJoStaebler" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
