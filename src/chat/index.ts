@@ -51,6 +51,10 @@ export class ChatMonitor {
     ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName, (globalThis.loglevel === "development"))
   }
 
+  public close(): void {
+    ComfyJS.Disconnect()
+  }
+
   private emit(event: Events, payload: unknown) {
     // if (this.currentStream) {
     EventBus.eventEmitter.emit(event, payload)
@@ -224,8 +228,8 @@ export class ChatMonitor {
       }
     }
 
-    // Only respond to commands if we're streaming
-    if (userInfo && this.currentStream) {
+    // Only respond to commands if we're streaming, or debugging
+    if (userInfo && (this.currentStream || process.env.NODE_ENV === "development")) {
       this.emit(Events.OnCommand, new OnCommandEvent(userInfo, command, message, flags, extra, this.currentStream))
     }
   }

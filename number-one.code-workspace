@@ -61,8 +61,7 @@
 				],
 				"runtimeExecutable": "npm",
 				"skipFiles": [
-					"<node_internals>/**",
-					"dist/**"
+					"<node_internals>/**"
 				],
 				"type": "pwa-node",
 				"env": {
