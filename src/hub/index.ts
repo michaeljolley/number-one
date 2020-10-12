@@ -26,10 +26,11 @@ export class IO {
   constructor(server: HttpServer) {
     this.io = io(server)
 
-    this.io.on('connect', (conn) => {
+    this.io.on('connect', (conn: io.Socket) => {
       // Ensure the connection is from the bots overlays and not
       // and external actor.
-      if (conn.handshake.headers.host !== process.env.HOST) {
+      if (conn.handshake.headers.host !== process.env.HOST && 
+          conn.handshake.headers.host !== `${process.env.HOST}:${process.env.PORT}`) {
         conn.disconnect(true)
       }
     })
