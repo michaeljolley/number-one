@@ -19,6 +19,7 @@ import StreamElements from './integrations/streamelements'
 const TWITCH_API = 'https://id.twitch.tv/oauth2/token'
 const TwitchClientId = process.env.TWITCH_CLIENT_ID
 const TwitchClientSecret = process.env.TWITCH_CLIENT_SECRET
+globalThis.loglevel = process.env.NODE_ENV
 
 const authParams = qs.stringify({
   client_id: TwitchClientId,
@@ -29,7 +30,7 @@ const authParams = qs.stringify({
 
 axios.post(`${TWITCH_API}?${authParams}`)
   .then(init)
-  .catch((reason: any) => log(LogLevel.Error, reason))
+  .catch((reason: unknown) => log(LogLevel.Error, JSON.stringify(reason)))
 
 async function init(response: AxiosResponse<TwitchTokenResponse>) {
 
@@ -62,7 +63,7 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   app.use('/overlays', overlayRouter)
 
   server.listen(port, () => {
-    console.log(`Server is listening on port ${port}`)
+    log(LogLevel.Info, `Server is listening on port ${port}`)
   })
 
   const chatMonitor: ChatMonitor = new ChatMonitor(config)
