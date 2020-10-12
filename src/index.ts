@@ -19,7 +19,6 @@ import StreamElements from './integrations/streamelements'
 const TWITCH_API = 'https://id.twitch.tv/oauth2/token'
 const TwitchClientId = process.env.TWITCH_CLIENT_ID
 const TwitchClientSecret = process.env.TWITCH_CLIENT_SECRET
-globalThis.loglevel = process.env.NODE_ENV
 
 const authParams = qs.stringify({
   client_id: TwitchClientId,
@@ -69,5 +68,13 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   const chatMonitor: ChatMonitor = new ChatMonitor(config)
 
   chatMonitor.init()
+
+  // close all streams and clean up anything needed for the stream
+  // when the process is stopping
+  process.on("SIGTERM", () => {
+    log(LogLevel.Info, "Shutting down...")
+    server.close()
+    chatMonitor.close()
+  })
 }
 
