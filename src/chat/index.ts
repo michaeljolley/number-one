@@ -48,7 +48,7 @@ export class ChatMonitor {
    * Initializes chat to connect to Twitch and begin listening
    */
   public init(): void {
-    ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName, true)
+    ComfyJS.Init(this.config.twitchBotUsername, this.config.twitchBotAuthToken, this.config.twitchChannelName, (globalThis.loglevel === "development"))
   }
 
   private emit(event: Events, payload: unknown) {

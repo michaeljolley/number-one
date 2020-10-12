@@ -8,9 +8,16 @@ export const getTime = (): { hours: string; minutes: string} => {
 };
 
 export const log = (level: string, message: string): void => {
-  const captains: unknown = console
+  const captains: Console = console
   const { hours, minutes } = getTime()
-  captains[level](`[${hours}:${minutes}] ${message}`)
+  const stack = new Error().stack.split(" at ")[2].replace("\n","").trim()
+  let timestamp = `${hours}:${minutes}`
+  if (globalThis.loglevel === "development") {
+    const timestampSplit = timestamp.split('')
+    timestampSplit[timestamp.length]=` ${stack.slice(stack.indexOf(' ')+1)}`
+    timestamp = timestampSplit.join('')
+  }
+  captains[level](`[${timestamp}] ${message}`)
 };
 
 export enum LogLevel {
