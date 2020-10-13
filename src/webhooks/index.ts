@@ -4,7 +4,6 @@ import { log, LogLevel } from '../common'
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations'
 import { OnCheerEvent, OnDonationEvent, OnFollowEvent, OnRaidEvent, OnSubEvent, User } from '../models'
-import { TwitchWebhookValidator } from "./twitchWebhookValidator";
 
 export const webhookRouter: express.Router = express.Router()
 
@@ -13,7 +12,7 @@ webhookRouter.get('/follow', (request: Request, response: Response) => {
   response.status(200).send(request.query['hub.challenge']);
 })
 
-webhookRouter.post('/follow',TwitchWebhookValidator.validate, async (request: Request, response: Response) => {
+webhookRouter.post('/follow',Twitch.validateWebhook, async (request: Request, response: Response) => {
   const payload = request.body;
 
   if (payload && payload.data && payload.data.length > 0) {
