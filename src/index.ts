@@ -9,7 +9,7 @@ import qs from 'querystring'
 import { Config, TwitchTokenResponse } from './models'
 import { ChatMonitor } from './chat'
 import { webhookRouter } from './webhooks'
-import { overlayRouter } from './web'
+import { adminRouter, overlayRouter } from './web'
 import { log, LogLevel } from './common'
 import { Fauna, Twitch } from './integrations'
 import { IO } from './hub'
@@ -60,6 +60,8 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   app.use('/webhooks', webhookRouter)
 
   app.use('/overlays', overlayRouter)
+
+  app.use('/admin', adminRouter)
 
   server.listen(port, () => {
     log(LogLevel.Info, `Server is listening on port ${port}`)
