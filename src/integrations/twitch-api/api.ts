@@ -20,13 +20,13 @@ export class TwitchAPI {
       'Content-Type': 'application/json',
       'Client-ID': this.config.twitchClientId
     }
-    this.webhookSecret = Guid.create().toString();
   }
 
   /**
    * Registers all webhooks with Twitch directed to this instance of the bot
    */
   public async registerWebhooks(): Promise<void> {
+    this.webhookSecret = Guid.create().toString();
 
     const payload = {
       "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
