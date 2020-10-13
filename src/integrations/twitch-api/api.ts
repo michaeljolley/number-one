@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
 import { Config, Stream, User } from '../../models'
 import { LogLevel, log } from '../../common';
+import { Guid } from "guid-typescript";
+import * as Crypto from 'crypto';
 
 export class TwitchAPI {
 
@@ -10,6 +12,7 @@ export class TwitchAPI {
   private twitchAPIWebhookEndpoint: string = `${this.twitchAPIEndpoint}/webhooks/hub`
 
   private headers: object
+  private webhookSecret: string
 
   constructor(private config: Config) {
     this.headers = {
@@ -23,12 +26,14 @@ export class TwitchAPI {
    * Registers all webhooks with Twitch directed to this instance of the bot
    */
   public async registerWebhooks(): Promise<void> {
+    this.webhookSecret = Guid.create().toString();
 
     const payload = {
       "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
       "hub.mode": "subscribe",
       "hub.topic": `https://api.twitch.tv/helix/users/follows?first=1&to_id=${this.config.twitchChannelId}`,
-      "hub.lease_seconds": 172800
+      "hub.lease_seconds": 172800,
+      "hub.secret": this.webhookSecret
     };
 
     try {
@@ -90,4 +95,31 @@ export class TwitchAPI {
 
     return stream
   }
+
+  public validateWebhook(request, response, next) {
+
+    const givenSignature = request.headers['x-hub-signature'];
+  
+    if (!givenSignature) {
+        log(LogLevel.Error, `webhooks: validator - missing signature`)
+        return response.status(409).json({
+            error: 'Missing signature'
+        });
+    }
+    log(LogLevel.Error, `Twitch:hooks: ${JSON.stringify(givenSignature)}`)
+
+    let digest = Crypto.createHmac('sha256',this.webhookSecret)
+        .update(JSON.stringify(request.body))
+        .digest('hex');
+        log(LogLevel.Error, `Twitch:hooks: ${digest}`)
+  
+    if (givenSignature === `sha256=${digest}`) {
+        return next();
+    } else {
+        log(LogLevel.Error, `webhooks: validator - invalid signature`)
+        return response.status(409).json({
+            error: 'Invalid signature'
+        });
+    }
+}
 }

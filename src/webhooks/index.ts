@@ -12,7 +12,7 @@ webhookRouter.get('/follow', (request: Request, response: Response) => {
   response.status(200).send(request.query['hub.challenge']);
 })
 
-webhookRouter.post('/follow', async (request: Request, response: Response) => {
+webhookRouter.post('/follow',Twitch.validateWebhook, async (request: Request, response: Response) => {
   const payload = request.body;
 
   if (payload && payload.data && payload.data.length > 0) {
