@@ -26,7 +26,7 @@ Fork, then clone the repo:
 SSH
 
     git clone -b dev git@github.com:your-username/number-one.git
-    git remote add upstream git@github.com:michaelJolley/number-one
+    git remote add upstream git@github.com:builders-code/number-one
 
 HTTPS
 
