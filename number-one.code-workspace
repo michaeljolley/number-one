@@ -57,14 +57,16 @@
 				"request": "launch",
 				"runtimeArgs": [
 					"run-script",
-					"dev"
+					"debug"
 				],
 				"runtimeExecutable": "npm",
 				"skipFiles": [
-					"<node_internals>/**",
-					"dist/**"
+					"<node_internals>/**"
 				],
-				"type": "pwa-node"
+				"type": "pwa-node",
+				"env": {
+					"NODE_ENV": "development"
+				}
 			}
 		],
 		"compounds": [
