@@ -1,0 +1,19 @@
+name: Versioning
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - uses: tool3/bump@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          user: 'Versioning Action'
+          email: 'versioning@github.com'
+          branch: 'main'
