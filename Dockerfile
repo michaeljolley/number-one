@@ -29,8 +29,8 @@ COPY ./package.json ./package-lock.json ./
 RUN npm ci --silent --only=production
 
 # Copy built project
-COPY --from=build /app/dist ./dist
+COPY --from=build /app/dist ./
 
 EXPOSE 80
 
-CMD [ "node", "dist/index.js" ]
+CMD [ "node", "index.js" ]

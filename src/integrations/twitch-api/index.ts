@@ -81,4 +81,8 @@ export abstract class Twitch {
 
     return stream
   }
+
+  public static validateWebhook(request,response,next){
+      return Twitch.twitchAPI.validateWebhook(request,response,next);
+  }
 }

@@ -29,7 +29,7 @@ const authParams = qs.stringify({
 
 axios.post(`${TWITCH_API}?${authParams}`)
   .then(init)
-  .catch((reason: any) => log(LogLevel.Error, reason))
+  .catch((reason: unknown) => log(LogLevel.Error, JSON.stringify(reason)))
 
 async function init(response: AxiosResponse<TwitchTokenResponse>) {
 
@@ -62,11 +62,19 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   app.use('/overlays', overlayRouter)
 
   server.listen(port, () => {
-    console.log(`Server is listening on port ${port}`)
+    log(LogLevel.Info, `Server is listening on port ${port}`)
   })
 
   const chatMonitor: ChatMonitor = new ChatMonitor(config)
 
   chatMonitor.init()
+
+  // close all streams and clean up anything needed for the stream
+  // when the process is stopping
+  process.on("SIGTERM", () => {
+    log(LogLevel.Info, "Shutting down...")
+    server.close()
+    chatMonitor.close()
+  })
 }
 
