@@ -8,7 +8,6 @@ import { Twitch } from '../integrations/twitch-api'
 import { OnSayEvent } from '../models/OnSayEvent'
 import { CommandMonitor } from './commandMonitor'
 import sanitizeHtml from 'sanitize-html'
-import { Emotes } from '../models/Emotes'
 
 /**
  * ChatMonitor connects and monitors chat messages within Twitch
@@ -35,7 +34,7 @@ export class ChatMonitor {
     EventBus.eventEmitter.addListener(Events.OnStreamStart,
       (onStreamStartEvent: OnStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamEnd,
-      (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
+      () => this.onStreamEnd())
     EventBus.eventEmitter.addListener(Events.OnSay,
       (onSayEvent: OnSayEvent) => this.onSay(onSayEvent))
 
@@ -420,10 +419,9 @@ export class ChatMonitor {
    * Fires when a stream end event occurs 
    * @param onStreamEndEvent 
    */
-  private onStreamEnd(onStreamEndEvent: OnStreamEndEvent) {
+  private onStreamEnd() {
     this.currentStream = undefined
   }
-
 
   /**
    * Handler for errors in the Twitch client and/or connection
