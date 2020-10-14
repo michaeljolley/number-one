@@ -26,6 +26,6 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
           
       - run: |
-          docker build . --tag numberone.azurecr.io/numerouno:${{ steps.bump.outputs.version }} --tag numberone.azurecr.io/numerouno:latest
-          docker push numberone.azurecr.io/numerouno:${{ steps.bump.outputs.version }}
-          docker push numberone.azurecr.io/numerouno:latest
+          docker build . --tag ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }} --tag ${{ secrets.ACR_LOGIN }}/numerouno:latest
+          docker push ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }}
+          docker push ${{ secrets.ACR_LOGIN }}/numerouno:latest
