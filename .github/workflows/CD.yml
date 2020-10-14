@@ -18,15 +18,13 @@ jobs:
           user: 'Versioning Action'
           email: 'versioning@github.com'
           branch: 'main'
-  deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
+          
       - uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.ACR_LOGIN }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
+          
       - run: |
           docker build . --tag numberone.azurecr.io/numerouno:${{ steps.bump.outputs.version }} --tag numberone.azurecr.io/numerouno:latest
           docker push numberone.azurecr.io/numerouno:${{ steps.bump.outputs.version }}
