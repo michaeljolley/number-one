@@ -13,6 +13,7 @@ import { overlayRouter } from './web'
 import { log, LogLevel } from './common'
 import { Fauna, Twitch } from './integrations'
 import { IO } from './hub'
+import { Logger } from './logger';
 import StreamElements from './integrations/streamelements'
 
 // Identify the Twitch credentials first
@@ -50,8 +51,9 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   const server = http.createServer(app)
 
   const streamElements = new StreamElements(config);
-  Twitch.init(config)
   Fauna.init()
+  Logger.init()
+  Twitch.init(config)
 
   const io = new IO(server)
 
