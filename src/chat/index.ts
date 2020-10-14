@@ -104,7 +104,7 @@ export class ChatMonitor {
   }
 
   private processChat(message: string, messageEmotes?: EmoteSet) {
-    let tempMessage: string = message.replace(/<img/g, '<DEL');
+    let tempMessage: string = message.replace(/<img/gi, '<DEL');
 
     const emotes = [];
 
