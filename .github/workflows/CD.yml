@@ -5,25 +5,26 @@ on:
     branches: [ main ]
 
 jobs:
-  bump:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-        
-      - uses: tool3/bump@v1
-        id: bump
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          user: 'Versioning Action'
-          email: 'versioning@github.com'
-          branch: 'main'
-          
       - uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.ACR_LOGIN }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
+
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.KEY }}
+        
+      - uses: tool3/bump@v1
+        id: bump
+        with:
+          github_token: ${{ secrets.KEY }}
+          user: 'Versioning Action'
+          email: 'versioning@github.com'
+          branch: 'main'
           
       - run: |
           echo "${{ steps.bump.outputs.version }}"
