@@ -8,8 +8,10 @@ jobs:
     if: github.event.pusher.name != 'Versioning Action'
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "${{ github.event.pusher.name }}"
+      - name: uhoh
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.KEY }}
