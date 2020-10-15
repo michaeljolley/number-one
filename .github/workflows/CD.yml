@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 jobs:
   deploy:
-    if: github.pusher.name != 'Versioning Action'
+    if: github.event.pusher.name != 'Versioning Action'
     runs-on: ubuntu-latest
     steps:
       - run: |
