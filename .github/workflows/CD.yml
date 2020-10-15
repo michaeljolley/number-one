@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "${{ github.pusher.name }}"
+          echo "${{ github.event.pusher.name }}"
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.KEY }}
