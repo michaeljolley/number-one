@@ -1,6 +1,6 @@
 {
   "name": "number-one",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "A Node.js based Twitch chat bot",
   "main": "index.js",
   "scripts": {
