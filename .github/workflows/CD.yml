@@ -5,16 +5,17 @@ on:
     branches: [ main ]
 
 jobs:
+  if: $GITHUB_ACTOR != 'Versioning Action'
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.KEY }}
       - uses: tool3/bump@master
         id: bump
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.KEY }}
           user: 'Versioning Action'
           email: 'versioning@github.com'
           branch: 'main'
