@@ -1,4 +1,4 @@
-import { Extra } from 'comfy.js'
+import { OnResubExtra, OnSubExtra, OnSubGiftExtra, OnSubMysteryGiftExtra } from 'comfy.js'
 import { SubMethods } from 'tmi.js'
 
 import { User } from "./User"
@@ -9,7 +9,7 @@ export class OnSubEvent implements IUserEvent {
     public user: User,
     public message: string,
     public subTierInfo: SubMethods,
-    public extra: Extra,
+    public extra: OnSubExtra | OnResubExtra | OnSubGiftExtra | OnSubMysteryGiftExtra,
     public cumulativeMonths?: number,
     public subGifter?: User
   ) {

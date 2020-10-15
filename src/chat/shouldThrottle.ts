@@ -1,8 +1,7 @@
-import { TimePeriod } from "comfy.js";
-import { log, LogLevel } from "../common";
+import { CommandTimePeriod } from "comfy.js";
 
 export function ShouldThrottle(
-  timePeriod: TimePeriod,
+  timePeriod: CommandTimePeriod,
   cooldownSeconds: number,
   userThrottle: boolean) {
 
