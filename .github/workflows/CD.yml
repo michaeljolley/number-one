@@ -5,8 +5,8 @@ on:
     branches: [ main ]
 
 jobs:
-  if: github.actor != 'Versioning Action'
   deploy:
+    if: github.actor != 'Versioning Action'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
