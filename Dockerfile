@@ -8,7 +8,7 @@ WORKDIR /app
 COPY ./package.json ./package-lock.json ./
 
 # Clean install depdenencies
-RUN npm ci --silent
+RUN npm i --silent
 
 # Copy the rest of the files
 COPY ./ .
@@ -26,7 +26,7 @@ WORKDIR /app
 COPY ./package.json ./package-lock.json ./
 
 # Clean install production-only dependencies
-RUN npm ci --silent --only=production
+RUN npm i --silent --only=production
 
 # Copy built project
 COPY --from=build /app/dist ./
