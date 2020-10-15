@@ -1,9 +1,8 @@
 name: CD
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
-    types: [closed]
 
 jobs:
   deploy:
@@ -12,21 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.KEY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: tool3/bump@master
         id: bump
         with:
-          github_token: ${{ secrets.KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           user: 'Versioning Action'
           email: 'versioning@github.com'
           branch: 'main'
-
       - uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.ACR_LOGIN }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-
       - run: |
           echo "${{ steps.bump.outputs.version }}"
           docker build . --tag ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }} --tag ${{ secrets.ACR_LOGIN }}/numerouno:latest
