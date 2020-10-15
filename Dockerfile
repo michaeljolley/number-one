@@ -5,7 +5,7 @@ ARG BUILDVERSION=0.0.0
 WORKDIR /app
 
 # Copy dependency files
-COPY ./package.json ./package-lock.json ./
+COPY ./package.json ./
 
 # Clean install depdenencies
 RUN npm i --silent
@@ -23,7 +23,7 @@ FROM node:12.6.0-alpine
 WORKDIR /app
 
 # Copy dependency files
-COPY ./package.json ./package-lock.json ./
+COPY ./package.json ./
 
 # Clean install production-only dependencies
 RUN npm i --silent --only=production

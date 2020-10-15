@@ -8,11 +8,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.ACR_LOGIN }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -23,6 +18,11 @@ jobs:
           user: 'Versioning Action'
           email: 'versioning@github.com'
           branch: 'main'
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
       - run: |
           echo "${{ steps.bump.outputs.version }}"
           docker build . --tag ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }} --tag ${{ secrets.ACR_LOGIN }}/numerouno:latest

@@ -19,3 +19,6 @@ jobs:
 
     - name: 'Run Tests'
       run: npm run test
+
+    - name: 'Build Image'
+      run: docker build .
