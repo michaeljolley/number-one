@@ -16,8 +16,8 @@ jobs:
 
     - name: 'Build'
       run: |
-        npm ci --silent
-        npm run build 
+        npm i --silent
+        npm run build
 
     - name: 'Run Tests'
       run: npm run test
