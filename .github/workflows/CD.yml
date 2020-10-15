@@ -3,14 +3,13 @@ name: CD
 on:
   push:
     branches: [ main ]
-
 jobs:
   deploy:
-    if: github.actor != 'Versioning Action'
+    if: github.pusher.name != 'Versioning Action'
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "${{ github.actor }}"
+          echo "${{ github.pusher.name }}"
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.KEY }}
