@@ -1,4 +1,4 @@
-import { UserFlags, Extra } from "comfy.js"
+import { OnMessageExtra, OnMessageFlags } from "comfy.js"
 import { User } from "./User"
 import { IUserEvent } from "./IUserEvent"
 
@@ -7,9 +7,9 @@ export class OnChatMessageEvent implements IUserEvent {
     public user: User,
     public message: string,
     public sanitizedMessage: string,
-    public flags: UserFlags,
+    public flags: OnMessageFlags,
     public self: boolean,
-    public extra: Extra,
+    public extra: OnMessageExtra,
     public id: string,
     public emotes?: string[],
   ) { }

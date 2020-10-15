@@ -16,7 +16,7 @@ jobs:
 
     - name: 'Build'
       run: |
-        npm i --silent
+        npm install
         npm run build
 
     - name: 'Run Tests'

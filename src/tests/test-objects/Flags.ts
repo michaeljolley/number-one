@@ -1,62 +1,74 @@
-import { UserFlags } from 'comfy.js'
+import { OnMessageFlags } from 'comfy.js'
 
-export function viewerFlags(): UserFlags {
+export function viewerFlags(): OnMessageFlags {
   return {
     subscriber: false,
     vip: false,
     broadcaster: false,
     founder: false,
-    mod: false
+    mod: false,
+    highlighted: false,
+    customReward: false
   }
 }
 
-export function subscriberFlags(): UserFlags {
+export function subscriberFlags(): OnMessageFlags {
   return {
     subscriber: true,
     vip: false,
     broadcaster: false,
     founder: false,
-    mod: false
+    mod: false,
+    highlighted: false,
+    customReward: false
   }
 }
 
-export function vipFlags(): UserFlags {
+export function vipFlags(): OnMessageFlags {
   return {
     subscriber: false,
     vip: true,
     broadcaster: false,
     founder: false,
-    mod: false
+    mod: false,
+    highlighted: false,
+    customReward: false
   }
 
 }
 
-export function broadcasterFlags(): UserFlags {
+export function broadcasterFlags(): OnMessageFlags {
   return {
     subscriber: false,
     vip: false,
     broadcaster: true,
     founder: false,
-    mod: false
+    mod: false,
+    highlighted: false,
+    customReward: false
   }
 }
 
-export function moderatorFlags(): UserFlags {
+export function moderatorFlags(): OnMessageFlags {
   return {
     subscriber: false,
     vip: false,
     broadcaster: false,
     founder: false,
-    mod: true
+    mod: true,
+    highlighted: false,
+    customReward: false
   }
 }
 
-export function founderFlags(): UserFlags {
+export function founderFlags(): OnMessageFlags {
   return {
     subscriber: false,
     vip: false,
     broadcaster: false,
     founder: true,
-    mod: false
+    mod: false,
+    highlighted: false,
+    customReward: false
   }
 }
