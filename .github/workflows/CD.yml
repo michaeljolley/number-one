@@ -1,15 +1,25 @@
 name: CD
 
 on:
-  create:
-    tags:
-      - '*'
+  pull_request:
+    branches: [ main ]
+    types: [closed]
 
 jobs:
   deploy:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.KEY }}
+      - uses: tool3/bump@master
+        id: bump
+        with:
+          github_token: ${{ secrets.KEY }}
+          user: 'Versioning Action'
+          email: 'versioning@github.com'
+          branch: 'main'
 
       - uses: azure/docker-login@v1
         with:
