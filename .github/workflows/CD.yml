@@ -9,6 +9,8 @@ jobs:
     if: github.actor != 'Versioning Action'
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo "${{ github.actor }}"
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.KEY }}
