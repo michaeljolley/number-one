@@ -18,6 +18,7 @@ on:
 
 jobs:
   analyze:
+    if: github.event.head_commit.committer.name != 'Versioning Action'
     name: Analyze
     runs-on: ubuntu-latest
 
