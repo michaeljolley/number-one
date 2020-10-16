@@ -4,6 +4,7 @@ import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations'
 import { OnCheerEvent, OnDonationEvent, OnFollowEvent, OnRaidEvent, OnStreamEndEvent, OnSubEvent, Stream, User } from '../models'
 import { OnStreamChangeEvent } from '../models/OnStreamChangeEvent'
+import { State } from '../state'
 
 export const webhookRouter: express.Router = express.Router()
 
@@ -30,8 +31,7 @@ webhookRouter.post('/stream', Twitch.validateWebhook, async (request: Request, r
         emit(Events.OnStreamChange, new OnStreamChangeEvent(stream));
 
       } else {
-        const streamDate = new Date().toLocaleDateString('en-US')
-        const stream = await Twitch.getStream(streamDate)
+        const stream = await State.getStream()
 
         if (stream) {
           emit(Events.OnStreamEnd, new OnStreamEndEvent(stream));

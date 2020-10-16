@@ -1,3 +1,4 @@
+import { log, LogLevel } from '../common'
 import { EventBus, Events } from '../events'
 import { Fauna } from '../integrations'
 import {
@@ -5,28 +6,15 @@ import {
   OnCheerEvent,
   OnDonationEvent,
   OnFollowEvent,
-  OnStreamChangeEvent,
-  OnStreamStartEvent,
   OnSubEvent,
   OnRaidEvent,
-  Stream,
   Action
 } from "../models"
 
-let currentStream: Stream
-let currentFundraising: number
 
 export abstract class Logger {
 
   public static init(): void {
-
-    EventBus.eventEmitter.addListener(Events.OnStreamChange,
-      (onStreamChangeEvent: OnStreamChangeEvent) => this.onStreamChange(onStreamChangeEvent))
-    EventBus.eventEmitter.addListener(Events.OnStreamEnd,
-      () => this.onStreamEnd())
-    EventBus.eventEmitter.addListener(Events.OnStreamStart,
-      (onStreamStartEvent: OnStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
-
     EventBus.eventEmitter.addListener(Events.OnChatMessage,
       (onChatMessageEvent: OnChatMessageEvent) => this.onChatMessage(onChatMessageEvent))
     EventBus.eventEmitter.addListener(Events.OnCheer,
@@ -39,10 +27,12 @@ export abstract class Logger {
       (onSubEvent: OnSubEvent) => this.onSub(onSubEvent))
     EventBus.eventEmitter.addListener(Events.OnRaid,
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
+
+    EventBus.eventEmitter.addListener(Events.OnStreamEnd, () => this.onStreamEnd())
   }
 
-  private static onChatMessage(onChatMessageEvent: OnChatMessageEvent) {
-    Fauna.saveAction(new Action(
+  private static async onChatMessage(onChatMessageEvent: OnChatMessageEvent) {
+    await Fauna.saveAction(new Action(
       new Date().toLocaleDateString('en-US'),
       onChatMessageEvent.user.id,
       onChatMessageEvent.user.display_name || onChatMessageEvent.user.login,
@@ -52,8 +42,8 @@ export abstract class Logger {
     ))
   }
 
-  private static onCheer(onCheerEvent: OnCheerEvent) {
-    Fauna.saveAction(new Action(
+  private static async onCheer(onCheerEvent: OnCheerEvent) {
+    await Fauna.saveAction(new Action(
       new Date().toLocaleDateString('en-US'),
       onCheerEvent.user.id,
       onCheerEvent.user.display_name || onCheerEvent.user.login,
@@ -63,10 +53,10 @@ export abstract class Logger {
     ))
   }
 
-  private static onDonation(onDonationEvent: OnDonationEvent) {
+  private static async onDonation(onDonationEvent: OnDonationEvent) {
     if (onDonationEvent.twitchUser) {
       const user = onDonationEvent.twitchUser
-      Fauna.saveAction(new Action(
+      await Fauna.saveAction(new Action(
         new Date().toLocaleDateString('en-US'),
         user.id,
         user.display_name || user.login,
@@ -75,7 +65,7 @@ export abstract class Logger {
         onDonationEvent
       ))
     } else {
-      Fauna.saveAction(new Action(
+      await Fauna.saveAction(new Action(
         new Date().toLocaleDateString('en-US'),
         '',
         onDonationEvent.user,
@@ -86,8 +76,8 @@ export abstract class Logger {
     }
   }
 
-  private static onFollow(onFollowEvent: OnFollowEvent) {
-    Fauna.saveAction(new Action(
+  private static async onFollow(onFollowEvent: OnFollowEvent) {
+    await Fauna.saveAction(new Action(
       new Date().toLocaleDateString('en-US'),
       onFollowEvent.user.id,
       onFollowEvent.user.display_name || onFollowEvent.user.login,
@@ -97,8 +87,8 @@ export abstract class Logger {
     ))
   }
 
-  private static onSub(onSubEvent: OnSubEvent) {
-    Fauna.saveAction(new Action(
+  private static async onSub(onSubEvent: OnSubEvent) {
+    await Fauna.saveAction(new Action(
       new Date().toLocaleDateString('en-US'),
       onSubEvent.user.id,
       onSubEvent.user.display_name || onSubEvent.user.login,
@@ -108,8 +98,8 @@ export abstract class Logger {
     ))
   }
 
-  private static onRaid(onRaidEvent: OnRaidEvent) {
-    Fauna.saveAction(new Action(
+  private static async onRaid(onRaidEvent: OnRaidEvent) {
+    await Fauna.saveAction(new Action(
       new Date().toLocaleDateString('en-US'),
       onRaidEvent.user.id,
       onRaidEvent.user.display_name || onRaidEvent.user.login,
@@ -119,20 +109,16 @@ export abstract class Logger {
     ))
   }
 
-  private static onStreamChange(onStreamChangeEvent: OnStreamChangeEvent) {
-    if (!currentStream) {
-      EventBus.eventEmitter.emit(Events.OnStreamStart, new OnStreamStartEvent(onStreamChangeEvent.stream))
+  private static async onStreamEnd() {
+    try {
+      const stream = await Fauna.getStream(new Date().toLocaleDateString('en-US'));
+      if (stream) {
+        stream.ended_at = new Date().toISOString();
+        await Fauna.saveStream(stream);
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Logger: onStreamEnd: ${err}`);
     }
   }
-
-  private static onStreamEnd() {
-    currentStream = null
-    currentFundraising = 0
-  }
-
-  private static onStreamStart(onStreamStartEvent: OnStreamStartEvent) {
-    currentStream = onStreamStartEvent.stream
-    currentFundraising = 0
-  }
-
 }
