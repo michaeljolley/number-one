@@ -15,6 +15,7 @@ import { Fauna, Twitch } from './integrations'
 import { IO } from './hub'
 import { Logger } from './logger';
 import StreamElements from './integrations/streamelements'
+import { State } from './state'
 
 // Identify the Twitch credentials first
 const TWITCH_API = 'https://id.twitch.tv/oauth2/token'
@@ -52,6 +53,7 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
 
   const streamElements = new StreamElements(config);
   Fauna.init()
+  State.init()
   Logger.init()
   Twitch.init(config)
 

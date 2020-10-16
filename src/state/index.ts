@@ -1,12 +1,13 @@
 import { log, LogLevel } from "../common";
 import { EventBus, Events } from "../events";
 import { Twitch } from "../integrations";
+import { FaunaClient } from "../integrations/fauna/fauna";
 import { OnCheerEvent, OnDonationEvent, OnStreamChangeEvent, OnStreamStartEvent, OnSubEvent, Stream } from "../models";
 
 export abstract class State {
 
   private static stream: Stream;
-  private static amountGiven: number;
+  private static amountGiven = 0;
 
   public static init(): void {
     EventBus.eventEmitter.addListener(Events.OnStreamChange,
@@ -26,7 +27,7 @@ export abstract class State {
       });
     EventBus.eventEmitter.addListener(Events.OnSub,
       (onSubEvent: OnSubEvent) => {
-        if (onSubEvent.subTierInfo.plan) {
+        if (onSubEvent.subTierInfo && onSubEvent.subTierInfo.plan) {
           let amount: number;
           switch (onSubEvent.subTierInfo.plan) {
             case "2000":
@@ -63,7 +64,8 @@ export abstract class State {
     }
 
     if (stream && !stream.ended_at) {
-      this.stream = stream
+      this.stream = stream;
+      await this.recalculateAmountGiven(this.stream.streamDate);
       return this.stream;
     }
 
@@ -77,6 +79,17 @@ export abstract class State {
   private static addAmountGiven(amount: number): number {
     this.amountGiven = this.amountGiven + amount;
     return this.amountGiven;
+  }
+
+  private static async recalculateAmountGiven(streamDate: string): Promise<void> {
+    try {
+      const activities = await FaunaClient.getActions(streamDate);
+
+
+
+    } catch (err) {
+      log(LogLevel.Error, `State: recalculateAmountGiven: ${err}`);
+    }
   }
 
   private static onStreamChange(onStreamChangeEvent: OnStreamChangeEvent): void {

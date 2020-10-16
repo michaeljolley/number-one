@@ -196,4 +196,28 @@ export abstract class FaunaClient {
     }
     return actions
   }
+
+  // public static async getActions(actionDate: string): Promise<Action[] | undefined> {
+  //   if (!this.client) {
+  //     return undefined
+  //   }
+
+  //   let actions: Action[]
+  //   try {
+  //     const response = await this.client.query(
+  //       query.Map(
+  //         query.Paginate(
+  //           query.Match(query.Index("actions_actionDate"), actionDate)),
+  //         query.Lambda("actions", query.Get((query.Var("actions"))))
+  //       )
+  //     ) as any
+  //     if (response.data && response.data.length > 0) {
+  //       actions = response.data.map(m => this.mapResponse(m))
+  //     }
+  //   }
+  //   catch (err) {
+  //     log(LogLevel.Error, `Fauna:getActions - ${err}`)
+  //   }
+  //   return actions
+  // }
 }

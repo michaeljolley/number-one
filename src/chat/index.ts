@@ -1,8 +1,8 @@
-import ComfyJS, { EmoteSet } from 'comfy.js'
+import ComfyJS, { EmoteSet, OnCheerExtra, OnCheerFlags, OnCommandExtra, OnMessageExtra, OnMessageFlags, OnResubExtra, OnSubExtra, OnSubGiftExtra, OnSubMysteryGiftExtra } from 'comfy.js'
 import { SubMethods } from 'tmi.js'
 
 import { log, LogLevel } from '../common'
-import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User, OnJoinEvent, OnPartEvent, Stream, OnPointRedemptionEvent, OnCommandEvent, OnStreamStartEvent, OnStreamEndEvent } from '../models'
+import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User, OnJoinEvent, OnPartEvent, OnPointRedemptionEvent, OnCommandEvent } from '../models'
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations/twitch-api'
 import { OnSayEvent } from '../models/OnSayEvent'
@@ -67,7 +67,7 @@ export class ChatMonitor {
    * @param self 
    * @param extra 
    */
-  private async onChat(user: string, message: string, flags: UserFlags, self: boolean, extra: Extra) {
+  private async onChat(user: string, message: string, flags: OnMessageFlags, self: boolean, extra: OnMessageExtra) {
     log(LogLevel.Info, `onChat: ${user}: ${message}`)
 
     user = user.toLocaleLowerCase();
@@ -98,7 +98,7 @@ export class ChatMonitor {
   }
 
   private processChat(message: string, messageEmotes?: EmoteSet) {
-    let tempMessage: string = message.replace(/<img/g, '<DEL');
+    let tempMessage: string = message.replace(/<img/gi, '<DEL');
 
     const emotes = [];
 
@@ -172,7 +172,7 @@ export class ChatMonitor {
    * @param flags 
    * @param extra 
    */
-  private async onCheer(user: string, message: string, bits: number, flags: UserFlags, extra: Extra) {
+  private async onCheer(user: string, message: string, bits: number, flags: OnCheerFlags, extra: OnCheerExtra) {
     log(LogLevel.Info, `onCheer: ${user} cheered ${bits} bits`)
     let userInfo: User
 
@@ -196,7 +196,7 @@ export class ChatMonitor {
    * @param flags 
    * @param extra 
    */
-  private async onCommand(user: string, command: string, message: string, flags: UserFlags, extra: Extra) {
+  private async onCommand(user: string, command: string, message: string, flags: OnMessageFlags, extra: OnCommandExtra) {
     log(LogLevel.Info, `onCommand: ${user} sent the ${command} command`)
     let userInfo: User
 
@@ -303,7 +303,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private async onSub(user: string, message: string, subTierInfo: SubMethods, extra: Extra) {
+  private async onSub(user: string, message: string, subTierInfo: SubMethods, extra: OnSubExtra) {
     log(LogLevel.Info, `onSub: ${user} subbed`)
     let userInfo: User
 
@@ -328,7 +328,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private async onSubGift(gifterUser: string, streakMonths: number, recipientUser: string, senderCount: number, subTierInfo: SubMethods, extra: Extra) {
+  private async onSubGift(gifterUser: string, streakMonths: number, recipientUser: string, senderCount: number, subTierInfo: SubMethods, extra: OnSubGiftExtra) {
     log(LogLevel.Info, `onSubGift: ${gifterUser} gifted a sub to ${recipientUser}`)
     let userInfo: User
     let gifterInfo: User
@@ -361,7 +361,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private async onResub(user: string, message: string, streakMonths: number, cumulativeMonths: number, subTierInfo: SubMethods, extra: Extra) {
+  private async onResub(user: string, message: string, streakMonths: number, cumulativeMonths: number, subTierInfo: SubMethods, extra: OnResubExtra) {
     log(LogLevel.Info, `onResub: ${user} resubbed for ${cumulativeMonths} total months`)
     let userInfo: User
 
@@ -385,7 +385,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
-  private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: Extra): void {
+  private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: OnSubMysteryGiftExtra): void {
     log(LogLevel.Info, `onSubMysteryGift: ${gifterUser} gifted ${numbOfSubs}`)
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "number-one",
-  "version": "1.0.0",
+  "version": "1.0.20",
   "description": "A Node.js based Twitch chat bot",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "faunadb": "^2.14.2",
+    "guid-typescript": "^1.0.9",
     "nexmo": "^2.7.0-beta-1",
     "node-sass-middleware": "^0.11.0",
     "sanitize-html": "^1.27.4",
@@ -56,7 +57,6 @@
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-vue": "^7.0.1",
-    "guid-typescript": "^1.0.9",
     "mocha": "^8.1.0",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
