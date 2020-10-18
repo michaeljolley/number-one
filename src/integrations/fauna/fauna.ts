@@ -1,12 +1,12 @@
 import { Client, query, ClientConfig } from 'faunadb'
-import { Stream, User } from '../../models'
+import { Action, Stream, User } from '../../models'
 import { log, LogLevel } from '../../common'
 
 export abstract class FaunaClient {
 
   private static client: Client
 
-  public static init() {
+  public static init(): void {
     if (process.env.FAUNADB_SECRET) {
       let config: ClientConfig = {
         secret: process.env.FAUNADB_SECRET
@@ -106,7 +106,7 @@ export abstract class FaunaClient {
       }
     }
     catch (err) {
-      log(LogLevel.Error, `Fauna:getConversation - ${err}`)
+      log(LogLevel.Error, `Fauna:getStream - ${err}`)
     }
     return stream
   }
@@ -150,5 +150,80 @@ export abstract class FaunaClient {
       }
     }
     return savedStream
+  }
+
+  public static async saveAction(action: Action): Promise<Action> {
+    if (!this.client) {
+      return undefined
+    }
+
+    let savedAction: Action
+
+    try {
+      const response = await this.client.query(
+        query.Create(query.Collection("actions"), {
+          data: action
+        })
+      )
+      savedAction = this.mapResponse(response)
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:saveAction - Create: ${err}`)
+    }
+    return savedAction
+  }
+
+  public static async getActions(actionDate: string): Promise<Action[] | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
+    let actions: Action[]
+    try {
+      const response = await this.client.query(
+        query.Map(
+          query.Paginate(
+            query.Match(query.Index("actions_actionDate"), actionDate)),
+          query.Lambda("actions", query.Get((query.Var("actions"))))
+        )
+      ) as any
+      if (response.data && response.data.length > 0) {
+        actions = response.data.map(m => this.mapResponse(m))
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:getActions - ${err}`)
+    }
+    return actions
+  }
+
+  public static async getGivingActions(actionDate: string): Promise<Action[] | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
+    let actions: Action[]
+    try {
+      const response = await this.client.query(
+        query.Map(
+          query.Paginate(
+            query.Union(
+              query.Match(query.Index("actions_date_type"), [actionDate, 'onDonation']),
+              query.Match(query.Index("actions_date_type"), [actionDate, 'onCheer']),
+              query.Match(query.Index("actions_date_type"), [actionDate, 'onSub']),
+            ),
+            { size: 500 }
+          ),
+          query.Lambda("actions", query.Get((query.Var("actions"))))
+        )
+      ) as any
+      if (response.data && response.data.length > 0) {
+        actions = response.data.map(m => this.mapResponse(m))
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:getGivingActions - ${err}`)
+    }
+    return actions
   }
 }

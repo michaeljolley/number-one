@@ -23,8 +23,23 @@ jobs:
           login-server: ${{ secrets.ACR_LOGIN }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-      - run: |
+      - name: 'Push images to ACR'
+        run: |
           echo "${{ steps.bump.outputs.version }}"
           docker build . --tag ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }} --tag ${{ secrets.ACR_LOGIN }}/numerouno:latest
           docker push ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }}
           docker push ${{ secrets.ACR_LOGIN }}/numerouno:latest
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Deploy to Azure Container Instances'
+        uses: 'azure/aci-deploy@v1'
+        with:
+          resource-group: number-one
+          dns-name-label: nummer-een
+          image: ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }}
+          registry-username: ${{ secrets.ACR_USERNAME }}
+          registry-password: ${{ secrets.ACR_PASSWORD }}
+          name: nummer-een
+          location: 'central us'
