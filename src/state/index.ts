@@ -2,7 +2,14 @@ import { log, LogLevel } from "../common";
 import { EventBus, Events } from "../events";
 import { Twitch } from "../integrations";
 import { FaunaClient } from "../integrations/fauna/fauna";
-import { OnCheerEvent, OnDonationEvent, OnStreamChangeEvent, OnStreamStartEvent, OnSubEvent, Stream } from "../models";
+import {
+  OnCheerEvent,
+  OnDonationEvent,
+  OnStreamChangeEvent,
+  OnStreamStartEvent,
+  OnSubEvent,
+  Stream
+} from "../models";
 
 export abstract class State {
 
@@ -17,33 +24,11 @@ export abstract class State {
       (onStreamStartEvent: OnStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
 
     EventBus.eventEmitter.addListener(Events.OnCheer,
-      (onCheerEvent: OnCheerEvent) => {
-        const amount = parseFloat((onCheerEvent.bits / 100).toFixed(2));
-        this.addAmountGiven(amount);
-      });
+      (onCheerEvent: OnCheerEvent) => this.calcCheer(onCheerEvent));
     EventBus.eventEmitter.addListener(Events.OnDonation,
-      (onDonationEvent: OnDonationEvent) => {
-        this.addAmountGiven(onDonationEvent.amount);
-      });
+      (onDonationEvent: OnDonationEvent) => this.calcDonation(onDonationEvent));
     EventBus.eventEmitter.addListener(Events.OnSub,
-      (onSubEvent: OnSubEvent) => {
-        if (onSubEvent.subTierInfo && onSubEvent.subTierInfo.plan) {
-          let amount: number;
-          switch (onSubEvent.subTierInfo.plan) {
-            case "2000":
-              amount = 5;
-              break;
-            case "3000":
-              amount = 10;
-              break;
-            case "1000":
-            case "Prime":
-              amount = 2.5;
-              break;
-          }
-          this.addAmountGiven(amount);
-        }
-      });
+      (onSubEvent: OnSubEvent) => this.calcSub(onSubEvent));
   }
 
   public static setStream(stream: Stream): void {
@@ -83,10 +68,21 @@ export abstract class State {
 
   private static async recalculateAmountGiven(streamDate: string): Promise<void> {
     try {
-      const activities = await FaunaClient.getActions(streamDate);
+      const activities = await FaunaClient.getGivingActions(streamDate);
 
-
-
+      for (const activity of activities) {
+        switch (activity.eventType) {
+          case 'onDonation':
+            this.calcDonation(activity.eventData as OnDonationEvent);
+            break;
+          case 'onCheer':
+            this.calcCheer(activity.eventData as OnCheerEvent);
+            break;
+          case 'onSub':
+            this.calcSub(activity.eventData as OnSubEvent);
+            break;
+        }
+      }
     } catch (err) {
       log(LogLevel.Error, `State: recalculateAmountGiven: ${err}`);
     }
@@ -108,5 +104,31 @@ export abstract class State {
   private static onStreamStart(onStreamStartEvent: OnStreamStartEvent): void {
     this.stream = onStreamStartEvent.stream;
     this.amountGiven = 0;
+  }
+
+  private static calcCheer(onCheerEvent: OnCheerEvent) {
+    const amount = parseFloat((onCheerEvent.bits / 100).toFixed(2));
+    this.addAmountGiven(amount);
+  }
+  private static calcSub(onSubEvent: OnSubEvent) {
+    if (onSubEvent.subTierInfo && onSubEvent.subTierInfo.plan) {
+      let amount: number;
+      switch (onSubEvent.subTierInfo.plan) {
+        case "2000":
+          amount = 5;
+          break;
+        case "3000":
+          amount = 10;
+          break;
+        case "1000":
+        case "Prime":
+          amount = 2.5;
+          break;
+      }
+      this.addAmountGiven(amount);
+    }
+  }
+  private static calcDonation(onDonationEvent: OnDonationEvent) {
+    this.addAmountGiven(onDonationEvent.amount);
   }
 }

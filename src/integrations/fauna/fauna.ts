@@ -197,27 +197,33 @@ export abstract class FaunaClient {
     return actions
   }
 
-  // public static async getActions(actionDate: string): Promise<Action[] | undefined> {
-  //   if (!this.client) {
-  //     return undefined
-  //   }
+  public static async getGivingActions(actionDate: string): Promise<Action[] | undefined> {
+    if (!this.client) {
+      return undefined
+    }
 
-  //   let actions: Action[]
-  //   try {
-  //     const response = await this.client.query(
-  //       query.Map(
-  //         query.Paginate(
-  //           query.Match(query.Index("actions_actionDate"), actionDate)),
-  //         query.Lambda("actions", query.Get((query.Var("actions"))))
-  //       )
-  //     ) as any
-  //     if (response.data && response.data.length > 0) {
-  //       actions = response.data.map(m => this.mapResponse(m))
-  //     }
-  //   }
-  //   catch (err) {
-  //     log(LogLevel.Error, `Fauna:getActions - ${err}`)
-  //   }
-  //   return actions
-  // }
+    let actions: Action[]
+    try {
+      const response = await this.client.query(
+        query.Map(
+          query.Paginate(
+            query.Union(
+              query.Match(query.Index("actions_date_type"), [actionDate, 'onDonation']),
+              query.Match(query.Index("actions_date_type"), [actionDate, 'onCheer']),
+              query.Match(query.Index("actions_date_type"), [actionDate, 'onSub']),
+            ),
+            { size: 500 }
+          ),
+          query.Lambda("actions", query.Get((query.Var("actions"))))
+        )
+      ) as any
+      if (response.data && response.data.length > 0) {
+        actions = response.data.map(m => this.mapResponse(m))
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:getGivingActions - ${err}`)
+    }
+    return actions
+  }
 }
