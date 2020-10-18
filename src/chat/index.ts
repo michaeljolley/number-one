@@ -2,12 +2,13 @@ import ComfyJS, { EmoteSet, OnCheerExtra, OnCheerFlags, OnCommandExtra, OnMessag
 import { SubMethods } from 'tmi.js'
 
 import { log, LogLevel } from '../common'
-import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User, OnJoinEvent, OnPartEvent, Stream, OnPointRedemptionEvent, OnCommandEvent, OnStreamStartEvent, OnStreamEndEvent } from '../models'
+import { Config, OnChatMessageEvent, OnCheerEvent, OnRaidEvent, OnSubEvent, User, OnJoinEvent, OnPartEvent, OnPointRedemptionEvent, OnCommandEvent } from '../models'
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations/twitch-api'
 import { OnSayEvent } from '../models/OnSayEvent'
 import { CommandMonitor } from './commandMonitor'
 import sanitizeHtml from 'sanitize-html'
+import { State } from '../state'
 
 /**
  * ChatMonitor connects and monitors chat messages within Twitch
@@ -31,17 +32,11 @@ export class ChatMonitor {
     ComfyJS.onSubGift = this.onSubGift.bind(this)
     ComfyJS.onSubMysteryGift = this.onSubMysteryGift.bind(this)
 
-    EventBus.eventEmitter.addListener(Events.OnStreamStart,
-      (onStreamStartEvent: OnStreamStartEvent) => this.onStreamStart(onStreamStartEvent))
-    EventBus.eventEmitter.addListener(Events.OnStreamEnd,
-      (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
     EventBus.eventEmitter.addListener(Events.OnSay,
       (onSayEvent: OnSayEvent) => this.onSay(onSayEvent))
 
     this.commandMonitor = new CommandMonitor()
   }
-
-  private currentStream?: Stream
 
   /**
    * Initializes chat to connect to Twitch and begin listening
@@ -212,24 +207,11 @@ export class ChatMonitor {
       log(LogLevel.Error, `onCommand: getUser: ${err}`)
     }
 
-    if (!this.currentStream) {
-      let stream: Stream
-      try {
-        const streamDate = new Date().toLocaleDateString('en-US')
-        stream = await Twitch.getStream(streamDate)
-      }
-      catch (err) {
-        log(LogLevel.Error, `onCommand: getStream: ${err}`)
-      }
-
-      if (stream && !stream.ended_at) {
-        this.currentStream = stream
-      }
-    }
+    const stream = await State.getStream();
 
     // Only respond to commands if we're streaming, or debugging
-    if (userInfo && (this.currentStream || process.env.NODE_ENV === "development")) {
-      this.emit(Events.OnCommand, new OnCommandEvent(userInfo, command, message, flags, extra, this.currentStream))
+    if (userInfo && (stream || process.env.NODE_ENV === "development")) {
+      this.emit(Events.OnCommand, new OnCommandEvent(userInfo, command, message, flags, extra, stream));
     }
   }
 
@@ -406,23 +388,6 @@ export class ChatMonitor {
   private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: OnSubMysteryGiftExtra): void {
     log(LogLevel.Info, `onSubMysteryGift: ${gifterUser} gifted ${numbOfSubs}`)
   }
-
-  /**
-   * Fires when a stream start event occurs 
-   * @param onStreamStartEvent 
-   */
-  private onStreamStart(onStreamStartEvent: OnStreamStartEvent) {
-    this.currentStream = onStreamStartEvent.stream
-  }
-
-  /**
-   * Fires when a stream end event occurs 
-   * @param onStreamEndEvent 
-   */
-  private onStreamEnd(onStreamEndEvent: OnStreamEndEvent) {
-    this.currentStream = undefined
-  }
-
 
   /**
    * Handler for errors in the Twitch client and/or connection

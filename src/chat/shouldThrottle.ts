@@ -3,9 +3,9 @@ import { CommandTimePeriod } from "comfy.js";
 export function ShouldThrottle(
   timePeriod: CommandTimePeriod,
   cooldownSeconds: number,
-  userThrottle: boolean) {
+  userThrottle: boolean): boolean {
 
-  let throttle: boolean = false
+  let throttle = false
 
   if (timePeriod.any &&
     timePeriod.any > 0 &&

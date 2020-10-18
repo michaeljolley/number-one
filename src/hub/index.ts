@@ -18,6 +18,7 @@ import {
   OnRaidEvent,
   OnPointRedemptionEvent
 } from "../models"
+import { OnStreamChangeEvent } from "../models/OnStreamChangeEvent"
 
 export class IO {
 
@@ -29,8 +30,8 @@ export class IO {
     this.io.on('connect', (conn: io.Socket) => {
       // Ensure the connection is from the bots overlays and not
       // and external actor.
-      if (conn.handshake.headers.host !== process.env.HOST && 
-          conn.handshake.headers.host !== `${process.env.HOST}:${process.env.PORT}`) {
+      if (conn.handshake.headers.host !== process.env.HOST &&
+        conn.handshake.headers.host !== `${process.env.HOST}:${process.env.PORT}`) {
         conn.disconnect(true)
       }
     })
@@ -55,6 +56,8 @@ export class IO {
       (onSoundEffectEvent: OnSoundEffectEvent) => this.onSoundEffect(onSoundEffectEvent))
     EventBus.eventEmitter.addListener(Events.OnStop,
       (onStopEvent: OnStopEvent) => this.onStop(onStopEvent))
+    EventBus.eventEmitter.addListener(Events.OnStreamChange,
+      (onStreamChangeEvent: OnStreamChangeEvent) => this.onStreamChange(onStreamChangeEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamEnd,
       (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamStart,
@@ -103,6 +106,10 @@ export class IO {
 
   private onStop(onStopEvent: OnStopEvent) {
     this.io.emit(Events.OnStop, onStopEvent)
+  }
+
+  private onStreamChange(onStreamChangeEvent: OnStreamChangeEvent) {
+    this.io.emit(Events.OnStreamChange, onStreamChangeEvent)
   }
 
   private onStreamEnd(onStreamEndEvent: OnStreamEndEvent) {

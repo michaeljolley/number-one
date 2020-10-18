@@ -1,6 +1,5 @@
 import { Attention } from "./commands/attention";
 import { Awesum } from "./commands/awesum";
-import { AwesumRepo } from "./commands/awesumrepo";
 import { Blog } from "./commands/blog";
 import { Conduct } from "./commands/conduct";
 import { Discord } from "./commands/discord";
@@ -17,9 +16,9 @@ import { JSDefender } from "./commands/jsdefender";
 import { Keyboard } from "./commands/keyboard";
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
-import { Project } from "./commands/project";
 import { Stop } from "./commands/stop";
 import { Theme } from "./commands/theme";
+import { Twitter } from "./commands/twitter";
 import { Command } from "./models/Command";
 
 export abstract class CommandRegistry {
@@ -28,7 +27,6 @@ export abstract class CommandRegistry {
   public static init() {
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
-    this.commands.push(new Command('awesumrepo', AwesumRepo))
     this.commands.push(new Command('blog', Blog))
     this.commands.push(new Command('conduct', Conduct))
     this.commands.push(new Command('discord', Discord))
@@ -44,9 +42,9 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('keyboard', Keyboard))
     this.commands.push(new Command('livecoders', LiveCoders))
     this.commands.push(new Command('pobox', POBox))
-    this.commands.push(new Command('project', Project))
     this.commands.push(new Command('stop', Stop))
     this.commands.push(new Command('theme', Theme))
+    this.commands.push(new Command('twitter', Twitter))
     this.commands.push(new Command('jsdefender', JSDefender))
   }
 

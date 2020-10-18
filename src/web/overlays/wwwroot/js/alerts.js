@@ -169,6 +169,10 @@ const app = new Vue({
       this.addAlert('onDonation', onDonationEvent);
     });
 
+    this.socket.on('reconnect', () => {
+      window.location.reload();
+    });
+
     console.log("We're loaded and listening the socket.io hub");
 
     setInterval(this.onInterval, 2000);

@@ -28,24 +28,51 @@ export class TwitchAPI {
   public async registerWebhooks(): Promise<void> {
     this.webhookSecret = Guid.create().toString();
 
-    const payload = {
-      "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
-      "hub.mode": "subscribe",
-      "hub.topic": `https://api.twitch.tv/helix/users/follows?first=1&to_id=${this.config.twitchChannelId}`,
-      "hub.lease_seconds": 172800,
-      "hub.secret": this.webhookSecret
-    };
+    await this.registerFollowWebhook();
+    await this.registerStreamWebhook();
+  }
 
+  private async registerFollowWebhook(): Promise<void> {
     try {
+      const payload = {
+        "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
+        "hub.mode": "subscribe",
+        "hub.topic": `https://api.twitch.tv/helix/users/follows?first=1&to_id=${this.config.twitchChannelId}`,
+        "hub.lease_seconds": 172800,
+        "hub.secret": this.webhookSecret
+      };
+
       const response = await axios.post(
         this.twitchAPIWebhookEndpoint,
         payload,
         {
           headers: this.headers
         });
-      log(LogLevel.Info, `TwitchAPI:registerWebhooks - Response = ${response.status}`);
+      log(LogLevel.Info, `TwitchAPI:registerFollowWebhook - Response = ${response.status}`);
     } catch (err) {
-      log(LogLevel.Error, `TwitchAPI:registerWebhooks ${err}`);
+      log(LogLevel.Error, `TwitchAPI:registerFollowWebhook ${err}`);
+    }
+  }
+
+  private async registerStreamWebhook(): Promise<void> {
+    try {
+      const payload = {
+        "hub.callback": `http://${process.env.HOST}/webhooks/stream`,
+        "hub.mode": "subscribe",
+        "hub.topic": `https://api.twitch.tv/helix/streams?user_id=${this.config.twitchChannelId}`,
+        "hub.lease_seconds": 172800,
+        "hub.secret": this.webhookSecret
+      };
+
+      const response = await axios.post(
+        this.twitchAPIWebhookEndpoint,
+        payload,
+        {
+          headers: this.headers
+        });
+      log(LogLevel.Info, `TwitchAPI:registerStreamWebhook - Response = ${response.status}`);
+    } catch (err) {
+      log(LogLevel.Error, `TwitchAPI:registerStreamWebhook ${err}`);
     }
   }
 
@@ -96,30 +123,30 @@ export class TwitchAPI {
     return stream
   }
 
-  public validateWebhook(request, response, next) {
+  public validateWebhook(request, response, next): unknown {
 
     const givenSignature = request.headers['x-hub-signature'];
-  
+
     if (!givenSignature) {
-        log(LogLevel.Error, `webhooks: validator - missing signature`)
-        return response.status(409).json({
-            error: 'Missing signature'
-        });
+      log(LogLevel.Error, `webhooks: validator - missing signature`)
+      return response.status(409).json({
+        error: 'Missing signature'
+      });
     }
     log(LogLevel.Error, `Twitch:hooks: ${JSON.stringify(givenSignature)}`)
 
-    let digest = Crypto.createHmac('sha256',this.webhookSecret)
-        .update(JSON.stringify(request.body))
-        .digest('hex');
-        log(LogLevel.Error, `Twitch:hooks: ${digest}`)
-  
+    let digest = Crypto.createHmac('sha256', this.webhookSecret)
+      .update(JSON.stringify(request.body))
+      .digest('hex');
+    log(LogLevel.Error, `Twitch:hooks: ${digest}`)
+
     if (givenSignature === `sha256=${digest}`) {
-        return next();
+      return next();
     } else {
-        log(LogLevel.Error, `webhooks: validator - invalid signature`)
-        return response.status(409).json({
-            error: 'Invalid signature'
-        });
+      log(LogLevel.Error, `webhooks: validator - invalid signature`)
+      return response.status(409).json({
+        error: 'Invalid signature'
+      });
     }
-}
+  }
 }
