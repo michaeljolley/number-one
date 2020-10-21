@@ -58,15 +58,15 @@ The following information is provided to help you get up and contributing as qui
 
 We use Visual Studio Code as our preferred development editor, but you can use whichever editor you're must comfortable with. However, if you decide to use Visual Studio Code we have provided a workspace which includes the recommended extensions as well as default tasks and launch settings so you can easily get up and contributing and testing your code easily.
 
-One of the first things you should do when you launch Visual Studio Code is run the `setupenv` task which will install the required node modules (both locally and globally).
+One of the first things you should do when you launch Visual Studio Code is run the `setupenv` task which will install the required node modules (both locally and globally). Remember: you need to open this repo in Visual Studio Code using the workspace file, NOT just open the folder, in order to run the task below.
 
 1. Press your **F1** key
-1. Type, **Task: Run Task**
+1. Type, **Tasks: Run Task**
 1. Choose **Setup Environment**
 
 Next you'll need to copy the `.env-example` file and rename it to `.env` then complete the following:
 
-## Environment Varbiables
+## Environment Variables
 
 Before you get started, you will need to gather some information (and possibly create an account) from multiple endpoints we use. For example, you will need know your Twitch channel ID, client ID and secret.
 
@@ -91,7 +91,7 @@ Before you get started, you will need to gather some information (and possibly c
 
 #### Get your Twitch Bot OAuth token
 
-- Visit the [Twitch Chat OAuth Password Generator]() and click the **Connect** button
+- Visit the [Twitch Chat OAuth Password Generator](https://twitchapps.com/tmi/) and click the **Connect** button
 - Once you log in, you'll be presented with your OAuth token. Copy this token to the `.env` **TWITCH_BOT_AUTH_TOKEN** value
 
 ### Fauna DB
