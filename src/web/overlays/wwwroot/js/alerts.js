@@ -81,8 +81,6 @@ const app = new Vue({
         name = nextAlert.data.user;
       } else if (nextAlert.data.user) {
         name = nextAlert.data.user.display_name || nextAlert.data.user.login;
-      } else {
-        name = '';
       }
 
       let line1;
