@@ -8,7 +8,7 @@ export abstract class FaunaClient {
 
   public static init(): void {
     if (process.env.FAUNADB_SECRET) {
-      let config: ClientConfig = {
+      const config: ClientConfig = {
         secret: process.env.FAUNADB_SECRET
       }
       this.client = new Client(config)
@@ -29,7 +29,7 @@ export abstract class FaunaClient {
 
     let user: User
     try {
-      let response = await this.client.query(
+      const response = await this.client.query(
         query.Map(
           query.Paginate(
             query.Match(query.Index("users_login"), login)),
@@ -59,7 +59,7 @@ export abstract class FaunaClient {
       const _id = user._id || existingUser._id
       // Update user
       try {
-        let response = await this.client.query(
+        const response = await this.client.query(
           query.Replace(query.Ref(query.Collection("users"), _id), {
             data: user
           })
@@ -73,7 +73,7 @@ export abstract class FaunaClient {
     else {
       // Create user
       try {
-        let response = await this.client.query(
+        const response = await this.client.query(
           query.Create(query.Collection("users"), {
             data: user
           })
@@ -94,7 +94,7 @@ export abstract class FaunaClient {
 
     let stream: Stream
     try {
-      let response = await this.client.query(
+      const response = await this.client.query(
         query.Map(
           query.Paginate(
             query.Match(query.Index("streams_streamDate"), streamDate)),
@@ -124,7 +124,7 @@ export abstract class FaunaClient {
       const _id = stream._id || existingStream._id
       // Update user
       try {
-        let response = await this.client.query(
+        const response = await this.client.query(
           query.Replace(query.Ref(query.Collection("streams"), _id), {
             data: stream
           })
@@ -138,7 +138,7 @@ export abstract class FaunaClient {
     else {
       // Create stream
       try {
-        let response = await this.client.query(
+        const response = await this.client.query(
           query.Create(query.Collection("streams"), {
             data: stream
           })

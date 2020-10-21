@@ -104,7 +104,7 @@ export class ChatMonitor {
 
     // If the message has emotes, modify message to include img tags to the emote
     if (messageEmotes) {
-      let emoteSet = [];
+      const emoteSet = [];
 
       for (const emote of Object.keys(messageEmotes)) {
         const emoteLocations = messageEmotes[emote];

@@ -27,7 +27,7 @@ afterEach(() => {
 describe('Commands: Theme', () => {
 
   it('should send message to chat', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
@@ -38,7 +38,7 @@ describe('Commands: Theme', () => {
   })
 
   it('should not send events if theme is okay', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
@@ -58,12 +58,12 @@ describe('Commands: Theme', () => {
 
 
   it('should not send events if user is dot_commie and theme is lasers', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    let callingUser = user()
+    const callingUser = user()
     callingUser.login = 'dot_commie'
 
     onCommandEvent = new OnCommandEvent(
