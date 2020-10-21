@@ -113,6 +113,15 @@
         "doc",
         "code"
       ]
+    },
+    {
+      "login": "NotMyself",
+      "name": "Bobby Johnson",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/73120?v=4",
+      "profile": "http://iamnotmyself.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
