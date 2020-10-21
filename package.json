@@ -13,6 +13,7 @@
     "build": "npm run build:typescript && npm run build:scss && npm run build:copy",
     "debug": "nodemon -i .git,node_modules -e js,ts,htm,env,scss,json,vue -w ./src -x \"node --inspect --require ts-node/register ./src/index.ts\"",
     "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
     "test": "mocha -r ts-node/register src/**/*spec.ts --insect"
   },
   "repository": {
