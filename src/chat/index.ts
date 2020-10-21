@@ -263,6 +263,7 @@ export class ChatMonitor {
    * @param port 
    * @param isFirstConnect 
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private onConnected(address: string, port: number, isFirstConnect: boolean): void {
     log(LogLevel.Info, `onConnected: ${address}:${port}`)
   }
@@ -385,6 +386,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: OnSubMysteryGiftExtra): void {
     log(LogLevel.Info, `onSubMysteryGift: ${gifterUser} gifted ${numbOfSubs}`)
   }
