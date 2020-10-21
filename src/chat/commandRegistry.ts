@@ -17,6 +17,7 @@ import { Keyboard } from "./commands/keyboard";
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
 import { Stop } from "./commands/stop";
+import { Store } from "./commands/store";
 import { Theme } from "./commands/theme";
 import { Twitter } from "./commands/twitter";
 import { Command } from "./models/Command";
@@ -46,6 +47,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('theme', Theme))
     this.commands.push(new Command('twitter', Twitter))
     this.commands.push(new Command('jsdefender', JSDefender))
+    this.commands.push(new Command('store', Store))
   }
 
   public static getCommand(commandName: string): Command | undefined {
