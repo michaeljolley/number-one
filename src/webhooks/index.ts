@@ -74,12 +74,11 @@ webhookRouter.post('/follow', Twitch.validateWebhook, async (request: Request, r
 })
 
 webhookRouter.post('/test/raid', async (request: Request, response: Response) => {
-  let { name, viewers } = request.body;
-  name = name.toLocaleLowerCase();
-
+  const { name, viewers } = request.body;
+  
   let userInfo: User
   try {
-    userInfo = await Twitch.getUser(name)
+    userInfo = await Twitch.getUser(name.toLocaleLowerCase())
   }
   catch (err) {
     log(LogLevel.Error, `webhooks: /test/raid - ${err}`)
@@ -125,12 +124,11 @@ webhookRouter.post('/test/sub', async (request: Request, response: Response) => 
 })
 
 webhookRouter.post('/test/cheer', async (request: Request, response: Response) => {
-  let { name, bits } = request.body;
-  name = name.toLocaleLowerCase();
+  const { name, bits } = request.body;
 
   let userInfo: User
   try {
-    userInfo = await Twitch.getUser(name)
+    userInfo = await Twitch.getUser(name.toLocaleLowerCase())
   }
   catch (err) {
     log(LogLevel.Error, `webhooks: /test/cheer - ${err}`)
