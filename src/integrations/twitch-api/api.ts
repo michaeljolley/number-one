@@ -6,10 +6,10 @@ import * as Crypto from 'crypto';
 
 export class TwitchAPI {
 
-  private twitchAPIEndpoint: string = 'https://api.twitch.tv/helix'
-  private twitchAPIUserEndpoint: string = `${this.twitchAPIEndpoint}/users`
-  private twitchAPIStreamEndpoint: string = `${this.twitchAPIEndpoint}/streams`
-  private twitchAPIWebhookEndpoint: string = `${this.twitchAPIEndpoint}/webhooks/hub`
+  private twitchAPIEndpoint = 'https://api.twitch.tv/helix'
+  private twitchAPIUserEndpoint = `${this.twitchAPIEndpoint}/users`
+  private twitchAPIStreamEndpoint = `${this.twitchAPIEndpoint}/streams`
+  private twitchAPIWebhookEndpoint = `${this.twitchAPIEndpoint}/webhooks/hub`
 
   private headers: object
   private webhookSecret: string
@@ -135,7 +135,7 @@ export class TwitchAPI {
     }
     log(LogLevel.Error, `Twitch:hooks: ${JSON.stringify(givenSignature)}`)
 
-    let digest = Crypto.createHmac('sha256', this.webhookSecret)
+    const digest = Crypto.createHmac('sha256', this.webhookSecret)
       .update(JSON.stringify(request.body))
       .digest('hex');
     log(LogLevel.Error, `Twitch:hooks: ${digest}`)

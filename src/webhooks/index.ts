@@ -142,7 +142,7 @@ webhookRouter.post('/test/cheer', async (request: Request, response: Response) =
 })
 
 webhookRouter.post('/test/donation', async (request: Request, response: Response) => {
-  let { name, amount, message } = request.body;
+  const { name, amount, message } = request.body;
 
   emit(Events.OnDonation, new OnDonationEvent(name, amount, message));
 
