@@ -101,6 +101,15 @@
         "ideas",
         "code"
       ]
+    },
+    {
+      "login": "jwalter",
+      "name": "jwalter",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/349523?v=4",
+      "profile": "https://github.com/jwalter",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
