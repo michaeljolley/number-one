@@ -16,6 +16,7 @@ import { JSDefender } from "./commands/jsdefender";
 import { Keyboard } from "./commands/keyboard";
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
+import { So } from "./commands/so";
 import { Stop } from "./commands/stop";
 import { Store } from "./commands/store";
 import { Theme } from "./commands/theme";
@@ -44,6 +45,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('livecoders', LiveCoders))
     this.commands.push(new Command('pobox', POBox))
     this.commands.push(new Command('stop', Stop))
+    this.commands.push(new Command('so', So))
     this.commands.push(new Command('theme', Theme))
     this.commands.push(new Command('twitter', Twitter))
     this.commands.push(new Command('jsdefender', JSDefender))
