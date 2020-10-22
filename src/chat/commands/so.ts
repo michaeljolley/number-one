@@ -8,15 +8,6 @@ import { ShouldThrottle } from '../shouldThrottle'
  */
 export function So(onCommandEvent: OnCommandEvent): void {
 
-  const cooldownSeconds = 300
-
-  // The broadcaster is allowed to bypass throttling. Otherwise,
-  // only proceed if the command hasn't been used within the cooldown.
-  if (!onCommandEvent.flags.broadcaster &&
-    ShouldThrottle(onCommandEvent.extra.sinceLastCommand, cooldownSeconds, true)) {
-    return
-  }
-
   // Only mods or broadcasters can call the shout-out command.
   if (!onCommandEvent.flags.broadcaster &&
     !onCommandEvent.flags.mod) {
