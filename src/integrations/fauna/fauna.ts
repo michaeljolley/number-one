@@ -1,5 +1,5 @@
 import { Client, query, ClientConfig } from 'faunadb'
-import { Action, Stream, User } from '../../models'
+import { Action, Credit, Stream, User } from '../../models'
 import { log, LogLevel } from '../../common'
 
 export abstract class FaunaClient {
@@ -20,6 +20,10 @@ export abstract class FaunaClient {
       ...payload.data,
       _id: payload.ref.value.id
     }
+  }
+
+  private static mapCredit(payload: string[]): Credit {
+    return new Credit(payload[0], payload[1], payload[2], payload[3]);
   }
 
   public static async getUser(login: string): Promise<User | undefined> {
@@ -173,26 +177,27 @@ export abstract class FaunaClient {
     return savedAction
   }
 
-  public static async getActions(actionDate: string): Promise<Action[] | undefined> {
+  public static async getCredits(actionDate: string): Promise<Credit[] | undefined> {
     if (!this.client) {
       return undefined
     }
 
-    let actions: Action[]
+    let actions: Credit[]
     try {
       const response = await this.client.query(
-        query.Map(
-          query.Paginate(
-            query.Match(query.Index("actions_actionDate"), actionDate)),
-          query.Lambda("actions", query.Get((query.Var("actions"))))
-        )
+        query.Paginate(
+          query.Distinct(
+            query.Match(query.Index("actions_actionDate"), actionDate)
+          ),
+          { size: 1000 }
+        ),
       ) as any
       if (response.data && response.data.length > 0) {
-        actions = response.data.map(m => this.mapResponse(m))
+        actions = response.data.map(m => this.mapCredit(m))
       }
     }
     catch (err) {
-      log(LogLevel.Error, `Fauna:getActions - ${err}`)
+      log(LogLevel.Error, `Fauna:getCredits - ${err}`)
     }
     return actions
   }

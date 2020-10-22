@@ -27,7 +27,6 @@ export abstract class Logger {
       (onSubEvent: OnSubEvent) => this.onSub(onSubEvent))
     EventBus.eventEmitter.addListener(Events.OnRaid,
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
-
     EventBus.eventEmitter.addListener(Events.OnStreamEnd, () => this.onStreamEnd())
   }
 

@@ -1,0 +1,159 @@
+@import "main";
+
+body {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, .8);
+}
+
+.credits {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+
+  .group {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+      
+    &.slide-in-left-enter-active {
+      animation: SlideInLeft 1s forwards cubic-bezier(.41,.01,.42,1.85);
+    }
+
+    &.slide-in-left-leave-active  {
+      animation: SlideInLeft 1s backwards cubic-bezier(.41,.01,.42,1.85);
+    }
+
+    h2 {
+      font-family: 'Roboto';
+      font-size: 2.25em;
+
+      margin-bottom: 0px;
+
+      background: $gradient;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      border-bottom: 2px solid;
+      border-image-source: $gradient;
+      border-image-slice: 1;
+    }
+
+    .listing {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      width: 100%;
+      margin-top: 40px;
+
+      opacity: 0;
+      
+      &.fadeInOut-enter-active, .fadeInOut-enter-to {
+        animation: fadeInOut 10s forwards;
+      }
+  
+      .message {
+        margin-bottom: 25px;
+        margin-right: 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        
+        box-shadow: -0.5em 0.6em 1em -0.4em $darkblue;
+    
+        .panel {
+          display: flex;
+          flex-direction: row-reverse;
+          background-color: $darkblue;
+          
+          border-top: 3px solid;
+          border-image-source: $gradient;
+          border-image-slice: 1;
+          
+          .bubble {
+            padding: 15px;
+            word-wrap: break-word;
+            white-space: pre-line;
+    
+            display: flex;
+            flex-direction: column;
+            
+            font-size: 1.2em;
+            color: $white;
+    
+            span {
+              color: $neonpink;
+            }
+            
+            .name {
+              font-family: 'Roboto';
+              font-size: 1em;
+              font-weight: bold;
+              background: $gradient;
+              background-clip: text;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+          }
+      
+          .user {
+            width: 60px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-position-y: bottom;
+            background-color: $white;
+          }    
+        }
+        
+        &.mod {
+          .panel {
+            background-color: $lightgray;
+            .bubble {
+              color: $purple;
+            }
+          }
+        }
+     
+        &.vip {
+          .panel {
+            background-color: $white;
+            .bubble {
+              color: $darkblue;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes SlideInLeft {
+  0% { width: 0%; }
+  100% { width: 30% }
+}
+
+@keyframes SlideOutRight {
+  0% { width: 30%; }
+  100% { width: 0% }
+}

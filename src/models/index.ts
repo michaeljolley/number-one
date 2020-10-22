@@ -22,5 +22,6 @@ export * from './OnSoundEffectEvent'
 export * from './OnStopEvent'
 
 export * from './Action'
+export * from './Credit'
 export * from './Stream'
 export * from './User'

@@ -1,5 +1,5 @@
 import { FaunaClient } from "./fauna";
-import { Action, Stream, User } from "../../models";
+import { Action, Credit, Stream, User } from "../../models";
 import { LogLevel, log } from '../../common'
 
 export abstract class Fauna {
@@ -56,11 +56,11 @@ export abstract class Fauna {
     return stream
   }
 
-  public static async getActions(actionDate: string): Promise<Action[] | undefined> {
-    let actions: Action[]
+  public static async getCredits(actionDate: string): Promise<Credit[] | undefined> {
+    let actions: Credit[] | undefined
 
     try {
-      actions = await FaunaClient.getActions(actionDate)
+      actions = await FaunaClient.getCredits(actionDate)
     }
     catch (err) {
       log(LogLevel.Error, err)
@@ -68,6 +68,20 @@ export abstract class Fauna {
 
     return actions
   }
+
+  public static async getGivingActions(actionDate: string): Promise<Action[] | undefined> {
+    let actions: Action[] | undefined
+
+    try {
+      actions = await FaunaClient.getGivingActions(actionDate)
+    }
+    catch (err) {
+      log(LogLevel.Error, err)
+    }
+
+    return actions
+  }
+
 
   public static async saveAction(action: Action): Promise<Action> {
     try {

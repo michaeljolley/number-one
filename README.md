@@ -1,9 +1,8 @@
 
 # number-one
 
-![CI](https://github.com/builders-club/number-one/workflows/CI/badge.svg?branch=main) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+![GitHub latest version](https://img.shields.io/github/v/tag/builders-club/number-one?label=latest%20version)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/builders-club/number-one/CI/master) ![Github All Contributors](https://img.shields.io/github/all-contributors/builders-club/number-one?color=orange) ![Twitch Status](https://img.shields.io/twitch/status/baldbeardedbuilder?color=%239146FF)
 
 Number One is a [Twitch](https://twitch.tv) chat bot that provides the following features:
 
@@ -25,10 +24,7 @@ Number One is a [Twitch](https://twitch.tv) chat bot that provides the following
 | TWITCH_BOT_USERNAME   | Twitch bot login                                 |
 | TWITCH_BOT_AUTH_TOKEN | OAuth token for the Twitch account used as a bot |
 | FAUNADB_SECRET        | Fauna Secret Key                                 |
-
-## Release Notes
-
-See [CHANGELOG.md](CHANGELOG.md)
+| STREAM_ELEMENTS_JWT   | Stream Elements token to integrate donations     |
 
 ## Contributors
 

@@ -1,9 +1,9 @@
 import { log, LogLevel } from "../common";
 import { EventBus, Events } from "../events";
-import { Twitch } from "../integrations";
-import { FaunaClient } from "../integrations/fauna/fauna";
+import { Fauna, Twitch } from "../integrations";
 import {
   OnCheerEvent,
+  OnCreditRollEvent,
   OnDonationEvent,
   OnStreamChangeEvent,
   OnStreamStartEvent,
@@ -29,6 +29,9 @@ export abstract class State {
       (onDonationEvent: OnDonationEvent) => this.calcDonation(onDonationEvent));
     EventBus.eventEmitter.addListener(Events.OnSub,
       (onSubEvent: OnSubEvent) => this.calcSub(onSubEvent));
+
+    EventBus.eventEmitter.addListener(Events.RequestCreditRoll,
+      () => this.requestCreditRoll());
   }
 
   public static setStream(stream: Stream): void {
@@ -48,7 +51,7 @@ export abstract class State {
       log(LogLevel.Error, `onCommand: getStream: ${err}`)
     }
 
-    if (stream && !stream.ended_at) {
+    if (stream) { // && !stream.ended_at) {
       this.stream = stream;
       await this.recalculateAmountGiven(this.stream.streamDate);
       return this.stream;
@@ -68,7 +71,7 @@ export abstract class State {
 
   private static async recalculateAmountGiven(streamDate: string): Promise<void> {
     try {
-      const activities = await FaunaClient.getGivingActions(streamDate);
+      const activities = await Fauna.getGivingActions(streamDate);
 
       for (const activity of activities) {
         switch (activity.eventType) {
@@ -130,5 +133,21 @@ export abstract class State {
   }
   private static calcDonation(onDonationEvent: OnDonationEvent) {
     this.addAmountGiven(onDonationEvent.amount);
+  }
+
+  private static async requestCreditRoll(): Promise<void> {
+    try {
+      if (!this.stream) {
+        await this.getStream();
+      }
+
+      if (this.stream) {
+        const credits = await Fauna.getCredits(this.stream.streamDate);
+        const onCreditRollEvent = new OnCreditRollEvent(credits);
+        EventBus.eventEmitter.emit(Events.OnCreditRoll, onCreditRollEvent);
+      }
+    } catch (err) {
+      log(LogLevel.Error, `State: requestCreditRoll: ${err}`);
+    }
   }
 }
