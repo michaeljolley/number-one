@@ -5,7 +5,7 @@ import { EventBus, Events } from "../../events"
  * Sends command to stop A/V effects
  * @param onCommandEvent 
  */
-export function Stop(onCommandEvent: OnCommandEvent) {
+export function Stop(onCommandEvent: OnCommandEvent):void {
 
   // Only the broadcaster & mods should be able to stop effects
   if (onCommandEvent.flags.broadcaster ||

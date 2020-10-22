@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to the BBB Code of Conduct
  * @param onCommandEvent 
  */
-export function Conduct(onCommandEvent: OnCommandEvent) {
+export function Conduct(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

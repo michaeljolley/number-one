@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with backstory of the fart candle
  * @param onCommandEvent 
  */
-export function Fart(onCommandEvent: OnCommandEvent) {
+export function Fart(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

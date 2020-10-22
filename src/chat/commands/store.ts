@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to BaldBeardedBuilder's store
  * @param onCommandEvent 
  */
-export function Store(onCommandEvent: OnCommandEvent) {
+export function Store(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

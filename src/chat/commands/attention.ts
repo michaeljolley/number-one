@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Alerts the streamer to pay attention to chat
  * @param onCommandEvent 
  */
-export function Attention(onCommandEvent: OnCommandEvent) {
+export function Attention(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 120
 

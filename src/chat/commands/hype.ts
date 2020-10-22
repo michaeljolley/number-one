@@ -6,7 +6,7 @@ import { EventBus, Events } from "../../events"
  * @param onCommandEvent 
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function Hype(onCommandEvent: OnCommandEvent) {
+export function Hype(onCommandEvent: OnCommandEvent):void {
 
   const message = `baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype`
 

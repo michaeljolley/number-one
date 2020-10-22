@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat info on the Heroines of JavaScript
  * @param onCommandEvent 
  */
-export function Heroines(onCommandEvent: OnCommandEvent) {
+export function Heroines(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 
