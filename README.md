@@ -2,7 +2,7 @@
 # number-one
 
 ![CI](https://github.com/builders-club/number-one/workflows/CI/badge.svg?branch=main) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Number One is a [Twitch](https://twitch.tv) chat bot that provides the following features:
@@ -51,8 +51,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/ElliottBrand"><img src="https://avatars2.githubusercontent.com/u/47930099?v=4" width="100px;" alt=""/><br /><sub><b>Steve Elliott</b></sub></a><br /><a href="#ideas-ElliottBrand" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/builders-club/number-one/commits?author=ElliottBrand" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/mholloway24"><img src="https://avatars2.githubusercontent.com/u/40776983?v=4" width="100px;" alt=""/><br /><sub><b>Mike Holloway</b></sub></a><br /><a href="https://github.com/builders-club/number-one/issues?q=author%3Amholloway24" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/mholloway24"><img src="https://avatars2.githubusercontent.com/u/40776983?v=4" width="100px;" alt=""/><br /><sub><b>Mike Holloway</b></sub></a><br /><a href="https://github.com/builders-club/number-one/issues?q=author%3Amholloway24" title="Bug reports">🐛</a> <a href="https://github.com/builders-club/number-one/commits?author=mholloway24" title="Code">💻</a> <a href="#ideas-mholloway24" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/MaryJoStaebler"><img src="https://avatars2.githubusercontent.com/u/48457743?v=4" width="100px;" alt=""/><br /><sub><b>Mary Jo</b></sub></a><br /><a href="https://github.com/builders-club/number-one/issues?q=author%3AMaryJoStaebler" title="Bug reports">🐛</a> <a href="#ideas-MaryJoStaebler" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/builders-club/number-one/commits?author=MaryJoStaebler" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jwalter"><img src="https://avatars3.githubusercontent.com/u/349523?v=4" width="100px;" alt=""/><br /><sub><b>jwalter</b></sub></a><br /><a href="https://github.com/builders-club/number-one/commits?author=jwalter" title="Documentation">📖</a> <a href="https://github.com/builders-club/number-one/commits?author=jwalter" title="Code">💻</a> <a href="https://github.com/builders-club/number-one/commits?author=jwalter" title="Tests">⚠️</a> <a href="#ideas-jwalter" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/builders-club/number-one/issues?q=author%3Ajwalter" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://iamnotmyself.com"><img src="https://avatars3.githubusercontent.com/u/73120?v=4" width="100px;" alt=""/><br /><sub><b>Bobby Johnson</b></sub></a><br /><a href="https://github.com/builders-club/number-one/issues?q=author%3ANotMyself" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://www.ramblinggeek.co.uk"><img src="https://avatars3.githubusercontent.com/u/7108949?v=4" width="100px;" alt=""/><br /><sub><b>Wayne Taylor</b></sub></a><br /><a href="#ideas-RamblingGeekUK" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
