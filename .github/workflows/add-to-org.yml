@@ -1,9 +1,11 @@
 name: Add To Builders Club
 on:
-  push:
+  pull_request:
     branches: [ main, dev ]
+    types: [closed]
 jobs:
   invite:
+    if: github.event.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Invite contributor to the organization
