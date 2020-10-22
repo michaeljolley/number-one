@@ -6,7 +6,7 @@ export abstract class Cache {
   private static users: User[] = []
   private static streams: Stream[] = []
 
-  public static get(cacheType: CacheType, identifier: string): object {
+  public static get(cacheType: CacheType, identifier: string): unknown {
     switch (cacheType) {
       case CacheType.Stream:
         return this.streams.find(f => f.streamDate === identifier)
@@ -17,7 +17,7 @@ export abstract class Cache {
     }
   }
 
-  public static set(cacheType: CacheType, object: object): void {
+  public static set(cacheType: CacheType, object: unknown): void {
     switch (cacheType) {
       case CacheType.Stream: {
         const stream: Stream = object as Stream
