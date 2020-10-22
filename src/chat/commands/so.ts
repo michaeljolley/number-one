@@ -1,7 +1,5 @@
 import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
-import { ShouldThrottle } from '../shouldThrottle'
-
 /**
  * Sends a message to chat with info on BBB Instagram
  * @param onCommandEvent 
