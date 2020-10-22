@@ -113,7 +113,8 @@
         "doc",
         "code",
         "test",
-        "ideas"
+        "ideas",
+        "bug"
       ]
     },
     {
