@@ -6,7 +6,7 @@ Vue.component('sponsors', {
       <transition name="openClose" @after-enter="nextSponsor">
         <div v-if="credit" class="sponsor">
           <div class="name">
-            <h2>{{credit.displayName}}</h2>
+            <h2 :class="{ tier: credit.tier && credit.tier > 5 }">{{credit.displayName}}</h2>
             <ul>
               <li v-if="credit.onSponsor"><i class="fab fa-github"></i> GitHub Sponsor</li>
               <li v-if="credit.onSub"><i class="fas fa-crown"></i> Subscriber</li>
@@ -205,8 +205,16 @@ const app = new Vue({
 })
 
 const sortFunction = (a, b) => {
+  const aT = a.tier || 0;
+  const bT = b.tier || 0;
   const A = a.displayName.toUpperCase();
   const B = b.displayName.toUpperCase();
+  if (aT > bT) {
+    return -1;
+  }
+  if (aT < bT) {
+    return 1;
+  }
   if (A < B) {
     return -1;
   }

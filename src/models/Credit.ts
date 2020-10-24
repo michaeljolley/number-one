@@ -7,5 +7,6 @@ export class Credit {
     public onSub?: boolean,
     public onDonation?: boolean,
     public onSponsor?: boolean,
+    public tier?: number,
   ) { }
 }

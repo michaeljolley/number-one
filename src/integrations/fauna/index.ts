@@ -68,7 +68,7 @@ export abstract class Fauna {
         for (let i = 0; i < sponsors.length; i++) {
           const sponsor: Sponsor = sponsors[i];
           const user: User = await this.getUser(sponsor.displayName.toLocaleLowerCase());
-          actions.push(['1/1/2020', sponsor.displayName, user.avatar_url, 'onSponsor']);
+          actions.push(['1/1/2020', sponsor.displayName, user.avatar_url, 'onSponsor', sponsor.tier.toString()]);
         }
       }
 

@@ -161,7 +161,11 @@ export abstract class State {
           credit.onCheer = actions.some(a => a[1] === credit.displayName && a[3] === 'onCheer');
           credit.onSub = actions.some(a => a[1] === credit.displayName && a[3] === 'onSub');
           credit.onDonation = actions.some(a => a[1] === credit.displayName && a[3] === 'onDonation');
-          credit.onSponsor = actions.some(a => a[1] === credit.displayName && a[3] === 'onSponsor');
+          const sponsor = actions.find(a => a[1] === credit.displayName && a[3] === 'onSponsor');
+          if (sponsor) {
+            credit.onSponsor = true;
+            credit.tier = parseInt(sponsor[4]);
+          }
         });
 
         const onCreditRollEvent = new OnCreditRollEvent(distinctCredits);

@@ -55,11 +55,19 @@
       font-weight: bold;
       margin: 0px;
       text-align: center;
+
+      &.tier {
+        background: $gradient;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
 
     ul {
       font-style: 'Roboto';
-      font-size: 1em;
+      font-size: .8em;
+      text-transform: uppercase;
       list-style: none;
       color: white;
       margin: 0px;
@@ -68,7 +76,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      
+
       li {
         display: inline-flex;
         justify-content: center;
@@ -79,6 +87,7 @@
         }
 
         i {
+          font-size: 1.2em;
           margin-right: 10px;
           color: $neonblue;
         }
