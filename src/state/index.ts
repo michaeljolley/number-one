@@ -2,6 +2,7 @@ import { log, LogLevel } from "../common";
 import { EventBus, Events } from "../events";
 import { Fauna, Twitch } from "../integrations";
 import {
+  Credit,
   OnCheerEvent,
   OnCreditRollEvent,
   OnDonationEvent,
@@ -45,7 +46,7 @@ export abstract class State {
     let stream: Stream
     try {
       const streamDate = new Date().toLocaleDateString('en-US')
-      stream = await Twitch.getStream(streamDate)
+      stream = await Twitch.getStream('10/22/2020')
     }
     catch (err) {
       log(LogLevel.Error, `onCommand: getStream: ${err}`)
@@ -142,8 +143,28 @@ export abstract class State {
       }
 
       if (this.stream) {
-        const credits = await Fauna.getCredits(this.stream.streamDate);
-        const onCreditRollEvent = new OnCreditRollEvent(credits);
+        const actions: [string[]] = await Fauna.getCredits(this.stream.streamDate);
+
+        const distinctCredits: Credit[] = [];
+        
+        const credits: Credit[] = actions.map((payload: string[]) => {
+          return new Credit(payload[1], payload[2]);
+        });
+
+        credits.forEach((credit: Credit) => {
+          if (!distinctCredits.find(f => f.displayName === credit.displayName)) {
+            distinctCredits.push(credit);
+          }
+        });
+
+        distinctCredits.forEach((credit) => {
+          credit.onCheer = actions.some(a => a[1] === credit.displayName && a[3] === 'onCheer');
+          credit.onSub = actions.some(a => a[1] === credit.displayName && a[3] === 'onSub');
+          credit.onDonation = actions.some(a => a[1] === credit.displayName && a[3] === 'onDonation');
+          credit.onSponsor = actions.some(a => a[1] === credit.displayName && a[3] === 'onSponsor');
+        });
+
+        const onCreditRollEvent = new OnCreditRollEvent(distinctCredits);
         EventBus.eventEmitter.emit(Events.OnCreditRoll, onCreditRollEvent);
       }
     } catch (err) {

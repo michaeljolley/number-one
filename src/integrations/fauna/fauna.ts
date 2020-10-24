@@ -1,5 +1,5 @@
 import { Client, query, ClientConfig } from 'faunadb'
-import { Action, Credit, Stream, User } from '../../models'
+import { Action, Credit, Sponsor, Stream, User } from '../../models'
 import { log, LogLevel } from '../../common'
 
 export abstract class FaunaClient {
@@ -20,10 +20,6 @@ export abstract class FaunaClient {
       ...payload.data,
       _id: payload.ref.value.id
     }
-  }
-
-  private static mapCredit(payload: string[]): Credit {
-    return new Credit(payload[0], payload[1], payload[2], payload[3]);
   }
 
   public static async getUser(login: string): Promise<User | undefined> {
@@ -177,12 +173,12 @@ export abstract class FaunaClient {
     return savedAction
   }
 
-  public static async getCredits(actionDate: string): Promise<Credit[] | undefined> {
+  public static async getCredits(actionDate: string): Promise<[string[]] | undefined> {
     if (!this.client) {
       return undefined
     }
 
-    let actions: Credit[]
+    let actions: [string[]]
     try {
       const response = await this.client.query(
         query.Paginate(
@@ -193,7 +189,7 @@ export abstract class FaunaClient {
         ),
       ) as any
       if (response.data && response.data.length > 0) {
-        actions = response.data.map(m => this.mapCredit(m))
+        actions = response.data
       }
     }
     catch (err) {
@@ -230,5 +226,29 @@ export abstract class FaunaClient {
       log(LogLevel.Error, `Fauna:getGivingActions - ${err}`)
     }
     return actions
+  }
+  
+  public static async getSponsors(): Promise<Sponsor[] | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
+    let sponsors: Sponsor[]
+    try {
+      const response = await this.client.query(
+        query.Map(
+          query.Paginate(
+            query.Match(query.Index("all_sponsors"))),
+          query.Lambda("sponsors", query.Get((query.Var("sponsors"))))
+        )
+      ) as any
+      if (response.data && response.data.length > 0) {
+        sponsors = response.data.map(m => this.mapResponse(m))
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:getSponsors - ${err}`)
+    }
+    return sponsors
   }
 }

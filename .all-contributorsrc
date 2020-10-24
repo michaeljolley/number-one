@@ -88,7 +88,9 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/40776983?v=4",
       "profile": "https://github.com/mholloway24",
       "contributions": [
-        "bug"
+        "bug",
+        "code",
+        "ideas"
       ]
     },
     {
@@ -100,6 +102,37 @@
         "bug",
         "ideas",
         "code"
+      ]
+    },
+    {
+      "login": "jwalter",
+      "name": "jwalter",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/349523?v=4",
+      "profile": "https://github.com/jwalter",
+      "contributions": [
+        "doc",
+        "code",
+        "test",
+        "ideas",
+        "bug"
+      ]
+    },
+    {
+      "login": "NotMyself",
+      "name": "Bobby Johnson",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/73120?v=4",
+      "profile": "http://iamnotmyself.com",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "RamblingGeekUK",
+      "name": "Wayne Taylor",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7108949?v=4",
+      "profile": "https://www.ramblinggeek.co.uk",
+      "contributions": [
+        "ideas"
       ]
     }
   ],

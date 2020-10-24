@@ -1,8 +1,11 @@
 export class Credit {
   constructor(
-    public actionDate: string,
     public displayName: string,
     public avatarUrl: string,
-    public eventType: string
+
+    public onCheer?: boolean,
+    public onSub?: boolean,
+    public onDonation?: boolean,
+    public onSponsor?: boolean,
   ) { }
 }

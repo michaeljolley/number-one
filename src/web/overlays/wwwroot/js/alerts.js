@@ -57,11 +57,17 @@ const app = new Vue({
         this.activeAlert.audio) {
 
         let audio = this.$refs.audioFile;
-        audio.src = `assets/audio/alerts/${this.activeAlert.audio}.mp3`;
+        audio.src = this.activeAlert.audio;
         audio.play().catch(error => {
           console.log(error);
         })
       }
+    },
+    alertsAudioSrc(audioName) {
+      return `assets/audio/alerts/${audioName}.mp3`;
+    },
+    clipsAudioSrc(audioFileName) {
+      return `assets/audio/clips/${audioFileName}`;
     },
     clearAudio() {
       const audio = document.createElement('audio');
@@ -73,7 +79,7 @@ const app = new Vue({
 
       if (nextAlert.type === 'onDonation') {
         name = nextAlert.data.user;
-      } else {
+      } else if (nextAlert.data.user) {
         name = nextAlert.data.user.display_name || nextAlert.data.user.login;
       }
 
@@ -84,34 +90,37 @@ const app = new Vue({
       let audio;
 
       switch (nextAlert.type) {
+        case 'onSoundEffect':
+          audio = this.clipsAudioSrc(nextAlert.data.filename);
+          break;
         case 'onFollow':
           line1 = 'New';
           line2 = 'Follower';
-          audio = 'ohmy';
+          audio = this.alertsAudioSrc('ohmy');
           break;
         case 'onSub':
           line1 = 'Thanks';
           line2 = name;
           line3 = 'for the sub';
-          audio = 'hair';
+          audio = this.alertsAudioSrc('hair');
           break;
         case 'onRaid':
           line1 = 'Raid';
           line2 = name;
           line3 = 'Alert';
-          audio = 'goodbadugly';
+          audio = this.alertsAudioSrc('goodbadugly');
           break;
         case 'onCheer':
           line1 = ' ';
           line2 = name;
           line3 = `cheered  ${nextAlert.data.bits} bits!`;
-          audio = 'cheer';
+          audio = this.alertsAudioSrc('cheer');
           break;
         case 'onDonation':
           line1 = 'Donation Alert!';
           line2 = name;
           line3 = `gave  $${nextAlert.data.amount}`;
-          audio = 'donate';
+          audio = this.alertsAudioSrc('donate');
           break;
       }
 
@@ -148,6 +157,10 @@ const app = new Vue({
 
     const audio = document.createElement('audio');
     audio.addEventListener('ended', this.clearAudio, false);
+
+    this.socket.on('onSoundEffect', onSoundEffectEvent => {
+      this.addAlert('onSoundEffect', onSoundEffectEvent);
+    });
 
     this.socket.on('onFollow', onFollowEvent => {
       this.addAlert('onFollow', onFollowEvent);

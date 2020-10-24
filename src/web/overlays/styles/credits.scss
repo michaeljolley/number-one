@@ -1,159 +1,129 @@
 @import "main";
 
-body {
-  padding: 20px;
-  background-color: rgba(0, 0, 0, .8);
-}
-
 .credits {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 400px;
+  background: $black;
+  
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
 
-  .group {
-    width: 30%;
+  .bg {
+    background-repeat: repeat-x;
+    background: 0 0;
+    animation: bg-scrolling 10s infinite linear;
+
+    position: absolute;
+    z-index: 0;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-      
-    &.slide-in-left-enter-active {
-      animation: SlideInLeft 1s forwards cubic-bezier(.41,.01,.42,1.85);
-    }
+    width: 100%;
+    transform: translate3d(0, 0, 0);
 
-    &.slide-in-left-leave-active  {
-      animation: SlideInLeft 1s backwards cubic-bezier(.41,.01,.42,1.85);
+  }
+    
+  .sponsor {
+    position: relative;
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, .8);
+
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-image-source: $gradient;
+    border-image-slice: 1;
+
+    height: 0%;
+    width: 0%;
+
+    overflow: hidden;
+
+    &.openClose-enter-active, .openClose-enter-to {
+      animation: OpenClose 10s ease-in-out none;
     }
 
     h2 {
-      font-family: 'Roboto';
-      font-size: 2.25em;
-
-      margin-bottom: 0px;
-
-      background: $gradient;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-
-      border-bottom: 2px solid;
-      border-image-source: $gradient;
-      border-image-slice: 1;
+      color: white;
+      font-size: 3em;
+      font-weight: bold;
+      margin: 0px;
+      text-align: center;
     }
 
-    .listing {
+    ul {
+      font-style: 'Roboto';
+      font-size: 1em;
+      list-style: none;
+      color: white;
+      margin: 0px;
+      padding: 0px;
+
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      width: 100%;
-      margin-top: 40px;
-
-      opacity: 0;
+      justify-content: center;
+      align-items: center;
       
-      &.fadeInOut-enter-active, .fadeInOut-enter-to {
-        animation: fadeInOut 10s forwards;
-      }
-  
-      .message {
-        margin-bottom: 25px;
-        margin-right: 20px;
-        position: relative;
-        display: flex;
+      li {
+        display: inline-flex;
+        justify-content: center;
         align-items: center;
-        
-        box-shadow: -0.5em 0.6em 1em -0.4em $darkblue;
-    
-        .panel {
-          display: flex;
-          flex-direction: row-reverse;
-          background-color: $darkblue;
-          
-          border-top: 3px solid;
-          border-image-source: $gradient;
-          border-image-slice: 1;
-          
-          .bubble {
-            padding: 15px;
-            word-wrap: break-word;
-            white-space: pre-line;
-    
-            display: flex;
-            flex-direction: column;
-            
-            font-size: 1.2em;
-            color: $white;
-    
-            span {
-              color: $neonpink;
-            }
-            
-            .name {
-              font-family: 'Roboto';
-              font-size: 1em;
-              font-weight: bold;
-              background: $gradient;
-              background-clip: text;
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-            }
-          }
-      
-          .user {
-            width: 60px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-position-y: bottom;
-            background-color: $white;
-          }    
+
+        &:not(:first-child) {
+          margin-left: 20px;
         }
-        
-        &.mod {
-          .panel {
-            background-color: $lightgray;
-            .bubble {
-              color: $purple;
-            }
-          }
+
+        i {
+          margin-right: 10px;
+          color: $neonblue;
         }
-     
-        &.vip {
-          .panel {
-            background-color: $white;
-            .bubble {
-              color: $darkblue;
-            }
-          }
-        }
+
       }
     }
   }
 }
 
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
+@keyframes bg-scrolling {
   100% {
-    opacity: 0;
+    //transform: translateX(-200%);  
   }
 }
 
-@keyframes SlideInLeft {
-  0% { width: 0%; }
-  100% { width: 30% }
-}
+@keyframes OpenClose {
+  0% {
+    height: 0px;
+    width: 0%;
+  }
 
-@keyframes SlideOutRight {
-  0% { width: 30%; }
-  100% { width: 0% }
+  5% {
+    height: 0px;
+    width: 100%;
+  }
+
+  15% {
+    height: 150px;
+    width: 100%;
+  }
+
+  65% {
+    height: 150px;
+    width: 100%;
+  }
+
+  75% {
+    height: 0px;
+    width: 100%;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  80% {
+    height: 0px;
+    width: 0%;
+  }
 }
