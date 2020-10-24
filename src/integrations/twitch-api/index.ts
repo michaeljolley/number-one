@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express'
 import { TwitchAPI } from './api'
 import { User, Stream, Config } from '../../models'
 import { Cache, CacheType } from '../../cache'
@@ -96,7 +97,7 @@ export abstract class Twitch {
     return stream
   }
 
-  public static validateWebhook(request, response, next): unknown {
+  public static validateWebhook(request: Request, response: Response, next: NextFunction): unknown {
     return Twitch.twitchAPI.validateWebhook(request, response, next);
   }
 }

@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import { log, LogLevel } from '../common'
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations'
-import { OnCheerEvent, OnDonationEvent, OnFollowEvent, OnRaidEvent, OnStreamEndEvent, OnSubEvent, Stream, User } from '../models'
+import { IUserEvent, OnCheerEvent, OnDonationEvent, OnFollowEvent, OnRaidEvent, OnStreamEndEvent, OnSubEvent, Stream, User } from '../models'
 import { OnStreamChangeEvent } from '../models/OnStreamChangeEvent'
 import { State } from '../state'
 
@@ -147,6 +147,6 @@ webhookRouter.post('/test/donation', async (request: Request, response: Response
   response.status(200).send();
 })
 
-const emit = (event: Events, payload: any) => {
+const emit = (event: Events, payload: IUserEvent | OnDonationEvent | OnStreamChangeEvent) => {
   EventBus.eventEmitter.emit(event, payload)
 }

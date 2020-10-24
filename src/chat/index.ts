@@ -395,7 +395,7 @@ export class ChatMonitor {
    * Handler for errors in the Twitch client and/or connection
    * @param error 
    */
-  private onError(error: any): void {
+  private onError(error): void {
     log(LogLevel.Error, `onError: ${error}`)
   }
 }

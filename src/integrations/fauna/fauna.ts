@@ -15,11 +15,11 @@ export abstract class FaunaClient {
     }
   }
 
-  private static mapResponse(payload: any): any {
+  private static mapResponse<T>(payload: FaunaDocument): T {
     return {
       ...payload.data,
       _id: payload.ref.value.id
-    }
+    } as unknown as T
   }
 
   public static async getUser(login: string): Promise<User | undefined> {
@@ -29,13 +29,13 @@ export abstract class FaunaClient {
 
     let user: User
     try {
-      const response = await this.client.query(
+      const response = await this.client.query<FaunaResponse>(
         query.Map(
           query.Paginate(
             query.Match(query.Index("users_login"), login)),
           query.Lambda("users", query.Get((query.Var("users"))))
         )
-      ) as any
+      )
       if (response.data && response.data.length > 0) {
         user = this.mapResponse(response.data[0])
       }
@@ -59,7 +59,7 @@ export abstract class FaunaClient {
       const _id = user._id || existingUser._id
       // Update user
       try {
-        const response = await this.client.query(
+        const response = await this.client.query<FaunaDocument>(
           query.Replace(query.Ref(query.Collection("users"), _id), {
             data: user
           })
@@ -73,7 +73,7 @@ export abstract class FaunaClient {
     else {
       // Create user
       try {
-        const response = await this.client.query(
+        const response = await this.client.query<FaunaDocument>(
           query.Create(query.Collection("users"), {
             data: user
           })
@@ -94,13 +94,13 @@ export abstract class FaunaClient {
 
     let stream: Stream
     try {
-      const response = await this.client.query(
+      const response = await this.client.query<FaunaResponse>(
         query.Map(
           query.Paginate(
             query.Match(query.Index("streams_streamDate"), streamDate)),
           query.Lambda("streams", query.Get((query.Var("streams"))))
         )
-      ) as any
+      )
       if (response.data && response.data.length > 0) {
         stream = this.mapResponse(response.data[0])
       }
@@ -124,7 +124,7 @@ export abstract class FaunaClient {
       const _id = stream._id || existingStream._id
       // Update user
       try {
-        const response = await this.client.query(
+        const response = await this.client.query<FaunaDocument>(
           query.Replace(query.Ref(query.Collection("streams"), _id), {
             data: stream
           })
@@ -138,7 +138,7 @@ export abstract class FaunaClient {
     else {
       // Create stream
       try {
-        const response = await this.client.query(
+        const response = await this.client.query<FaunaDocument>(
           query.Create(query.Collection("streams"), {
             data: stream
           })
@@ -160,7 +160,7 @@ export abstract class FaunaClient {
     let savedAction: Action
 
     try {
-      const response = await this.client.query(
+      const response = await this.client.query<FaunaDocument>(
         query.Create(query.Collection("actions"), {
           data: action
         })
@@ -180,13 +180,13 @@ export abstract class FaunaClient {
 
     let actions: Action[]
     try {
-      const response = await this.client.query(
+      const response = await this.client.query<FaunaResponse>(
         query.Map(
           query.Paginate(
             query.Match(query.Index("actions_actionDate"), actionDate)),
           query.Lambda("actions", query.Get((query.Var("actions"))))
         )
-      ) as any
+      )
       if (response.data && response.data.length > 0) {
         actions = response.data.map(m => this.mapResponse(m))
       }
@@ -204,7 +204,7 @@ export abstract class FaunaClient {
 
     let actions: Action[]
     try {
-      const response = await this.client.query(
+      const response = await this.client.query<FaunaResponse>(
         query.Map(
           query.Paginate(
             query.Union(
@@ -216,7 +216,7 @@ export abstract class FaunaClient {
           ),
           query.Lambda("actions", query.Get((query.Var("actions"))))
         )
-      ) as any
+      )
       if (response.data && response.data.length > 0) {
         actions = response.data.map(m => this.mapResponse(m))
       }
@@ -226,4 +226,20 @@ export abstract class FaunaClient {
     }
     return actions
   }
+}
+
+interface FaunaResponse {
+  data: FaunaDocument[]
+}
+
+interface FaunaDocument {
+  ref: FaunaRef
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  data: object
+}
+interface FaunaRef {
+  value: RefValue
+}
+interface RefValue {
+  id: string
 }

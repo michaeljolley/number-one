@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express'
 import axios, { AxiosResponse } from 'axios'
 import { Config, Stream, User } from '../../models'
 import { LogLevel, log } from '../../common';
@@ -11,7 +12,7 @@ export class TwitchAPI {
   private twitchAPIStreamEndpoint = `${this.twitchAPIEndpoint}/streams`
   private twitchAPIWebhookEndpoint = `${this.twitchAPIEndpoint}/webhooks/hub`
 
-  private headers: object
+  private headers: Record<string, unknown>
   private webhookSecret: string
 
   constructor(private config: Config) {
@@ -87,7 +88,7 @@ export class TwitchAPI {
     let user: User
 
     try {
-      const response: AxiosResponse<any> = await axios.get(url, { headers: this.headers })
+      const response: AxiosResponse = await axios.get(url, { headers: this.headers })
       if (response.data) {
         const body = response.data
         const userData = body.data.length > 1 ? body.data : body.data[0]
@@ -108,7 +109,7 @@ export class TwitchAPI {
     let stream: Stream
 
     try {
-      const response: AxiosResponse<any> = await axios.get(url, { headers: this.headers })
+      const response: AxiosResponse = await axios.get(url, { headers: this.headers })
       if (response.data) {
         const body = response.data
         const streamData = body.data.length > 1 ? body.data : body.data[0]
@@ -123,7 +124,7 @@ export class TwitchAPI {
     return stream
   }
 
-  public validateWebhook(request, response, next): unknown {
+  public validateWebhook(request: Request, response: Response, next: NextFunction): unknown {
 
     const givenSignature = request.headers['x-hub-signature'];
 
