@@ -49,13 +49,12 @@ Vue.component('sponsors', {
 
 Vue.component('background', {
   template: `
-      <div v-if="bgImageUrl" class="bg" :class="{ shouldTransition: shouldTransition }" :style="background"></div>
+      <div v-if="bgImageUrl" class="bg" :style="background"></div>
   `,
   props: ['images'],
   data: function () {
     return {
-      bgImageUrl: null,
-      currentIndex: 0
+      bgImageUrl: null
     }
   },
   computed: {
@@ -63,24 +62,18 @@ Vue.component('background', {
       return this.bgImageUrl ? {
         backgroundImage: `url('${this.bgImageUrl}')`
       } : null;
-    },
-    shouldTransition: function () {
-      return this.images.length > 119;
-    },
-    transitionName: function () {
-      return this.shouldTransition ? 'fadeInOut' : 'fadeIn';
     }
   },
   watch: {
     images: function (newImages, oldImages) {
       if (oldImages.length === 0 && newImages.length > 0) {
-        this.redraw(null, true);
+        this.draw();
       }
     }
   },
   methods: {
-    redraw(el, bypass) {
-      if (this.images.length > 0 && (bypass || this.shouldTransition)) {
+    draw() {
+      if (this.images.length > 0) {
 
         URL.revokeObjectURL(this.bgImageUrl);
         this.bgImageUrl = null;
@@ -93,39 +86,50 @@ Vue.component('background', {
           canvas.width = canvasWidth;
           const context = canvas.getContext('2d')
 
-          if (this.currentIndex > this.images.length) {
-            this.currentIndex = 0;
+          let memberImages = [];
+
+          const maxPixels = canvasHeight * canvasWidth;
+
+          const dimensionOptions = [10, 20, 40, 80];
+          let imageXY = 0;
+
+          dimensionOptions.forEach((xy) => {
+            let pixelCount = xy * xy;
+            const imagesPer = maxPixels / pixelCount;
+            if (imagesPer > this.images.length) {
+              imageXY = xy;
+            }
+          })
+
+          const imagesPerRow = canvasWidth / imageXY;
+          const imagesPerBG = maxPixels / (imageXY * imageXY);
+
+          if (this.images.length === imagesPerBG) {
+            memberImages.concat(this.images);
           }
 
-          let memberImages = [];
-          while (memberImages.length < 120) {
-            if (this.images.length < 120) {
-              memberImages = memberImages.concat(this.images.slice(0, 120 - memberImages.length));
-            } else {
-              if (this.currentIndex >= this.images.length) {
-                this.currentIndex = 0;
-              }
-              const toAdd = this.images.slice(this.currentIndex, (120 - memberImages.length + this.currentIndex));
-              memberImages = memberImages.concat(toAdd);
-              this.currentIndex += toAdd.length;
+          while (memberImages.length < imagesPerBG) {
+            for (let i = this.images.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [this.images[i], this.images[j]] = [this.images[j], this.images[i]];
             }
+            memberImages = memberImages.concat(this.images.slice(0, imagesPerBG - memberImages.length));
           }
 
           let xPos = 0, yPos = 0;
 
           // for each image, draw to canvas
           for (let i = 0; i < memberImages.length; i++) {
-
-            context.drawImage(memberImages[i], xPos + 1, yPos + 1, 78, 78)
+            context.drawImage(memberImages[i], xPos + 1, yPos + 1, imageXY - 2, imageXY - 2)
 
             // shift x & y positions
-            if (((i + 1) % 24) === 0) {
-              yPos += 80
+            if (((i + 1) % imagesPerRow) === 0) {
+              yPos += imageXY
             }
-            if (xPos === 1840) {
+            if (xPos === ((imagesPerRow - 1) * imageXY)) {
               xPos = 0
             } else {
-              xPos += 80
+              xPos += imageXY
             }
           }
 
@@ -171,10 +175,6 @@ const app = new Vue({
       if (onCreditRollEvent && onCreditRollEvent.credits) {
         this.groups = [];
         const credits = onCreditRollEvent.credits;
-
-        this.sponsors = credits.filter(c => c.onCheer || c.onSponsor || c.onDonation || c.onSub)
-          .sort(sortFunction);
-
         const contributors = credits.map(m => m.avatarUrl);
 
         // load all images
@@ -184,7 +184,11 @@ const app = new Vue({
         ).then((images) => {
           let tmp = images.filter(f => f);
           tmp = tmp.concat(tmp);
+
           this.images = tmp;
+          this.sponsors = credits.filter(c => c.onCheer || c.onSponsor || c.onDonation || c.onSub)
+            .sort(sortFunction);
+
         });
       }
     }

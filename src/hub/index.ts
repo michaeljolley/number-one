@@ -28,6 +28,9 @@ export class IO {
     this.io = io(server)
 
     this.io.on('connect', (conn: io.Socket) => {
+
+      conn.on('requestCreditRoll', () => this.requestCreditRoll());
+
       // Ensure the connection is from the bots overlays and not
       // and external actor.
       if (conn.handshake.headers.host !== process.env.HOST &&

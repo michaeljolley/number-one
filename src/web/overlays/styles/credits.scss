@@ -13,16 +13,13 @@
   justify-content: center;
 
   .bg {
-    background-repeat: repeat-x;
-    background: 0 0;
-    animation: bg-scrolling 10s infinite linear;
-
     position: absolute;
     z-index: 0;
     height: 100%;
     width: 100%;
-    transform: translate3d(0, 0, 0);
 
+    opacity: 0;
+    animation: FadeIn 1s forwards;
   }
     
   .sponsor {
@@ -97,10 +94,9 @@
   }
 }
 
-@keyframes bg-scrolling {
-  100% {
-    //transform: translateX(-200%);  
-  }
+@keyframes FadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes OpenClose {
