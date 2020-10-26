@@ -37,7 +37,7 @@ jobs:
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: number-one
-          dns-name-label: nummer-een.centralus.azurecontainer.io
+          dns-name-label: nummer-een
           image: ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }}
           registry-username: ${{ secrets.ACR_USERNAME }}
           registry-password: ${{ secrets.ACR_PASSWORD }}
