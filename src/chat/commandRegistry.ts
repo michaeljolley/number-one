@@ -21,6 +21,7 @@ import { Stop } from "./commands/stop";
 import { Store } from "./commands/store";
 import { Theme } from "./commands/theme";
 import { Twitter } from "./commands/twitter";
+import { Youtube } from "./commands/youtube";
 import { Command } from "./models/Command";
 
 export abstract class CommandRegistry {
@@ -48,6 +49,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('so', So))
     this.commands.push(new Command('theme', Theme))
     this.commands.push(new Command('twitter', Twitter))
+    this.commands.push(new Command('youtube', Youtube))
     this.commands.push(new Command('jsdefender', JSDefender))
     this.commands.push(new Command('store', Store))
   }
