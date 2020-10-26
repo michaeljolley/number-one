@@ -13,6 +13,5 @@ jobs:
         with:
           organization: builders-club
           team: contributors
-          comment: Welcome to the Builders Club!
         env:
           ACCESS_TOKEN: ${{ secrets.ORG_ADMIN_ACCESS_TOKEN }}
