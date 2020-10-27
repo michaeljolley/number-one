@@ -46,7 +46,4 @@ jobs:
           location: 'central us'
           os-type: Linux
           restart-policy: Always
-          cpu: 2
-          memory: 3.5
-          gpu-sku: P100
-          gpu-count: 2
+          secure-environment-variables: FAUNADB_SECRET=${{ secrets.CD_FAUNADB_SECRET }} HOST=${{ secrets.CD_HOST }} PORT=${{ secrets.CD_PORT }} STREAM_ELEMENTS_JWT=${{ secrets.CD_STREAM_ELEMENTS_JWT }} TWITCH_BOT_AUTH_TOKEN=${{ secrets.CD_TWITCH_BOT_AUTH_TOKEN }} TWITCH_BOT_USERNAME=${{ secrets.CD_TWITCH_BOT_USERNAME }} TWITCH_CHANNEL=${{ secrets.CD_TWITCH_CHANNEL }} TWITCH_CHANNEL_ID=${{ secrets.CD_TWITCH_CHANNEL_ID }} TWITCH_CLIENT_ID=${{ secrets.CD_TWITCH_CLIENT_ID }} TWITCH_CLIENT_SECRET=${{ secrets.CD_TWITCH_CLIENT_SECRET }}
