@@ -13,7 +13,8 @@
     "build": "npm run build:typescript && npm run build:scss && npm run build:copy",
     "debug": "nodemon -i .git,node_modules -e js,ts,htm,env,scss,json,vue -w ./src -x \"node --inspect --require ts-node/register ./src/index.ts\"",
     "lint": "eslint ./",
-    "test": "mocha -r ts-node/register src/**/*spec.ts --insect"
+    "test": "mocha -r ts-node/register src/**/*spec.ts --insect",
+    "coverage": "nyc mocha -r ts-node/register src/**/*spec.ts --insect"
   },
   "repository": {
     "type": "git",
@@ -60,6 +61,7 @@
     "mocha": "^8.1.0",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
     "sinon": "^9.0.2",
     "ts-loader": "^8.0.1",
     "ts-node": "^8.10.2",
