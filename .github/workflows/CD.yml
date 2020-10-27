@@ -34,7 +34,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: 'Deploy to Azure Container Instances'
-        uses: 'azure/aci-deploy@v1'
+        uses: 'azure/aci-deploy@master'
         with:
           resource-group: number-one
           dns-name-label: nummer-een
