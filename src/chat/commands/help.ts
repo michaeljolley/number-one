@@ -7,8 +7,8 @@ import { CommandRegistry } from "../commandRegistry";
  * Sends a message to chat listing all available commands
  * @param onCommandEvent
  */
-export async function Help(): Promise<void> {
-  const commands = CommandRegistry.getCommands().map((c) => { return c.commandName}).join(', ')
+export function Help(): void {
+  const commands = CommandRegistry.getCommands().map((c) => { return `!${c.commandName}` }).join(', ')
   
   const message = `I can respond to the following commands: ${commands}`;
 
