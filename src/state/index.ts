@@ -1,9 +1,10 @@
 import { log, LogLevel } from "../common";
 import { EventBus, Events } from "../events";
-import { Twitch } from "../integrations";
-import { FaunaClient } from "../integrations/fauna/fauna";
+import { Fauna, Twitch } from "../integrations";
 import {
+  Credit,
   OnCheerEvent,
+  OnCreditRollEvent,
   OnDonationEvent,
   OnStreamChangeEvent,
   OnStreamStartEvent,
@@ -29,6 +30,9 @@ export abstract class State {
       (onDonationEvent: OnDonationEvent) => this.calcDonation(onDonationEvent));
     EventBus.eventEmitter.addListener(Events.OnSub,
       (onSubEvent: OnSubEvent) => this.calcSub(onSubEvent));
+
+    EventBus.eventEmitter.addListener(Events.RequestCreditRoll,
+      () => this.requestCreditRoll());
   }
 
   public static setStream(stream: Stream): void {
@@ -42,13 +46,13 @@ export abstract class State {
     let stream: Stream
     try {
       const streamDate = new Date().toLocaleDateString('en-US')
-      stream = await Twitch.getStream(streamDate)
+      stream = await Twitch.getStream('10/22/2020')
     }
     catch (err) {
       log(LogLevel.Error, `onCommand: getStream: ${err}`)
     }
 
-    if (stream && !stream.ended_at) {
+    if (stream) { // && !stream.ended_at) {
       this.stream = stream;
       await this.recalculateAmountGiven(this.stream.streamDate);
       return this.stream;
@@ -68,7 +72,7 @@ export abstract class State {
 
   private static async recalculateAmountGiven(streamDate: string): Promise<void> {
     try {
-      const activities = await FaunaClient.getGivingActions(streamDate);
+      const activities = await Fauna.getGivingActions(streamDate);
 
       for (const activity of activities) {
         switch (activity.eventType) {
@@ -130,5 +134,45 @@ export abstract class State {
   }
   private static calcDonation(onDonationEvent: OnDonationEvent) {
     this.addAmountGiven(onDonationEvent.amount);
+  }
+
+  private static async requestCreditRoll(): Promise<void> {
+    try {
+      if (!this.stream) {
+        await this.getStream();
+      }
+
+      if (this.stream) {
+        const actions: [string[]] = await Fauna.getCredits(this.stream.streamDate);
+
+        const distinctCredits: Credit[] = [];
+        
+        const credits: Credit[] = actions.map((payload: string[]) => {
+          return new Credit(payload[1], payload[2]);
+        });
+
+        credits.forEach((credit: Credit) => {
+          if (!distinctCredits.find(f => f.displayName === credit.displayName)) {
+            distinctCredits.push(credit);
+          }
+        });
+
+        distinctCredits.forEach((credit) => {
+          credit.onCheer = actions.some(a => a[1] === credit.displayName && a[3] === 'onCheer');
+          credit.onSub = actions.some(a => a[1] === credit.displayName && a[3] === 'onSub');
+          credit.onDonation = actions.some(a => a[1] === credit.displayName && a[3] === 'onDonation');
+          const sponsor = actions.find(a => a[1] === credit.displayName && a[3] === 'onSponsor');
+          if (sponsor) {
+            credit.onSponsor = true;
+            credit.tier = parseInt(sponsor[4]);
+          }
+        });
+
+        const onCreditRollEvent = new OnCreditRollEvent(distinctCredits);
+        EventBus.eventEmitter.emit(Events.OnCreditRoll, onCreditRollEvent);
+      }
+    } catch (err) {
+      log(LogLevel.Error, `State: requestCreditRoll: ${err}`);
+    }
   }
 }

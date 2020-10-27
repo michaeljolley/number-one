@@ -4,6 +4,9 @@ package-lock.json
 .env
 .env.test
 
+# compiled css
+src/web/overlays/wwwroot/styles
+
 # Logs
 logs
 *.log

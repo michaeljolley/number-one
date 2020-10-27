@@ -28,8 +28,8 @@ export class TwitchAPI {
   public async registerWebhooks(): Promise<void> {
     this.webhookSecret = Guid.create().toString();
 
-    await this.registerFollowWebhook();
-    await this.registerStreamWebhook();
+    // await this.registerFollowWebhook();
+    // await this.registerStreamWebhook();
   }
 
   private async registerFollowWebhook(): Promise<void> {

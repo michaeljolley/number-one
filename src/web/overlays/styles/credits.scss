@@ -1,0 +1,134 @@
+@import "main";
+
+.credits {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 400px;
+  background: $black;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .bg {
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+
+    opacity: 0;
+    animation: FadeIn 1s forwards;
+  }
+    
+  .sponsor {
+    position: relative;
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, .8);
+
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-image-source: $gradient;
+    border-image-slice: 1;
+
+    height: 0%;
+    width: 0%;
+
+    overflow: hidden;
+
+    &.openClose-enter-active, .openClose-enter-to {
+      animation: OpenClose 10s ease-in-out none;
+    }
+
+    h2 {
+      color: white;
+      font-size: 3em;
+      font-weight: bold;
+      margin: 0px;
+      text-align: center;
+
+      &.tier {
+        background: $gradient;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    ul {
+      font-style: 'Roboto';
+      font-size: .8em;
+      text-transform: uppercase;
+      list-style: none;
+      color: white;
+      margin: 0px;
+      padding: 0px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      li {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        &:not(:first-child) {
+          margin-left: 20px;
+        }
+
+        i {
+          font-size: 1.2em;
+          margin-right: 10px;
+          color: $neonblue;
+        }
+
+      }
+    }
+  }
+}
+
+@keyframes FadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes OpenClose {
+  0% {
+    height: 0px;
+    width: 0%;
+  }
+
+  5% {
+    height: 0px;
+    width: 100%;
+  }
+
+  15% {
+    height: 150px;
+    width: 100%;
+  }
+
+  65% {
+    height: 150px;
+    width: 100%;
+  }
+
+  75% {
+    height: 0px;
+    width: 100%;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  80% {
+    height: 0px;
+    width: 0%;
+  }
+}
