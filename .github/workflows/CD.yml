@@ -44,3 +44,9 @@ jobs:
           registry-password: ${{ secrets.ACR_PASSWORD }}
           name: nummer-een
           location: 'central us'
+          os-type: Linux
+          restart-policy: Always
+          cpu: 2
+          memory: 3.5
+          gpu-sku: P100
+          gpu-count: 2
