@@ -27,7 +27,7 @@ afterEach(() => {
 describe('Commands: _SoundEffect', () => {
 
   it('should not send message to chat', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
@@ -38,7 +38,7 @@ describe('Commands: _SoundEffect', () => {
   })
 
   it('should send sound effect if command matches existing .mp3', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, spy)
@@ -50,7 +50,7 @@ describe('Commands: _SoundEffect', () => {
 
   it('should not send sound effect if command does not match existing .mp3', () => {
     onCommandEvent.command = 'no_such_file'
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, spy)
@@ -61,7 +61,7 @@ describe('Commands: _SoundEffect', () => {
   })
 
   it('should not send events if on cooldown', () => {
-    var sfxSpy = sinon.spy()
+    const sfxSpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, sfxSpy)
@@ -75,7 +75,7 @@ describe('Commands: _SoundEffect', () => {
 
   it('should send events if on cooldown and user is moderator', () => {
     onCommandEvent.flags = moderatorFlags()
-    var sfxSpy = sinon.spy()
+    const sfxSpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, sfxSpy)
@@ -89,7 +89,7 @@ describe('Commands: _SoundEffect', () => {
 
   it('should send events if on cooldown and user is broadcaster', () => {
     onCommandEvent.flags = broadcasterFlags()
-    var sfxSpy = sinon.spy()
+    const sfxSpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, sfxSpy)
@@ -102,7 +102,7 @@ describe('Commands: _SoundEffect', () => {
   })
 
   it('should not send events if on user cooldown', () => {
-    var sfxSpy = sinon.spy()
+    const sfxSpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, sfxSpy)

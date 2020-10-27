@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to Michael's blog
  * @param onCommandEvent 
  */
-export function Blog(onCommandEvent: OnCommandEvent) {
+export function Blog(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

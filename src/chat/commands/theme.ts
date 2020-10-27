@@ -5,7 +5,7 @@ import { EventBus, Events } from "../../events"
  * Dispatches events to shame people for bad themes
  * @param onCommandEvent 
  */
-export function Theme(onCommandEvent: OnCommandEvent) {
+export function Theme(onCommandEvent: OnCommandEvent):void {
 
   const user = onCommandEvent.user
   const incomingMessage = onCommandEvent.message

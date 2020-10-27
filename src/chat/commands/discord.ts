@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to the BBB Discord
  * @param onCommandEvent 
  */
-export function Discord(onCommandEvent: OnCommandEvent) {
+export function Discord(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

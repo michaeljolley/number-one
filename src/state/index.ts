@@ -143,7 +143,7 @@ export abstract class State {
       }
 
       if (this.stream) {
-        const actions: [string[]] = await Fauna.getCredits(this.stream.streamDate);
+        const actions: string[][] = await Fauna.getCredits(this.stream.streamDate);
 
         const distinctCredits: Credit[] = [];
         

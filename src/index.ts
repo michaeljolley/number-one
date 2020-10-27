@@ -51,13 +51,16 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   const app = express()
   const server = http.createServer(app)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const streamElements = new StreamElements(config);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const io = new IO(server);
+
   Fauna.init()
   State.init()
   Logger.init()
   Twitch.init(config)
 
-  const io = new IO(server)
 
   app.use(express.json())
 

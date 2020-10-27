@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with details about Backpack Buddies
  * @param onCommandEvent 
  */
-export function Giving(onCommandEvent: OnCommandEvent) {
+export function Giving(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

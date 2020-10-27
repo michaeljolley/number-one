@@ -1,6 +1,6 @@
 import { User } from '../../models'
 
-export function user() {
+export function user():User {
   return new User(
     'testUser',
     'http://image.png',

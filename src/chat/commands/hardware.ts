@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with specs for Michael's computer
  * @param onCommandEvent 
  */
-export function Hardware(onCommandEvent: OnCommandEvent) {
+export function Hardware(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

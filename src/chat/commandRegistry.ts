@@ -27,7 +27,7 @@ import { Command } from "./models/Command";
 export abstract class CommandRegistry {
   private static commands: [Command?] = []
 
-  public static init() {
+  public static init():void {
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
     this.commands.push(new Command('blog', Blog))

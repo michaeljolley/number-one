@@ -5,7 +5,8 @@ import { EventBus, Events } from "../../events"
  * Sends a message to chat BBB Hype emotes
  * @param onCommandEvent 
  */
-export function Hype(onCommandEvent: OnCommandEvent) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function Hype(onCommandEvent: OnCommandEvent):void {
 
   const message = `baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype baldbeHype`
 

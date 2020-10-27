@@ -27,7 +27,7 @@ afterEach(() => {
 describe('Commands: Attention', () => {
 
   it('should send message to chat', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
@@ -38,7 +38,7 @@ describe('Commands: Attention', () => {
   })
 
   it('should send sound effect', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, spy)
@@ -49,8 +49,8 @@ describe('Commands: Attention', () => {
   })
 
   it('should not send events if on cooldown', () => {
-    var saySpy = sinon.spy()
-    var sfxSpy = sinon.spy()
+    const saySpy = sinon.spy()
+    const sfxSpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, sfxSpy)
@@ -65,8 +65,8 @@ describe('Commands: Attention', () => {
   })
 
   it('should not send events if on user cooldown', () => {
-    var saySpy = sinon.spy()
-    var sfxSpy = sinon.spy()
+    const saySpy = sinon.spy()
+    const sfxSpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSoundEffect, sfxSpy)
