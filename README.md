@@ -1,14 +1,9 @@
 
 # number-one
 
-<<<<<<< HEAD
-![GitHub latest version](https://img.shields.io/github/v/tag/builders-club/number-one?label=latest%20version)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/builders-club/number-one/CI/master) ![Github All Contributors](https://img.shields.io/github/all-contributors/builders-club/number-one?color=orange) ![Twitch Status](https://img.shields.io/twitch/status/baldbeardedbuilder?color=%239146FF)
-=======
 ![CI](https://github.com/builders-club/number-one/workflows/CI/badge.svg?branch=main) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
->>>>>>> dev
 
 Number One is a [Twitch](https://twitch.tv) chat bot that provides the following features:
 
