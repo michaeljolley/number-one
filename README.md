@@ -25,10 +25,7 @@ Number One is a [Twitch](https://twitch.tv) chat bot that provides the following
 | TWITCH_BOT_USERNAME   | Twitch bot login                                 |
 | TWITCH_BOT_AUTH_TOKEN | OAuth token for the Twitch account used as a bot |
 | FAUNADB_SECRET        | Fauna Secret Key                                 |
-
-## Release Notes
-
-See [CHANGELOG.md](CHANGELOG.md)
+| STREAM_ELEMENTS_JWT   | Stream Elements token to integrate donations     |
 
 ## Contributors
 

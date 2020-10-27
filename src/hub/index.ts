@@ -16,7 +16,7 @@ import {
   OnStreamStartEvent,
   OnSubEvent,
   OnRaidEvent,
-  OnPointRedemptionEvent
+  OnPointRedemptionEvent,
 } from "../models"
 import { OnStreamChangeEvent } from "../models/OnStreamChangeEvent"
 
@@ -28,6 +28,9 @@ export class IO {
     this.io = io(server)
 
     this.io.on('connect', (conn: io.Socket) => {
+
+      conn.on('requestCreditRoll', () => this.requestCreditRoll());
+
       // Ensure the connection is from the bots overlays and not
       // and external actor.
       if (conn.handshake.headers.host !== process.env.HOST &&
@@ -66,6 +69,9 @@ export class IO {
       (onSubEvent: OnSubEvent) => this.onSub(onSubEvent))
     EventBus.eventEmitter.addListener(Events.OnRaid,
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
+
+    EventBus.eventEmitter.addListener(Events.RequestCreditRoll,
+      () => this.requestCreditRoll())
   }
 
   private onChatMessage(onChatMessageEvent: OnChatMessageEvent) {
@@ -126,5 +132,9 @@ export class IO {
 
   private onRaid(onRaidEvent: OnRaidEvent) {
     this.io.emit(Events.OnRaid, onRaidEvent)
+  }
+
+  private requestCreditRoll() {
+    this.io.emit(Events.RequestCreditRoll);
   }
 }

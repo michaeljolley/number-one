@@ -65,5 +65,9 @@ const app = new Vue({
 
     console.log("We're loaded and listening to 'onChatMessage' from socket.io");
   },
-  template: '<div class="chat"><transition-group name="list" @after-leave="checkOverflow"><chatMessage v-for="(message, index) in messages" :key="message.id" :onChatMessageEvent="message" :ind="index" :total="messages.length" v-on:removeItem="removeItem" ref="message"></chatMessage></transition></div>'
+  template: `<div class="chat">
+              <transition-group name="list" @after-leave="checkOverflow">
+                <chatMessage v-for="(message, index) in messages" :key="message.id" :onChatMessageEvent="message" :ind="index" :total="messages.length" v-on:removeItem="removeItem" ref="message"></chatMessage>
+              </transition-group>
+            </div>`
 })

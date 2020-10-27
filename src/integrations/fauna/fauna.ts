@@ -1,5 +1,5 @@
 import { Client, query, ClientConfig } from 'faunadb'
-import { Action, Stream, User } from '../../models'
+import { Action, Credit, Sponsor, Stream, User } from '../../models'
 import { log, LogLevel } from '../../common'
 
 export abstract class FaunaClient {
@@ -173,26 +173,27 @@ export abstract class FaunaClient {
     return savedAction
   }
 
-  public static async getActions(actionDate: string): Promise<Action[] | undefined> {
+  public static async getCredits(actionDate: string): Promise<[string[]] | undefined> {
     if (!this.client) {
       return undefined
     }
 
-    let actions: Action[]
+    let actions: [string[]]
     try {
-      const response = await this.client.query<FaunaResponse>(
-        query.Map(
-          query.Paginate(
-            query.Match(query.Index("actions_actionDate"), actionDate)),
-          query.Lambda("actions", query.Get((query.Var("actions"))))
-        )
-      )
+      const response = await this.client.query(
+        query.Paginate(
+          query.Distinct(
+            query.Match(query.Index("actions_actionDate"), actionDate)
+          ),
+          { size: 1000 }
+        ),
+      ) as any
       if (response.data && response.data.length > 0) {
-        actions = response.data.map(m => this.mapResponse(m))
+        actions = response.data
       }
     }
     catch (err) {
-      log(LogLevel.Error, `Fauna:getActions - ${err}`)
+      log(LogLevel.Error, `Fauna:getCredits - ${err}`)
     }
     return actions
   }
@@ -225,6 +226,30 @@ export abstract class FaunaClient {
       log(LogLevel.Error, `Fauna:getGivingActions - ${err}`)
     }
     return actions
+  }
+  
+  public static async getSponsors(): Promise<Sponsor[] | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
+    let sponsors: Sponsor[]
+    try {
+      const response = await this.client.query(
+        query.Map(
+          query.Paginate(
+            query.Match(query.Index("all_sponsors"))),
+          query.Lambda("sponsors", query.Get((query.Var("sponsors"))))
+        )
+      ) as any
+      if (response.data && response.data.length > 0) {
+        sponsors = response.data.map(m => this.mapResponse(m))
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:getSponsors - ${err}`)
+    }
+    return sponsors
   }
 }
 

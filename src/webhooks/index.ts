@@ -89,6 +89,11 @@ webhookRouter.post('/test/raid', async (request: Request, response: Response) =>
   response.status(200).send();
 })
 
+webhookRouter.get('/test/credits', async (request: Request, response: Response) => {
+  emit(Events.RequestCreditRoll, null)
+  response.status(200).send();
+})
+
 webhookRouter.post('/test/follow', async (request: Request, response: Response) => {
   let { name } = request.body;
   name = name.toLocaleLowerCase();

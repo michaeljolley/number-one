@@ -39,7 +39,11 @@ jobs:
           resource-group: number-one
           dns-name-label: nummer-een
           image: ${{ secrets.ACR_LOGIN }}/numerouno:${{ steps.bump.outputs.version }}
+          registry-login-server: ${{ secrets.ACR_LOGIN }}
           registry-username: ${{ secrets.ACR_USERNAME }}
           registry-password: ${{ secrets.ACR_PASSWORD }}
           name: nummer-een
           location: 'central us'
+          os-type: Linux
+          restart-policy: Always
+          secure-environment-variables: FAUNADB_SECRET=${{ secrets.CD_FAUNADB_SECRET }} HOST=${{ secrets.CD_HOST }} PORT=${{ secrets.CD_PORT }} STREAM_ELEMENTS_JWT=${{ secrets.CD_STREAM_ELEMENTS_JWT }} TWITCH_BOT_AUTH_TOKEN=${{ secrets.CD_TWITCH_BOT_AUTH_TOKEN }} TWITCH_BOT_USERNAME=${{ secrets.CD_TWITCH_BOT_USERNAME }} TWITCH_CHANNEL=${{ secrets.CD_TWITCH_CHANNEL }} TWITCH_CHANNEL_ID=${{ secrets.CD_TWITCH_CHANNEL_ID }} TWITCH_CLIENT_ID=${{ secrets.CD_TWITCH_CLIENT_ID }} TWITCH_CLIENT_SECRET=${{ secrets.CD_TWITCH_CLIENT_SECRET }}
