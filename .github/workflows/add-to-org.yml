@@ -5,7 +5,7 @@ on:
     types: [closed]
 jobs:
   invite:
-    if: github.event.pull_request.merged == true
+    if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     steps:
       - name: Invite contributor to the organization
