@@ -46,7 +46,7 @@ export abstract class State {
     let stream: Stream
     try {
       const streamDate = new Date().toLocaleDateString('en-US')
-      stream = await Twitch.getStream('10/22/2020')
+      stream = await Twitch.getStream(streamDate)
     }
     catch (err) {
       log(LogLevel.Error, `onCommand: getStream: ${err}`)
