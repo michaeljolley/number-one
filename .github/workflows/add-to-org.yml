@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ruhroh
-        runs: console.dir(github.event)
+        run: console.dir(github.event)
       - name: Invite contributor to the organization
         uses: lekterable/inclusive-organization-action@v1.1.0
         with:
