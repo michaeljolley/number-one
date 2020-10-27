@@ -1,5 +1,5 @@
 import { FaunaClient } from "./fauna";
-import { Action, Credit, Sponsor, Stream, User } from "../../models";
+import { Action, Sponsor, Stream, User } from "../../models";
 import { LogLevel, log } from '../../common'
 
 export abstract class Fauna {
@@ -56,8 +56,8 @@ export abstract class Fauna {
     return stream
   }
 
-  public static async getCredits(actionDate: string): Promise<[string[]] | undefined> {
-    let actions: [string[]] | undefined;
+  public static async getCredits(actionDate: string): Promise<string[][] | undefined> {
+    let actions: string[][] | undefined;
     let sponsors: Sponsor[] | undefined;
 
     try {

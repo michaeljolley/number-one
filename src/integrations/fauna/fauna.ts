@@ -1,5 +1,5 @@
 import { Client, query, ClientConfig } from 'faunadb'
-import { Action, Credit, Sponsor, Stream, User } from '../../models'
+import { Action, Sponsor, Stream, User } from '../../models'
 import { log, LogLevel } from '../../common'
 
 export abstract class FaunaClient {
@@ -173,23 +173,23 @@ export abstract class FaunaClient {
     return savedAction
   }
 
-  public static async getCredits(actionDate: string): Promise<[string[]] | undefined> {
+  public static async getCredits(actionDate: string): Promise<string[][] | undefined> {
     if (!this.client) {
       return undefined
     }
 
-    let actions: [string[]]
+    let actions: string[][]
     try {
-      const response = await this.client.query(
+      const response = await this.client.query<FaunaResponse>(
         query.Paginate(
           query.Distinct(
             query.Match(query.Index("actions_actionDate"), actionDate)
           ),
           { size: 1000 }
         ),
-      ) as any
+      )
       if (response.data && response.data.length > 0) {
-        actions = response.data
+        actions = response.data.map(m => this.mapResponse(m));
       }
     }
     catch (err) {
@@ -235,13 +235,13 @@ export abstract class FaunaClient {
 
     let sponsors: Sponsor[]
     try {
-      const response = await this.client.query(
+      const response = await this.client.query<FaunaResponse>(
         query.Map(
           query.Paginate(
             query.Match(query.Index("all_sponsors"))),
           query.Lambda("sponsors", query.Get((query.Var("sponsors"))))
         )
-      ) as any
+      )
       if (response.data && response.data.length > 0) {
         sponsors = response.data.map(m => this.mapResponse(m))
       }
@@ -259,8 +259,7 @@ interface FaunaResponse {
 
 interface FaunaDocument {
   ref: FaunaRef
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  data: object
+  data: Record<string, unknown>
 }
 interface FaunaRef {
   value: RefValue
