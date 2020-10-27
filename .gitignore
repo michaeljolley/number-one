@@ -5,7 +5,7 @@ package-lock.json
 .env.test
 
 # compiled css
-src/web/overlays/wwwroot/styles
+*.css
 
 # Logs
 logs

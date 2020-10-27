@@ -36,6 +36,7 @@ const app = new Vue({
     return {
       alerts: [],
       socket: null,
+      activeAudioPlayer: null,
       activeAlert: {
         line1: null,
         line2: null,
@@ -72,6 +73,11 @@ const app = new Vue({
     clearAudio() {
       const audio = document.createElement('audio');
       audio.src = '';
+    },
+    stopAudio() {
+      let audio = this.$refs.audioFile;
+      audio.pause();
+      this.alerts = this.alerts.filter(f => f.line1);
     },
     processNextAlert() {
       const nextAlert = this.alerts[0];
@@ -147,6 +153,7 @@ const app = new Vue({
     },
     onInterval() {
       if (!this.activeAlert.line1 &&
+        !this.activeAlert.audio &&
         this.alerts.length > 0) {
         this.processNextAlert();
       }
@@ -160,6 +167,10 @@ const app = new Vue({
 
     this.socket.on('onSoundEffect', onSoundEffectEvent => {
       this.addAlert('onSoundEffect', onSoundEffectEvent);
+    });
+
+    this.socket.on('onStop', onStopEvent => {
+      this.stopAudio();
     });
 
     this.socket.on('onFollow', onFollowEvent => {
