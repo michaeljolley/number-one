@@ -1,16 +1,8 @@
-import { OnCommandEvent, OnSayEvent } from "../../models";
+import { OnSayEvent } from "../../models";
 import { EventBus, Events } from "../../events";
-import dotenv from "dotenv";
-dotenv.config();
 
-import axios from "axios";
 import { CommandRegistry } from "../commandRegistry";
 
-interface AuthResult {
-  data: {
-    access_token: string
-  }
-}
 /**
  * Sends a message to chat listing all available commands
  * @param onCommandEvent
