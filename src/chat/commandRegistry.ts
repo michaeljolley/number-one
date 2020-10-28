@@ -15,6 +15,7 @@ import { Hype } from "./commands/hype";
 import { Instagram } from "./commands/instagram";
 import { JSDefender } from "./commands/jsdefender";
 import { Keyboard } from "./commands/keyboard";
+import { KidsFed } from './commands/kidsfed';
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
 import { So } from "./commands/so";
@@ -46,6 +47,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('hype', Hype))
     this.commands.push(new Command('instagram', Instagram))
     this.commands.push(new Command('keyboard', Keyboard))
+    this.commands.push(new Command('kidsfed', KidsFed))
     this.commands.push(new Command('livecoders', LiveCoders))
     this.commands.push(new Command('pobox', POBox))
     this.commands.push(new Command('stop', Stop))

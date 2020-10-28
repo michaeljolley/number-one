@@ -17,6 +17,7 @@ import {
   OnSubEvent,
   OnRaidEvent,
   OnPointRedemptionEvent,
+  OnPocketChangeEvent,
 } from "../models"
 import { OnStreamChangeEvent } from "../models/OnStreamChangeEvent"
 
@@ -69,7 +70,11 @@ export class IO {
       (onSubEvent: OnSubEvent) => this.onSub(onSubEvent))
     EventBus.eventEmitter.addListener(Events.OnRaid,
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
+    EventBus.eventEmitter.addListener(Events.OnPocketChange,
+      (onPocketChangeEvent: OnPocketChangeEvent) => this.onPocketChangeEvent(onPocketChangeEvent))
 
+    EventBus.eventEmitter.addListener(Events.RequestGivingUpdate,
+      () => this.requestGivingUpdate())
     EventBus.eventEmitter.addListener(Events.RequestCreditRoll,
       () => this.requestCreditRoll())
   }
@@ -134,7 +139,14 @@ export class IO {
     this.io.emit(Events.OnRaid, onRaidEvent)
   }
 
+  private onPocketChangeEvent(onPocketChangeEvent: OnPocketChangeEvent) {
+    this.io.emit(Events.OnPocketChange, onPocketChangeEvent);
+  }
+
   private requestCreditRoll() {
     this.io.emit(Events.RequestCreditRoll);
+  }
+  private requestGivingUpdate() {
+    this.io.emit(Events.RequestGivingUpdate);
   }
 }
