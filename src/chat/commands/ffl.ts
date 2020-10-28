@@ -5,7 +5,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to the Family Friendly Live Twitch team
  * @param onCommandEvent 
  */
-export function FFL(onCommandEvent: OnCommandEvent) {
+export function FFL(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

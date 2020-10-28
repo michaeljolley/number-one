@@ -4,6 +4,9 @@ package-lock.json
 .env
 .env.test
 
+# compiled css
+*.css
+
 # Logs
 logs
 *.log

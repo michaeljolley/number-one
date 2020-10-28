@@ -16,8 +16,9 @@ import {
   OnStreamStartEvent,
   OnSubEvent,
   OnRaidEvent,
-  OnPointRedemptionEvent
+  OnPointRedemptionEvent,
 } from "../models"
+import { OnStreamChangeEvent } from "../models/OnStreamChangeEvent"
 
 export class IO {
 
@@ -27,10 +28,13 @@ export class IO {
     this.io = io(server)
 
     this.io.on('connect', (conn: io.Socket) => {
+
+      conn.on('requestCreditRoll', () => this.requestCreditRoll());
+
       // Ensure the connection is from the bots overlays and not
       // and external actor.
-      if (conn.handshake.headers.host !== process.env.HOST && 
-          conn.handshake.headers.host !== `${process.env.HOST}:${process.env.PORT}`) {
+      if (conn.handshake.headers.host !== process.env.HOST &&
+        conn.handshake.headers.host !== `${process.env.HOST}:${process.env.PORT}`) {
         conn.disconnect(true)
       }
     })
@@ -55,6 +59,8 @@ export class IO {
       (onSoundEffectEvent: OnSoundEffectEvent) => this.onSoundEffect(onSoundEffectEvent))
     EventBus.eventEmitter.addListener(Events.OnStop,
       (onStopEvent: OnStopEvent) => this.onStop(onStopEvent))
+    EventBus.eventEmitter.addListener(Events.OnStreamChange,
+      (onStreamChangeEvent: OnStreamChangeEvent) => this.onStreamChange(onStreamChangeEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamEnd,
       (onStreamEndEvent: OnStreamEndEvent) => this.onStreamEnd(onStreamEndEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamStart,
@@ -63,6 +69,9 @@ export class IO {
       (onSubEvent: OnSubEvent) => this.onSub(onSubEvent))
     EventBus.eventEmitter.addListener(Events.OnRaid,
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
+
+    EventBus.eventEmitter.addListener(Events.RequestCreditRoll,
+      () => this.requestCreditRoll())
   }
 
   private onChatMessage(onChatMessageEvent: OnChatMessageEvent) {
@@ -105,6 +114,10 @@ export class IO {
     this.io.emit(Events.OnStop, onStopEvent)
   }
 
+  private onStreamChange(onStreamChangeEvent: OnStreamChangeEvent) {
+    this.io.emit(Events.OnStreamChange, onStreamChangeEvent)
+  }
+
   private onStreamEnd(onStreamEndEvent: OnStreamEndEvent) {
     this.io.emit(Events.OnStreamEnd, onStreamEndEvent)
   }
@@ -119,5 +132,9 @@ export class IO {
 
   private onRaid(onRaidEvent: OnRaidEvent) {
     this.io.emit(Events.OnRaid, onRaidEvent)
+  }
+
+  private requestCreditRoll() {
+    this.io.emit(Events.RequestCreditRoll);
   }
 }

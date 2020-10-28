@@ -1,13 +1,13 @@
 import { User } from "./User";
-import { UserFlags, Extra } from "comfy.js";
+import { OnMessageExtra, OnMessageFlags } from "comfy.js";
 import { IUserEvent } from "./IUserEvent"
 
 export class OnPointRedemptionEvent implements IUserEvent {
   constructor(
     public user: User,
     public message: string,
-    public flags: UserFlags,
+    public flags: OnMessageFlags,
     public self: boolean,
-    public extra: Extra
+    public extra: OnMessageExtra
   ) { }
 }

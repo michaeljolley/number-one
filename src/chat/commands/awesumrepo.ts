@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to the Awesum.io repo
  * @param onCommandEvent 
  */
-export function AwesumRepo(onCommandEvent: OnCommandEvent) {
+export function AwesumRepo(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

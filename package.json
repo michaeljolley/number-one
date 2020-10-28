@@ -1,6 +1,6 @@
 {
   "name": "number-one",
-  "version": "1.0.0",
+  "version": "1.1.31",
   "description": "A Node.js based Twitch chat bot",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,9 @@
     "build": "npm run build:typescript && npm run build:scss && npm run build:copy",
     "debug": "nodemon -i .git,node_modules -e js,ts,htm,env,scss,json,vue -w ./src -x \"node --inspect --require ts-node/register ./src/index.ts\"",
     "lint": "eslint ./",
-    "test": "mocha -r ts-node/register src/**/*spec.ts --insect"
+    "lint:fix": "eslint ./ --fix",
+    "test": "mocha -r ts-node/register src/**/*spec.ts --insect",
+    "coverage": "nyc mocha -r ts-node/register src/**/*spec.ts --insect"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "faunadb": "^2.14.2",
+    "guid-typescript": "^1.0.9",
     "nexmo": "^2.7.0-beta-1",
     "node-sass-middleware": "^0.11.0",
     "sanitize-html": "^1.27.4",
@@ -56,10 +59,10 @@
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-vue": "^7.0.1",
-    "guid-typescript": "^1.0.9",
     "mocha": "^8.1.0",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
     "sinon": "^9.0.2",
     "ts-loader": "^8.0.1",
     "ts-node": "^8.10.2",

@@ -1,12 +1,12 @@
-import { OnSayEvent, OnCommandEvent } from "../../models"
+import { OnCommandEvent, OnSayEvent } from "../../models"
 import { EventBus, Events } from "../../events"
 import { ShouldThrottle } from '../shouldThrottle'
 
 /**
- * Sends a message to chat re: what we're working on
+ * Sends a message to chat with details about Michael's Twitter
  * @param onCommandEvent 
  */
-export function Project(onCommandEvent: OnCommandEvent) {
+export function Twitter(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 
@@ -17,11 +17,7 @@ export function Project(onCommandEvent: OnCommandEvent) {
     return
   }
 
-  const user = onCommandEvent.user
-  const stream = onCommandEvent.stream
-  const username = user.display_name || user.login
-
-  const message = `@${username}, today's topic is: ${stream.title}`
+  const message = `Follow Michael on Twitter at https://twitter.com/baldbeardbuild`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

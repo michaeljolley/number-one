@@ -1,6 +1,7 @@
 import { EventBus, Events } from "../events";
 import { OnCommandEvent } from "../models";
 import { CommandRegistry } from "./commandRegistry";
+import { _SoundEffect } from "./commands/_soundEffect";
 import { Command } from "./models/Command";
 
 export class CommandMonitor {
@@ -15,6 +16,8 @@ export class CommandMonitor {
     const command: Command | undefined = CommandRegistry.getCommand(onCommandEvent.command)
     if (command) {
       command.command(onCommandEvent)
+    } else {
+      _SoundEffect(onCommandEvent)
     }
   }
 }

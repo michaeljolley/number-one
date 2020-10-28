@@ -1,5 +1,5 @@
 import { User } from "./User";
-import { UserFlags, Extra } from "comfy.js";
+import { OnCommandExtra, OnMessageFlags } from "comfy.js";
 import { Stream } from "./Stream";
 import { IUserEvent } from "./IUserEvent"
 
@@ -8,8 +8,8 @@ export class OnCommandEvent implements IUserEvent {
     public user: User,
     public command: string,
     public message: string,
-    public flags: UserFlags,
-    public extra: Extra,
+    public flags: OnMessageFlags,
+    public extra: OnCommandExtra,
     public stream: Stream
   ) { }
 }

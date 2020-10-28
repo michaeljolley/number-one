@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express'
 import axios, { AxiosResponse } from 'axios'
 import { Config, Stream, User } from '../../models'
 import { LogLevel, log } from '../../common';
@@ -6,12 +7,12 @@ import * as Crypto from 'crypto';
 
 export class TwitchAPI {
 
-  private twitchAPIEndpoint: string = 'https://api.twitch.tv/helix'
-  private twitchAPIUserEndpoint: string = `${this.twitchAPIEndpoint}/users`
-  private twitchAPIStreamEndpoint: string = `${this.twitchAPIEndpoint}/streams`
-  private twitchAPIWebhookEndpoint: string = `${this.twitchAPIEndpoint}/webhooks/hub`
+  private twitchAPIEndpoint = 'https://api.twitch.tv/helix'
+  private twitchAPIUserEndpoint = `${this.twitchAPIEndpoint}/users`
+  private twitchAPIStreamEndpoint = `${this.twitchAPIEndpoint}/streams`
+  private twitchAPIWebhookEndpoint = `${this.twitchAPIEndpoint}/webhooks/hub`
 
-  private headers: object
+  private headers: Record<string, unknown>
   private webhookSecret: string
 
   constructor(private config: Config) {
@@ -28,24 +29,51 @@ export class TwitchAPI {
   public async registerWebhooks(): Promise<void> {
     this.webhookSecret = Guid.create().toString();
 
-    const payload = {
-      "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
-      "hub.mode": "subscribe",
-      "hub.topic": `https://api.twitch.tv/helix/users/follows?first=1&to_id=${this.config.twitchChannelId}`,
-      "hub.lease_seconds": 172800,
-      "hub.secret": this.webhookSecret
-    };
+    await this.registerFollowWebhook();
+    await this.registerStreamWebhook();
+  }
 
+  private async registerFollowWebhook(): Promise<void> {
     try {
+      const payload = {
+        "hub.callback": `http://${process.env.HOST}/webhooks/follow`,
+        "hub.mode": "subscribe",
+        "hub.topic": `https://api.twitch.tv/helix/users/follows?first=1&to_id=${this.config.twitchChannelId}`,
+        "hub.lease_seconds": 172800,
+        "hub.secret": this.webhookSecret
+      };
+
       const response = await axios.post(
         this.twitchAPIWebhookEndpoint,
         payload,
         {
           headers: this.headers
         });
-      log(LogLevel.Info, `TwitchAPI:registerWebhooks - Response = ${response.status}`);
+      log(LogLevel.Info, `TwitchAPI:registerFollowWebhook - Response = ${response.status}`);
     } catch (err) {
-      log(LogLevel.Error, `TwitchAPI:registerWebhooks ${err}`);
+      log(LogLevel.Error, `TwitchAPI:registerFollowWebhook ${err}`);
+    }
+  }
+
+  private async registerStreamWebhook(): Promise<void> {
+    try {
+      const payload = {
+        "hub.callback": `http://${process.env.HOST}/webhooks/stream`,
+        "hub.mode": "subscribe",
+        "hub.topic": `https://api.twitch.tv/helix/streams?user_id=${this.config.twitchChannelId}`,
+        "hub.lease_seconds": 172800,
+        "hub.secret": this.webhookSecret
+      };
+
+      const response = await axios.post(
+        this.twitchAPIWebhookEndpoint,
+        payload,
+        {
+          headers: this.headers
+        });
+      log(LogLevel.Info, `TwitchAPI:registerStreamWebhook - Response = ${response.status}`);
+    } catch (err) {
+      log(LogLevel.Error, `TwitchAPI:registerStreamWebhook ${err}`);
     }
   }
 
@@ -60,7 +88,7 @@ export class TwitchAPI {
     let user: User
 
     try {
-      const response: AxiosResponse<any> = await axios.get(url, { headers: this.headers })
+      const response: AxiosResponse = await axios.get(url, { headers: this.headers })
       if (response.data) {
         const body = response.data
         const userData = body.data.length > 1 ? body.data : body.data[0]
@@ -81,7 +109,7 @@ export class TwitchAPI {
     let stream: Stream
 
     try {
-      const response: AxiosResponse<any> = await axios.get(url, { headers: this.headers })
+      const response: AxiosResponse = await axios.get(url, { headers: this.headers })
       if (response.data) {
         const body = response.data
         const streamData = body.data.length > 1 ? body.data : body.data[0]
@@ -96,30 +124,30 @@ export class TwitchAPI {
     return stream
   }
 
-  public validateWebhook(request, response, next) {
+  public validateWebhook(request: Request, response: Response, next: NextFunction): unknown {
 
     const givenSignature = request.headers['x-hub-signature'];
-  
+
     if (!givenSignature) {
-        log(LogLevel.Error, `webhooks: validator - missing signature`)
-        return response.status(409).json({
-            error: 'Missing signature'
-        });
+      log(LogLevel.Error, `webhooks: validator - missing signature`)
+      return response.status(409).json({
+        error: 'Missing signature'
+      });
     }
     log(LogLevel.Error, `Twitch:hooks: ${JSON.stringify(givenSignature)}`)
 
-    let digest = Crypto.createHmac('sha256',this.webhookSecret)
-        .update(JSON.stringify(request.body))
-        .digest('hex');
-        log(LogLevel.Error, `Twitch:hooks: ${digest}`)
-  
+    const digest = Crypto.createHmac('sha256', this.webhookSecret)
+      .update(JSON.stringify(request.body))
+      .digest('hex');
+    log(LogLevel.Error, `Twitch:hooks: ${digest}`)
+
     if (givenSignature === `sha256=${digest}`) {
-        return next();
+      return next();
     } else {
-        log(LogLevel.Error, `webhooks: validator - invalid signature`)
-        return response.status(409).json({
-            error: 'Invalid signature'
-        });
+      log(LogLevel.Error, `webhooks: validator - invalid signature`)
+      return response.status(409).json({
+        error: 'Invalid signature'
+      });
     }
-}
+  }
 }

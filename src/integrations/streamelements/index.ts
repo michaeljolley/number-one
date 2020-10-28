@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { log, LogLevel } from '../../common';
 import { EventBus, Events } from '../../events';
-import { Config, OnDonationEvent, User } from "../../models";
+import { Config, OnDonationEvent } from "../../models";
 import { Twitch } from '../twitch-api';
 
 export default class StreamElements {
@@ -20,22 +20,22 @@ export default class StreamElements {
     // Socket is authenticated
     this.socket.on('authenticated', this.onAuthenticated);
 
-    this.socket.on('event:test', (data) => {
+    this.socket.on('event:test', async (data: TestData) => {
       data.event.test = true;
       switch (data.listener) {
         case 'tip-latest':
-          this.onDonation(data.event);
+          await this.onDonation(data.event);
       }
     });
-    this.socket.on('event', (data) => {
+    this.socket.on('event', async (data: EventDataWrapper) => {
       switch (data.type) {
         case 'tip':
-          this.onDonation(data.data);
+          await this.onDonation(data.data);
       }
     });
   }
 
-  onConnect = () => {
+  onConnect = (): void => {
     log(LogLevel.Info, `Successfully connected to the StreamElements websocket`)
     this.socket.emit('authenticate', {
       method: 'jwt',
@@ -43,11 +43,11 @@ export default class StreamElements {
     });
   }
 
-  onDisconnect = () => {
+  onDisconnect = (): void => {
     log(LogLevel.Info, `Disconnected from StreamElements websocket`)
   }
 
-  onAuthenticated = (data) => {
+  onAuthenticated = (data: AuthenticatedData): void => {
     const {
       channelId
     } = data;
@@ -55,8 +55,27 @@ export default class StreamElements {
     log(LogLevel.Info, `Successfully connected to channel ${channelId}`)
   }
 
-  onDonation = (data) => {
+  onDonation = async (data: DonationData): Promise<void> => {
     const name = data.username || data.name;
-    EventBus.eventEmitter.emit(Events.OnDonation, new OnDonationEvent(name, data.amount, data.message));
+    const user = await Twitch.getUser(name);
+    EventBus.eventEmitter.emit(Events.OnDonation, new OnDonationEvent(name, data.amount, data.message, user));
   }
+}
+interface EventDataWrapper {
+  type: string
+  data: DonationData
+}
+interface TestData {
+  event: DonationData
+  listener: string
+}
+interface AuthenticatedData {
+  channelId: string
+}
+interface DonationData {
+  username: string | undefined
+  name: string | undefined
+  amount: number
+  message: string
+  test: boolean
 }

@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with details about sending stuff to BBB
  * @param onCommandEvent 
  */
-export function POBox(onCommandEvent: OnCommandEvent) {
+export function POBox(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

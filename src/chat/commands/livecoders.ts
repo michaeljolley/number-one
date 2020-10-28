@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat re: the Live Coders team
  * @param onCommandEvent 
  */
-export function LiveCoders(onCommandEvent: OnCommandEvent) {
+export function LiveCoders(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

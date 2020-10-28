@@ -27,7 +27,7 @@ afterEach(() => {
 describe('Commands: Hype', () => {
 
   it('should send message to chat', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)

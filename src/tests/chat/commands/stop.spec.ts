@@ -27,7 +27,7 @@ afterEach(() => {
 describe('Commands: Stop', () => {
 
   it('should emit stop command for broadcaster', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnStop, spy)
@@ -40,7 +40,7 @@ describe('Commands: Stop', () => {
   })
 
   it('should emit stop command for mods', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnStop, spy)
@@ -53,7 +53,7 @@ describe('Commands: Stop', () => {
   })
 
   it('should not emit for non mods/broadcaster', () => {
-    var spy = sinon.spy()
+    const spy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnStop, spy)

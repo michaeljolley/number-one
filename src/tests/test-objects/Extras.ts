@@ -1,10 +1,10 @@
-import { Extra, EmoteSet } from 'comfy.js'
+import { EmoteSet, OnCommandExtra, OnMessageExtra } from 'comfy.js'
 
 const emoteSet: EmoteSet = {
 
 }
 
-export function onCommandExtra(): Extra {
+export function onCommandExtra(): OnCommandExtra {
   return {
     isEmoteOnly: false,
     id: '1234567',
@@ -19,11 +19,15 @@ export function onCommandExtra(): Extra {
     userId: '12345678',
     username: 'testuser',
     displayName: 'TestUser',
-    timestamp: '01/01/2020'
+    timestamp: '01/01/2020',
+    messageEmotes: emoteSet,
+    userBadges: {},
+    customRewardId: '',
+    flags: {}
   }
 }
 
-export function emoteOnlyExtra(): Extra {
+export function emoteOnlyExtra(): OnMessageExtra {
   return {
     isEmoteOnly: true,
     id: '1234567',
@@ -34,6 +38,10 @@ export function emoteOnlyExtra(): Extra {
     userId: '12345678',
     username: 'testuser',
     displayName: 'TestUser',
-    timestamp: '01/01/2020'
+    timestamp: '01/01/2020',
+    messageEmotes: emoteSet,
+    userBadges: {},
+    customRewardId: '',
+    flags: {}
   }
 }

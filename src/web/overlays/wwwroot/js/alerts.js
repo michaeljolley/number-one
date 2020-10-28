@@ -36,6 +36,7 @@ const app = new Vue({
     return {
       alerts: [],
       socket: null,
+      activeAudioPlayer: null,
       activeAlert: {
         line1: null,
         line2: null,
@@ -57,15 +58,26 @@ const app = new Vue({
         this.activeAlert.audio) {
 
         let audio = this.$refs.audioFile;
-        audio.src = `assets/audio/alerts/${this.activeAlert.audio}.mp3`;
+        audio.src = this.activeAlert.audio;
         audio.play().catch(error => {
           console.log(error);
         })
       }
     },
+    alertsAudioSrc(audioName) {
+      return `assets/audio/alerts/${audioName}.mp3`;
+    },
+    clipsAudioSrc(audioFileName) {
+      return `assets/audio/clips/${audioFileName}`;
+    },
     clearAudio() {
       const audio = document.createElement('audio');
       audio.src = '';
+    },
+    stopAudio() {
+      let audio = this.$refs.audioFile;
+      audio.pause();
+      this.alerts = this.alerts.filter(f => f.line1);
     },
     processNextAlert() {
       const nextAlert = this.alerts[0];
@@ -73,7 +85,7 @@ const app = new Vue({
 
       if (nextAlert.type === 'onDonation') {
         name = nextAlert.data.user;
-      } else {
+      } else if (nextAlert.data.user) {
         name = nextAlert.data.user.display_name || nextAlert.data.user.login;
       }
 
@@ -84,34 +96,37 @@ const app = new Vue({
       let audio;
 
       switch (nextAlert.type) {
+        case 'onSoundEffect':
+          audio = this.clipsAudioSrc(nextAlert.data.filename);
+          break;
         case 'onFollow':
           line1 = 'New';
           line2 = 'Follower';
-          audio = 'ohmy';
+          audio = this.alertsAudioSrc('ohmy');
           break;
         case 'onSub':
           line1 = 'Thanks';
           line2 = name;
           line3 = 'for the sub';
-          audio = 'hair';
+          audio = this.alertsAudioSrc('hair');
           break;
         case 'onRaid':
           line1 = 'Raid';
           line2 = name;
           line3 = 'Alert';
-          audio = 'goodbadugly';
+          audio = this.alertsAudioSrc('goodbadugly');
           break;
         case 'onCheer':
           line1 = ' ';
           line2 = name;
           line3 = `cheered  ${nextAlert.data.bits} bits!`;
-          audio = 'cheer';
+          audio = this.alertsAudioSrc('cheer');
           break;
         case 'onDonation':
           line1 = 'Donation Alert!';
           line2 = name;
           line3 = `gave  $${nextAlert.data.amount}`;
-          audio = 'donate';
+          audio = this.alertsAudioSrc('donate');
           break;
       }
 
@@ -138,6 +153,7 @@ const app = new Vue({
     },
     onInterval() {
       if (!this.activeAlert.line1 &&
+        !this.activeAlert.audio &&
         this.alerts.length > 0) {
         this.processNextAlert();
       }
@@ -148,6 +164,14 @@ const app = new Vue({
 
     const audio = document.createElement('audio');
     audio.addEventListener('ended', this.clearAudio, false);
+
+    this.socket.on('onSoundEffect', onSoundEffectEvent => {
+      this.addAlert('onSoundEffect', onSoundEffectEvent);
+    });
+
+    this.socket.on('onStop', onStopEvent => {
+      this.stopAudio();
+    });
 
     this.socket.on('onFollow', onFollowEvent => {
       this.addAlert('onFollow', onFollowEvent);
@@ -167,6 +191,10 @@ const app = new Vue({
 
     this.socket.on('onDonation', onDonationEvent => {
       this.addAlert('onDonation', onDonationEvent);
+    });
+
+    this.socket.on('reconnect', () => {
+      window.location.reload();
     });
 
     console.log("We're loaded and listening the socket.io hub");

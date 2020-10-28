@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with info on BBB Instagram
  * @param onCommandEvent 
  */
-export function Instagram(onCommandEvent: OnCommandEvent) {
+export function Instagram(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

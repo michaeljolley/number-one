@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express'
 import { TwitchAPI } from './api'
 import { User, Stream, Config } from '../../models'
 import { Cache, CacheType } from '../../cache'
@@ -9,7 +10,7 @@ export abstract class Twitch {
   private static config: Config
   private static twitchAPI: TwitchAPI
 
-  public static init(config: Config) {
+  public static init(config: Config): void {
     this.config = config
     this.twitchAPI = new TwitchAPI(config)
     this.twitchAPI.registerWebhooks();
@@ -33,7 +34,7 @@ export abstract class Twitch {
         log(LogLevel.Error, `Twitch:getUser - Fauna:getUser: ${err}`)
       }
 
-      var date = new Date();
+      const date = new Date();
       date.setDate(date.getDate() - 1);
 
       if (!user ||
@@ -66,12 +67,26 @@ export abstract class Twitch {
     let stream: Stream = Cache.get(CacheType.Stream, streamDate) as Stream | undefined
 
     if (!stream && this.config) {
+
       try {
-        stream = await this.twitchAPI.getStream(streamDate)
+        stream = await Fauna.getStream(streamDate)
       }
       catch (err) {
-        log(LogLevel.Error, `Twitch:getStream - API:getStream: ${err}`)
-        log(LogLevel.Error, err)
+        log(LogLevel.Error, `Twitch:getStream - Fauna:getStream: ${err}`)
+      }
+
+      if (!stream) {
+        let apiStream: Stream
+        try {
+          apiStream = await this.twitchAPI.getStream(streamDate)
+        }
+        catch (err) {
+          log(LogLevel.Error, `Twitch:getStream - API:getStream: ${err}`)
+        }
+
+        if (apiStream) {
+          stream = await Fauna.saveStream(apiStream)
+        }
       }
 
       if (stream) {
@@ -82,7 +97,7 @@ export abstract class Twitch {
     return stream
   }
 
-  public static validateWebhook(request,response,next){
-      return Twitch.twitchAPI.validateWebhook(request,response,next);
+  public static validateWebhook(request: Request, response: Response, next: NextFunction): unknown {
+    return Twitch.twitchAPI.validateWebhook(request, response, next);
   }
 }
