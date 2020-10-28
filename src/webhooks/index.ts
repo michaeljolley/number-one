@@ -73,6 +73,14 @@ webhookRouter.post('/follow', Twitch.validateWebhook, async (request: Request, r
   response.status(200).send(request.query['hub.challenge']);
 })
 
+webhookRouter.get('/test/stats', async (request: Request, response: Response) => {
+  const amountGiven = await State.getAmountGiven();
+  response.status(200).json({
+    amount: amountGiven,
+    kidsFed: Math.floor(amountGiven / 4)
+  });
+});
+
 webhookRouter.post('/test/raid', async (request: Request, response: Response) => {
   const { name, viewers } = request.body;
   

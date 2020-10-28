@@ -6,6 +6,7 @@ import {
   OnCheerEvent,
   OnCreditRollEvent,
   OnDonationEvent,
+  OnPocketChangeEvent,
   OnStreamChangeEvent,
   OnStreamStartEvent,
   OnSubEvent,
@@ -52,7 +53,7 @@ export abstract class State {
       log(LogLevel.Error, `onCommand: getStream: ${err}`)
     }
 
-    if (stream) { // && !stream.ended_at) {
+    if (stream && !stream.ended_at) {
       this.stream = stream;
       await this.recalculateAmountGiven(this.stream.streamDate);
       return this.stream;
@@ -61,12 +62,16 @@ export abstract class State {
     return undefined;
   }
 
-  public static getAmountGiven(): number {
+  public static async getAmountGiven(): Promise<number> {
+    if (!this.stream) {
+      await this.getStream();
+    }
     return parseFloat(this.amountGiven.toFixed(2));
   }
 
   private static addAmountGiven(amount: number): number {
     this.amountGiven = this.amountGiven + amount;
+    EventBus.eventEmitter.emit(Events.OnPocketChange, new OnPocketChangeEvent(this.amountGiven))
     return this.amountGiven;
   }
 
