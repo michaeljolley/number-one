@@ -123,7 +123,9 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/73120?v=4",
       "profile": "http://iamnotmyself.com",
       "contributions": [
-        "bug"
+        "bug",
+        "code",
+        "tool"
       ]
     },
     {
