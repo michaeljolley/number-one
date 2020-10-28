@@ -9,6 +9,7 @@ import { Font } from "./commands/font";
 import { GitHub } from "./commands/github";
 import { Giving } from "./commands/giving";
 import { Hardware } from "./commands/hardware";
+import { Help } from "./commands/help";
 import { Heroines } from "./commands/heroines";
 import { Hype } from "./commands/hype";
 import { Instagram } from "./commands/instagram";
@@ -28,6 +29,7 @@ export abstract class CommandRegistry {
   private static commands: [Command?] = []
 
   public static init():void {
+    this.commands = []
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
     this.commands.push(new Command('blog', Blog))
@@ -39,6 +41,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('github', GitHub))
     this.commands.push(new Command('giving', Giving))
     this.commands.push(new Command('hardware', Hardware))
+    this.commands.push(new Command('help', Help))
     this.commands.push(new Command('heroines', Heroines))
     this.commands.push(new Command('hype', Hype))
     this.commands.push(new Command('instagram', Instagram))
@@ -56,5 +59,9 @@ export abstract class CommandRegistry {
 
   public static getCommand(commandName: string): Command | undefined {
     return this.commands.find(f => f.commandName === commandName)
+  }
+
+  public static getCommands(): Command[] {
+    return this.commands
   }
 }
