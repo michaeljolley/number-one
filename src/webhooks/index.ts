@@ -11,7 +11,7 @@ export const webhookRouter: express.Router = express.Router()
 
 webhookRouter.get('/stream', (request: Request, response: Response) => {
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
 webhookRouter.post('/stream', Twitch.validateWebhook, async (request: Request, response: Response) => {
@@ -44,12 +44,12 @@ webhookRouter.post('/stream', Twitch.validateWebhook, async (request: Request, r
   }
 
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
 webhookRouter.get('/follow', (request: Request, response: Response) => {
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
 webhookRouter.post('/follow', Twitch.validateWebhook, async (request: Request, response: Response) => {
@@ -70,7 +70,7 @@ webhookRouter.post('/follow', Twitch.validateWebhook, async (request: Request, r
   }
 
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
 webhookRouter.get('/test/stats', async (request: Request, response: Response) => {

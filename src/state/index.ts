@@ -66,6 +66,11 @@ export abstract class State {
     if (!this.stream) {
       await this.getStream();
     }
+
+    if (this.stream && this.amountGiven === 0) {
+      this.recalculateAmountGiven(this.stream.streamDate);
+    }
+
     return parseFloat(this.amountGiven.toFixed(2));
   }
 
@@ -92,6 +97,8 @@ export abstract class State {
             break;
         }
       }
+
+      EventBus.eventEmitter.emit(Events.OnPocketChange, new OnPocketChangeEvent(this.amountGiven))
     } catch (err) {
       log(LogLevel.Error, `State: recalculateAmountGiven: ${err}`);
     }
