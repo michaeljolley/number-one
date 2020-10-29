@@ -97,8 +97,6 @@ export abstract class State {
             break;
         }
       }
-
-      EventBus.eventEmitter.emit(Events.OnPocketChange, new OnPocketChangeEvent(this.amountGiven))
     } catch (err) {
       log(LogLevel.Error, `State: recalculateAmountGiven: ${err}`);
     }
@@ -155,7 +153,7 @@ export abstract class State {
       }
 
       if (this.stream) {
-        const actions: string[][] = await Fauna.getCredits(this.stream.streamDate);
+        const actions: [string[]] = await Fauna.getCredits(this.stream.streamDate);
 
         const distinctCredits: Credit[] = [];
         
@@ -170,6 +168,7 @@ export abstract class State {
         });
 
         distinctCredits.forEach((credit) => {
+          credit.onRaid = actions.some(a => a[1] === credit.displayName && a[3] === 'onRaid');
           credit.onCheer = actions.some(a => a[1] === credit.displayName && a[3] === 'onCheer');
           credit.onSub = actions.some(a => a[1] === credit.displayName && a[3] === 'onSub');
           credit.onDonation = actions.some(a => a[1] === credit.displayName && a[3] === 'onDonation');

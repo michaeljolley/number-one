@@ -37,7 +37,7 @@ export abstract class FaunaClient {
         )
       )
       if (response.data && response.data.length > 0) {
-        user = this.mapResponse(response.data[0])
+        user = this.mapResponse(response.data[0] as FaunaDocument)
       }
     }
     catch (err) {
@@ -102,7 +102,7 @@ export abstract class FaunaClient {
         )
       )
       if (response.data && response.data.length > 0) {
-        stream = this.mapResponse(response.data[0])
+        stream = this.mapResponse(response.data[0] as FaunaDocument)
       }
     }
     catch (err) {
@@ -173,12 +173,12 @@ export abstract class FaunaClient {
     return savedAction
   }
 
-  public static async getCredits(actionDate: string): Promise<string[][] | undefined> {
+  public static async getCredits(actionDate: string): Promise<[string[]] | undefined> {
     if (!this.client) {
       return undefined
     }
 
-    let actions: string[][]
+    let actions: [string[]]
     try {
       const response = await this.client.query<FaunaResponse>(
         query.Paginate(
@@ -189,7 +189,7 @@ export abstract class FaunaClient {
         ),
       )
       if (response.data && response.data.length > 0) {
-        actions = response.data.map(m => this.mapResponse(m));
+        actions = response.data as [string[]]
       }
     }
     catch (err) {
@@ -216,10 +216,11 @@ export abstract class FaunaClient {
             { size: 500 }
           ),
           query.Lambda("actions", query.Get((query.Var("actions"))))
-        )
+        ) 
       )
       if (response.data && response.data.length > 0) {
-        actions = response.data.map(m => this.mapResponse(m))
+        const data = response.data as FaunaDocument[];
+        actions = data.map(m => this.mapResponse(m))
       }
     }
     catch (err) {
@@ -243,7 +244,8 @@ export abstract class FaunaClient {
         )
       )
       if (response.data && response.data.length > 0) {
-        sponsors = response.data.map(m => this.mapResponse(m))
+        const data = response.data as FaunaDocument[];
+        sponsors = data.map(m => this.mapResponse(m))
       }
     }
     catch (err) {
@@ -254,13 +256,14 @@ export abstract class FaunaClient {
 }
 
 interface FaunaResponse {
-  data: FaunaDocument[]
+  data: FaunaDocument[] | [string[]]
 }
 
 interface FaunaDocument {
   ref: FaunaRef
   data: Record<string, unknown>
 }
+
 interface FaunaRef {
   value: RefValue
 }

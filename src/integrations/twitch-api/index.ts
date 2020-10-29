@@ -13,7 +13,7 @@ export abstract class Twitch {
   public static init(config: Config): void {
     this.config = config
     this.twitchAPI = new TwitchAPI(config)
-    this.twitchAPI.registerWebhooks();
+   // this.twitchAPI.registerWebhooks();
   }
 
   /**
