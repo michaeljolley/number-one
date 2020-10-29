@@ -1,5 +1,5 @@
 import { FaunaClient } from "./fauna";
-import { Action, Credit, Sponsor, Stream, User } from "../../models";
+import { Action, Sponsor, Stream, User } from "../../models";
 import { LogLevel, log } from '../../common'
 
 export abstract class Fauna {

@@ -12,6 +12,7 @@ Vue.component('sponsors', {
               <li v-if="credit.onSub"><i class="fas fa-crown"></i> Subscriber</li>
               <li v-if="credit.onCheer"><i class="far fa-gem"></i> Cheer</li>
               <li v-if="credit.onDonation"><i class="fas fa-dollar-sign"></i> Donation</li>
+              <li v-if="credit.onRaid"><i class="fas fa-meteor"></i> Raid</li>
             </ul>
           </div>
         </div>
@@ -186,9 +187,8 @@ const app = new Vue({
           tmp = tmp.concat(tmp);
 
           this.images = tmp;
-          this.sponsors = credits.filter(c => c.onCheer || c.onSponsor || c.onDonation || c.onSub)
+          this.sponsors = credits.filter(c => c.onCheer || c.onSponsor || c.onDonation || c.onSub || c.onRaid)
             .sort(sortFunction);
-
         });
       }
     }

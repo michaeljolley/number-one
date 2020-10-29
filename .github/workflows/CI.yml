@@ -13,13 +13,31 @@ jobs:
     - name: 'Checkout'
       uses: actions/checkout@v2
 
-    - name: 'Build'
+    - name: 'Install Dependencies'
       run: |
         npm install
+    - name: 'Build'
+      run: |
         npm run build
-
-    - name: 'Run Tests'
-      run: npm run test
-
     - name: 'Build Image'
       run: docker build .
+
+  coverage:
+    if: github.event.head_commit.committer.name != 'Versioning Action'
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+
+    - name: 'Install Dependencies'
+      run: |
+        npm install
+    - name: 'Linting'
+      run: |
+        npm run lint
+    - name: 'Run Tests'
+      run: |
+        npm run test
+    - name: 'Code Coverage'
+      run: |
+        npm run coverage

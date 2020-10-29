@@ -9,11 +9,13 @@ import { Font } from "./commands/font";
 import { GitHub } from "./commands/github";
 import { Giving } from "./commands/giving";
 import { Hardware } from "./commands/hardware";
+import { Help } from "./commands/help";
 import { Heroines } from "./commands/heroines";
 import { Hype } from "./commands/hype";
 import { Instagram } from "./commands/instagram";
 import { JSDefender } from "./commands/jsdefender";
 import { Keyboard } from "./commands/keyboard";
+import { KidsFed } from './commands/kidsfed';
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
 import { So } from "./commands/so";
@@ -27,7 +29,8 @@ import { Command } from "./models/Command";
 export abstract class CommandRegistry {
   private static commands: [Command?] = []
 
-  public static init() {
+  public static init():void {
+    this.commands = []
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
     this.commands.push(new Command('blog', Blog))
@@ -39,10 +42,12 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('github', GitHub))
     this.commands.push(new Command('giving', Giving))
     this.commands.push(new Command('hardware', Hardware))
+    this.commands.push(new Command('help', Help))
     this.commands.push(new Command('heroines', Heroines))
     this.commands.push(new Command('hype', Hype))
     this.commands.push(new Command('instagram', Instagram))
     this.commands.push(new Command('keyboard', Keyboard))
+    this.commands.push(new Command('kidsfed', KidsFed))
     this.commands.push(new Command('livecoders', LiveCoders))
     this.commands.push(new Command('pobox', POBox))
     this.commands.push(new Command('stop', Stop))
@@ -56,5 +61,9 @@ export abstract class CommandRegistry {
 
   public static getCommand(commandName: string): Command | undefined {
     return this.commands.find(f => f.commandName === commandName)
+  }
+
+  public static getCommands(): Command[] {
+    return this.commands
   }
 }

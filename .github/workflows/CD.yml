@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 jobs:
   deploy:
-    if: github.event.head_commit.committer.name != 'Versioning Action'
+    if: ${{ github.event.head_commit.committer.name != 'Versioning Action' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

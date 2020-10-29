@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat re: the keyboard Michael uses
  * @param onCommandEvent 
  */
-export function Keyboard(onCommandEvent: OnCommandEvent) {
+export function Keyboard(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

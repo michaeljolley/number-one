@@ -16,7 +16,8 @@ export enum Events {
   OnSub = 'onSub',
   OnRaid = 'onRaid',
   OnSay = 'onSay',
-
+  OnPocketChange = 'onPocketChange',
 
   RequestCreditRoll = 'requestCreditRoll',
+  RequestGivingUpdate = 'requestGivingUpdate'
 }

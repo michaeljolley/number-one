@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import { log, LogLevel } from '../common'
 import { EventBus, Events } from '../events'
 import { Twitch } from '../integrations'
-import { OnCheerEvent, OnDonationEvent, OnFollowEvent, OnRaidEvent, OnStreamEndEvent, OnSubEvent, Stream, User } from '../models'
+import { IUserEvent, OnCheerEvent, OnDonationEvent, OnFollowEvent, OnRaidEvent, OnStreamEndEvent, OnSubEvent, Stream, User } from '../models'
 import { OnStreamChangeEvent } from '../models/OnStreamChangeEvent'
 import { State } from '../state'
 
@@ -11,7 +11,7 @@ export const webhookRouter: express.Router = express.Router()
 
 webhookRouter.get('/stream', (request: Request, response: Response) => {
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
 webhookRouter.post('/stream', Twitch.validateWebhook, async (request: Request, response: Response) => {
@@ -44,12 +44,12 @@ webhookRouter.post('/stream', Twitch.validateWebhook, async (request: Request, r
   }
 
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
 webhookRouter.get('/follow', (request: Request, response: Response) => {
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
 webhookRouter.post('/follow', Twitch.validateWebhook, async (request: Request, response: Response) => {
@@ -70,16 +70,23 @@ webhookRouter.post('/follow', Twitch.validateWebhook, async (request: Request, r
   }
 
   response.contentType('text/plain');
-  response.status(200).send(request.query['hub.challenge']);
+  response.status(200).send(encodeURI(request.query['hub.challenge'] as string));
 })
 
-webhookRouter.post('/test/raid', async (request: Request, response: Response) => {
-  let { name, viewers } = request.body;
-  name = name.toLocaleLowerCase();
+webhookRouter.get('/test/stats', async (request: Request, response: Response) => {
+  const amountGiven = await State.getAmountGiven();
+  response.status(200).json({
+    amount: amountGiven,
+    kidsFed: Math.floor(amountGiven / 4)
+  });
+});
 
+webhookRouter.post('/test/raid', async (request: Request, response: Response) => {
+  const { name, viewers } = request.body;
+  
   let userInfo: User
   try {
-    userInfo = await Twitch.getUser(name)
+    userInfo = await Twitch.getUser(name.toLocaleLowerCase())
   }
   catch (err) {
     log(LogLevel.Error, `webhooks: /test/raid - ${err}`)
@@ -130,12 +137,11 @@ webhookRouter.post('/test/sub', async (request: Request, response: Response) => 
 })
 
 webhookRouter.post('/test/cheer', async (request: Request, response: Response) => {
-  let { name, bits } = request.body;
-  name = name.toLocaleLowerCase();
+  const { name, bits } = request.body;
 
   let userInfo: User
   try {
-    userInfo = await Twitch.getUser(name)
+    userInfo = await Twitch.getUser(name.toLocaleLowerCase())
   }
   catch (err) {
     log(LogLevel.Error, `webhooks: /test/cheer - ${err}`)
@@ -147,13 +153,13 @@ webhookRouter.post('/test/cheer', async (request: Request, response: Response) =
 })
 
 webhookRouter.post('/test/donation', async (request: Request, response: Response) => {
-  let { name, amount, message } = request.body;
+  const { name, amount, message } = request.body;
 
   emit(Events.OnDonation, new OnDonationEvent(name, amount, message));
 
   response.status(200).send();
 })
 
-const emit = (event: Events, payload: any) => {
+const emit = (event: Events, payload: IUserEvent | OnDonationEvent | OnStreamChangeEvent) => {
   EventBus.eventEmitter.emit(event, payload)
 }

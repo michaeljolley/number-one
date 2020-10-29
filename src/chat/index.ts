@@ -104,7 +104,7 @@ export class ChatMonitor {
 
     // If the message has emotes, modify message to include img tags to the emote
     if (messageEmotes) {
-      let emoteSet = [];
+      const emoteSet = [];
 
       for (const emote of Object.keys(messageEmotes)) {
         const emoteLocations = messageEmotes[emote];
@@ -263,6 +263,7 @@ export class ChatMonitor {
    * @param port 
    * @param isFirstConnect 
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private onConnected(address: string, port: number, isFirstConnect: boolean): void {
     log(LogLevel.Info, `onConnected: ${address}:${port}`)
   }
@@ -385,6 +386,7 @@ export class ChatMonitor {
    * @param subTierInfo 
    * @param extra 
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private onSubMysteryGift(gifterUser: string, numbOfSubs: number, senderCount: number, subTierInfo: SubMethods, extra: OnSubMysteryGiftExtra): void {
     log(LogLevel.Info, `onSubMysteryGift: ${gifterUser} gifted ${numbOfSubs}`)
   }
@@ -393,7 +395,7 @@ export class ChatMonitor {
    * Handler for errors in the Twitch client and/or connection
    * @param error 
    */
-  private onError(error: any): void {
+  private onError(error): void {
     log(LogLevel.Error, `onError: ${error}`)
   }
 }

@@ -5,7 +5,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to the Fira Code
  * @param onCommandEvent 
  */
-export function Font(onCommandEvent: OnCommandEvent) {
+export function Font(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

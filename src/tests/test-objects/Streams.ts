@@ -1,6 +1,6 @@
 import { Stream } from '../../models'
 
-export function activeStream() {
+export function activeStream():Stream {
   return new Stream(
     '2020202',
     '01/01/2020',
@@ -10,7 +10,7 @@ export function activeStream() {
   )
 }
 
-export function endedStream() {
+export function endedStream():Stream {
   return new Stream(
     '2020202',
     '01/01/2020',

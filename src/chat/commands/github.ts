@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with a link to Michael's GitHub profile
  * @param onCommandEvent 
  */
-export function GitHub(onCommandEvent: OnCommandEvent) {
+export function GitHub(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 

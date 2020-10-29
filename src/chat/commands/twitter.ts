@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with details about Michael's Twitter
  * @param onCommandEvent 
  */
-export function Twitter(onCommandEvent: OnCommandEvent) {
+export function Twitter(onCommandEvent: OnCommandEvent):void {
 
   const cooldownSeconds = 300
 
