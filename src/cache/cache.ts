@@ -10,10 +10,8 @@ export abstract class Cache {
     switch (cacheType) {
       case CacheType.Stream:
         return this.streams.find(f => f.streamDate === identifier)
-        break;
       case CacheType.User:
         return this.users.find(f => f.login === identifier)
-        break;
     }
   }
 
