@@ -136,6 +136,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "omnoms",
+      "name": "Marko V",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7261863?v=4",
+      "profile": "https://github.com/omnoms",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
