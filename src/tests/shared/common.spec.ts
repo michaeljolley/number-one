@@ -41,7 +41,6 @@ describe('Common', () => {
             process.env.NODE_ENV = "development";
             const { hours, minutes } = getTime()
             const text = "test";
-            const msg = "[" + hours + ":" + minutes + "] " + text;
             log("info", text);
             expect(console.info).to.have.been.calledWithMatch((arg)=> {
                 return arg.indexOf(hours) > -1 && arg.indexOf(minutes) > -1 && arg.indexOf("common.spec.ts") > -1;
