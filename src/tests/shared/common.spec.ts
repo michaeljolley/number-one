@@ -23,30 +23,39 @@ describe('Common', () => {
     })
 
     describe('log', () => {
-        it('expect console.info to have been called', function() {
+        let clock;
+        let currEnv;
+        before(()=> {
+            currEnv = process.env.NODE_ENV;
+            process.env.NODE_ENV = "testing";
             sinon.restore();
+            clock = sinon.useFakeTimers(new Date(2020,10,29,9,8,0,0))            
+        })
+        after(() => {
+            clock.restore();
+            process.env.NODE_ENV = currEnv;
+        })
+        it('expect console.info to have been called', function() {
+            
             sinon.spy(console, 'info');
             log("info", "test");
             expect(console.info).to.have.been.called;
         })
         it('expect console.info to have been called with test', function() {
-            const { hours, minutes } = getTime()
             const text = "test";
-            const msg = "[" + hours + ":" + minutes + "] " + text;
+            const msg = "[09:08] " + text;
             log("info", text);
             expect(console.info).to.have.been.calledWithExactly(msg);
         })
         it('expect console.info to have been called with stack-trace in development mode', function() {
-            const currEnv = process.env.NODE_ENV;
             process.env.NODE_ENV = "development";
-            const { hours, minutes } = getTime()
+            const hours = "09";
+            const minutes = "08";
             const text = "test";
             log("info", text);
             expect(console.info).to.have.been.calledWithMatch((arg)=> {
                 return arg.indexOf(hours) > -1 && arg.indexOf(minutes) > -1 && arg.indexOf("common.spec.ts") > -1;
             });
-            process.env.NODE_ENV = currEnv;
         })
-
     })
 })
