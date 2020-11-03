@@ -4,6 +4,7 @@ import { Blog } from "./commands/blog";
 import { Conduct } from "./commands/conduct";
 import { Discord } from "./commands/discord";
 import { Fart } from "./commands/fart";
+import { Feedback } from './commands/feedback';
 import { FFL } from "./commands/ffl";
 import { Font } from "./commands/font";
 import { GitHub } from "./commands/github";
@@ -37,6 +38,7 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('conduct', Conduct))
     this.commands.push(new Command('discord', Discord))
     this.commands.push(new Command('fart', Fart))
+    this.commands.push(new Command('feedback', Feedback))
     this.commands.push(new Command('ffl', FFL))
     this.commands.push(new Command('font', Font))
     this.commands.push(new Command('github', GitHub))
