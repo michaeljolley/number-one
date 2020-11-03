@@ -12,7 +12,6 @@ describe('commandRegistry', () => {
     beforeEach(()=>{
         oldregistry = CommandRegistry;
         (CommandRegistry as any).commands = [new Command('testCommand', stubCommand)];
-        console.log((CommandRegistry as any).commands.length);
     })
     it('should not return undefined for a command in the array', () => {
         const cmd = CommandRegistry.getCommand('testCommand');

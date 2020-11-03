@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import 'mocha'
 
 import { Attention } from '../../../chat/commands/attention'
-import { OnCommandEvent } from '../../../models'
+import { OnCommandEvent, OnSayEvent } from '../../../models'
 import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-objects'
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'awesum',
-    '!awesum',
+    'attention',
+    '!attention',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -25,16 +25,59 @@ afterEach(() => {
 })
 
 describe('Commands: Attention', () => {
+  describe('Sends Message To Chat', () => {
+    let stubbedFnCalled = false;
+    let stubbedCalledWith = "";
+    const stubbedFn = (onSayEvent: OnSayEvent): void => {
+      stubbedFnCalled = true;
+      stubbedCalledWith = onSayEvent.message;
+    }
+    afterEach(() => {
+      stubbedFnCalled = false;
+      stubbedCalledWith = "";
+    })
+    it('should send message to chat with users display_name', () => {
+      const emitter = EventBus.eventEmitter
+      emitter.on(Events.OnSay, stubbedFn)
+      const stubbedUser = user();
+      stubbedUser.display_name = "displayName";
+      stubbedUser.login = "loginUserName";
+      const newCmd = onCommandEvent = new OnCommandEvent(
+        stubbedUser,
+        'attention',
+        '!attention',
+        viewerFlags(),
+        onCommandExtra(),
+        activeStream())
 
-  it('should send message to chat', () => {
-    const spy = sinon.spy()
+      Attention(newCmd)
+      expect(stubbedFnCalled).to.equal(true)
+      expect(stubbedCalledWith).to.not.be.undefined;
+      expect(stubbedCalledWith).to.not.be.empty;
+      expect(stubbedCalledWith.indexOf(stubbedUser.display_name)).to.be.greaterThan(-1);
 
-    const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnSay, spy)
+    })
+    it('should send message to chat with users login', () => {
+      const stubbedUser = user();
+      delete stubbedUser.display_name;
+      stubbedUser.login = "loginUserName";
+      const emitter = EventBus.eventEmitter
+      emitter.on(Events.OnSay, stubbedFn)
+      const newCmd = onCommandEvent = new OnCommandEvent(
+        stubbedUser,
+        'attention',
+        '!attention',
+        viewerFlags(),
+        onCommandExtra(),
+        activeStream())
+      Attention(newCmd)
+  
+      expect(stubbedFnCalled).to.equal(true)
+      expect(stubbedCalledWith).to.not.be.undefined;
+      expect(stubbedCalledWith).to.not.be.empty;
+      expect(stubbedCalledWith.indexOf(stubbedUser.login)).to.be.greaterThan(-1)
+    })
 
-    Attention(onCommandEvent)
-
-    expect(spy.called).to.equal(true)
   })
 
   it('should send sound effect', () => {
