@@ -1,9 +1,10 @@
+import fs from 'fs'
 import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
 import { _SoundEffect } from '../../../chat/commands/_soundEffect'
-import { OnCommandEvent } from '../../../models'
+import { OnCommandEvent, OnSoundEffectEvent } from '../../../models'
 import { EventBus, Events } from '../../../events'
 
 import { activeStream, onCommandExtra, user, viewerFlags, moderatorFlags, broadcasterFlags } from '../../test-objects'
@@ -25,7 +26,25 @@ afterEach(() => {
 })
 
 describe('Commands: _SoundEffect', () => {
-
+  describe('webSetup', () => {
+    let originalBasePath = "";
+    let spy = sinon.spy();
+    beforeEach(()=> {
+      const emitter = EventBus.eventEmitter
+      emitter.on(Events.OnSoundEffect, spy)
+      _SoundEffect(onCommandEvent)
+        spy.calledWith((arg: OnSoundEffectEvent) => {
+          originalBasePath = arg.filename;
+        })
+      sinon.stub(fs, 'existsSync').withArgs('./web').returns(true)
+    })
+    it('should change basePath if ./web exists', ()=> {
+      _SoundEffect(onCommandEvent)
+      spy.calledWith((arg: OnSoundEffectEvent) => {
+        expect(arg.filename).to.not.be.equal(originalBasePath)
+      })
+    })
+  })
   it('should not send message to chat', () => {
     const spy = sinon.spy()
 
