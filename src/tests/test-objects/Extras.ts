@@ -1,4 +1,4 @@
-import { EmoteSet, OnCommandExtra, OnMessageExtra } from 'comfy.js'
+import { EmoteSet, OnCheerExtra, OnCommandExtra, OnMessageExtra } from 'comfy.js'
 
 const emoteSet: EmoteSet = {
 
@@ -26,7 +26,19 @@ export function onCommandExtra(): OnCommandExtra {
     flags: {}
   }
 }
-
+export function onCheerExtra(): OnCheerExtra {
+  return {
+    "channel": "channel",
+    "roomId": "channel",
+    "displayName": "TestUser",
+    "userId": "12345678",
+    "username": "testuser",
+    "userColor": "",
+    "userBadges": {},
+    "messageEmotes": emoteSet,
+    "subscriber": ""
+  }
+}
 export function emoteOnlyExtra(): OnMessageExtra {
   return {
     isEmoteOnly: true,

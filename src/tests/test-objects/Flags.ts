@@ -1,4 +1,4 @@
-import { OnMessageFlags } from 'comfy.js'
+import { OnCheerFlags, OnMessageFlags } from 'comfy.js'
 
 export function viewerFlags(): OnMessageFlags {
   return {
@@ -70,5 +70,14 @@ export function founderFlags(): OnMessageFlags {
     mod: false,
     highlighted: false,
     customReward: false
+  }
+}
+
+export function cheerSubFlags(): OnCheerFlags {
+  return {
+    mod: false,
+    founder: false,
+    subscriber: true,
+    vip: true
   }
 }
