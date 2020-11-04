@@ -28,7 +28,7 @@ afterEach(() => {
 describe('Commands: _SoundEffect', () => {
   describe('webSetup', () => {
     let originalBasePath = "";
-    let spy = sinon.spy();
+    const spy = sinon.spy();
     beforeEach(()=> {
       const emitter = EventBus.eventEmitter
       emitter.on(Events.OnSoundEffect, spy)

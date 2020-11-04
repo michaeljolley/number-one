@@ -18,8 +18,8 @@ describe('Model: OnPointRedemptionEvent', () => {
         );
 
         const letModelAny = (model as any);
-        for(var idx in props) {
-            let prop = props[idx];
+        for(const idx in props) {
+            const prop = props[idx];
             expect(letModelAny[prop]).to.not.be.undefined;
             expect(letModelAny[prop]).to.be.equal(propVals[idx]);
         }
