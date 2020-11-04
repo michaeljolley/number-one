@@ -1,4 +1,4 @@
-import { EmoteSet, OnCheerExtra, OnCommandExtra, OnMessageExtra } from 'comfy.js'
+import { EmoteSet, OnCheerExtra, OnCommandExtra, OnMessageExtra, OnSubExtra } from 'comfy.js'
 
 const emoteSet: EmoteSet = {
 
@@ -55,5 +55,19 @@ export function emoteOnlyExtra(): OnMessageExtra {
     userBadges: {},
     customRewardId: '',
     flags: {}
+  }
+}
+
+export function onSubExtra(): OnSubExtra {
+  return {
+    id: '1234567',
+    roomId: 'channel',
+    messageEmotes: emoteSet,
+    messageType: 'chat',
+    userBadges: {},
+    userColor: '',
+    userId: '12345678',
+    username: 'testuser',
+    displayName: 'TestUser'
   }
 }
