@@ -25,12 +25,13 @@ import { Store } from "./commands/store";
 import { Theme } from "./commands/theme";
 import { Twitter } from "./commands/twitter";
 import { Youtube } from "./commands/youtube";
+import { Vonage } from "./commands/vonage";
 import { Command } from "./models/Command";
 
 export abstract class CommandRegistry {
   private static commands: [Command?] = []
 
-  public static init():void {
+  public static init(): void {
     this.commands = []
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
@@ -48,17 +49,18 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('heroines', Heroines))
     this.commands.push(new Command('hype', Hype))
     this.commands.push(new Command('instagram', Instagram))
+    this.commands.push(new Command('jsdefender', JSDefender))
     this.commands.push(new Command('keyboard', Keyboard))
     this.commands.push(new Command('kidsfed', KidsFed))
     this.commands.push(new Command('livecoders', LiveCoders))
     this.commands.push(new Command('pobox', POBox))
-    this.commands.push(new Command('stop', Stop))
     this.commands.push(new Command('so', So))
+    this.commands.push(new Command('stop', Stop))
+    this.commands.push(new Command('store', Store))
     this.commands.push(new Command('theme', Theme))
     this.commands.push(new Command('twitter', Twitter))
+    this.commands.push(new Command('vonage', Vonage))
     this.commands.push(new Command('youtube', Youtube))
-    this.commands.push(new Command('jsdefender', JSDefender))
-    this.commands.push(new Command('store', Store))
   }
 
   public static getCommand(commandName: string): Command | undefined {
