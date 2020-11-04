@@ -5,7 +5,6 @@ import { EventBus, Events } from "../../events"
  * @param onCommandEvent 
  */
 export function So(onCommandEvent: OnCommandEvent): void {
-  console.log(onCommandEvent.flags);
   // Only mods or broadcasters can call the shout-out command.
   if (!onCommandEvent.flags.broadcaster &&
     !onCommandEvent.flags.mod) {
