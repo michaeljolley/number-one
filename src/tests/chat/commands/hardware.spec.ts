@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Twitter } from '../../../chat/commands/twitter'
+import { Hardware } from '../../../chat/commands/hardware'
 import { OnCommandEvent } from '../../../models'
 import { EventBus, Events } from '../../../events'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'twitter',
-    '!twitter',
+    'hardware',
+    '!hardware',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Instagram', () => {
+describe('Commands: Hardware', () => {
 
   it('should send message to chat', () => {
     const spy = sinon.spy()
@@ -32,34 +32,34 @@ describe('Commands: Instagram', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Twitter(onCommandEvent)
+    Hardware(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
 
   it('should not send events if on cooldown', () => {
-    const spy = sinon.spy()
+    const saySpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnSay, spy)
+    emitter.on(Events.OnSay, saySpy)
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Twitter(onCommandEvent)
+    Hardware(onCommandEvent)
 
-    expect(spy.called).to.equal(false)
+    expect(saySpy.called).to.equal(false)
   })
 
   it('should not send events if on user cooldown', () => {
-    const spy = sinon.spy()
+    const saySpy = sinon.spy()
 
     const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnSay, spy)
+    emitter.on(Events.OnSay, saySpy)
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    Twitter(onCommandEvent)
+    Hardware(onCommandEvent)
 
-    expect(spy.called).to.equal(false)
+    expect(saySpy.called).to.equal(false)
   })
 })

@@ -5,7 +5,6 @@ import { EventBus, Events } from "../../events"
  * @param onCommandEvent 
  */
 export function So(onCommandEvent: OnCommandEvent): void {
-
   // Only mods or broadcasters can call the shout-out command.
   if (!onCommandEvent.flags.broadcaster &&
     !onCommandEvent.flags.mod) {
@@ -13,7 +12,7 @@ export function So(onCommandEvent: OnCommandEvent): void {
     }
   const lowerMessage = onCommandEvent.message.toLocaleLowerCase().trim();
   const splitMessage = lowerMessage.split(" ");
-
+  
   // We must have exactly one parameter; the user's name
   if (splitMessage.length === 1) {
     const username = splitMessage[0].replace("@", "");

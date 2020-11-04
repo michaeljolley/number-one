@@ -8,7 +8,6 @@ import { State } from "../../state"
  * @param onCommandEvent 
  */
 export async function KidsFed(onCommandEvent: OnCommandEvent): Promise<void> {
-
   const cooldownSeconds = 300
 
   // The broadcaster is allowed to bypass throttling. Otherwise,
@@ -18,12 +17,10 @@ export async function KidsFed(onCommandEvent: OnCommandEvent): Promise<void> {
     ShouldThrottle(onCommandEvent.extra.sinceLastCommand, cooldownSeconds, true)) {
     return
   }
-
   const amountGiven = await State.getAmountGiven();
   const kidsFed = Math.floor(amountGiven / 4);
   
   const message = `We've fed ${kidsFed} kid${(kidsFed !== 1) ? 's' : ''} on todays stream!`;
-  
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))
   EventBus.eventEmitter.emit(Events.RequestGivingUpdate, null);
