@@ -48,7 +48,19 @@ describe('Commands: Shoutout', () => {
 
     expect(spy.called).to.equal(true)
   })
+  it('should not trigger if it has multiple parameters', () => {
+    const oldMsg = onCommandEvent.message;
+    onCommandEvent.message += " extra param";
+    onCommandEvent.flags = moderatorFlags();
+    const spy = sinon.spy()
 
+    const emitter = EventBus.eventEmitter
+    emitter.on(Events.OnSay, spy)
+
+    So(onCommandEvent)
+    expect(spy.called).to.equal(false)
+    onCommandEvent.message = oldMsg;
+  })
   it('should send message to chat for broadcaster', () => {
     const spy = sinon.spy()
 
@@ -60,4 +72,6 @@ describe('Commands: Shoutout', () => {
 
     expect(spy.called).to.equal(true)
   })
+
+
 })

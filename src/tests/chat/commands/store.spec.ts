@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import 'mocha'
 
-import { Twitter } from '../../../chat/commands/twitter'
+import { Store } from '../../../chat/commands/store'
 import { OnCommandEvent } from '../../../models'
 import { EventBus, Events } from '../../../events'
 
@@ -13,8 +13,8 @@ let onCommandEvent: OnCommandEvent
 beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
-    'twitter',
-    '!twitter',
+    'store',
+    '!store',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
@@ -24,7 +24,7 @@ afterEach(() => {
   EventBus.eventEmitter.removeAllListeners()
 })
 
-describe('Commands: Instagram', () => {
+describe('Commands: Store', () => {
 
   it('should send message to chat', () => {
     const spy = sinon.spy()
@@ -32,7 +32,7 @@ describe('Commands: Instagram', () => {
     const emitter = EventBus.eventEmitter
     emitter.on(Events.OnSay, spy)
 
-    Twitter(onCommandEvent)
+    Store(onCommandEvent)
 
     expect(spy.called).to.equal(true)
   })
@@ -45,7 +45,7 @@ describe('Commands: Instagram', () => {
 
     onCommandEvent.extra.sinceLastCommand.any = 10
 
-    Twitter(onCommandEvent)
+    Store(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })
@@ -58,7 +58,7 @@ describe('Commands: Instagram', () => {
 
     onCommandEvent.extra.sinceLastCommand.user = 10
 
-    Twitter(onCommandEvent)
+    Store(onCommandEvent)
 
     expect(spy.called).to.equal(false)
   })

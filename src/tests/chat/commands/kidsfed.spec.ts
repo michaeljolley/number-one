@@ -30,28 +30,31 @@ after(() => {
     sandbox.restore();
 })
 describe('Commands: KidsFed', () => {
-  it('should send message to chat', () => {
-    const spy = sinon.spy()
-    const emitter = EventBus.eventEmitter
-    emitter.on(Events.OnSay, spy)
-
-    KidsFed(onCommandEvent)
-    expect(spy.called).to.be.true;
-    expect(spy.calledWith((args:OnSayEvent) => {
-        console.log(args.message);
-        return args.message.indexOf("We've fed") > -1
-    }))
-    
-  })
-  it('should initiate overlay update', () => {
-    const spy = { fn: () => {}}
-    const mock = sandbox.mock(spy);
-    mock.expects("fn").called;
-    const emitter = EventBus.eventEmitter
-    emitter.on(Events.RequestGivingUpdate, spy.fn)
-    KidsFed(onCommandEvent)
-    mock.verify();
-  })
+    it('should send message to chat', async () => {
+      const spy = sinon.spy();
+      const emitter = EventBus.eventEmitter
+      emitter.on(Events.OnSay, spy)
+      await KidsFed(onCommandEvent)
+      expect(spy.called).to.be.true;
+      expect((spy.getCall(0).args[0] as OnSayEvent).message).contains("We've fed");
+    })
+    it('should send message to chat about plural kids', async () => {
+      sandbox.restore();
+      const spy = sinon.spy();
+      sandbox.stub(State, "getAmountGiven").resolves(8);
+      const emitter = EventBus.eventEmitter
+      emitter.on(Events.OnSay, spy)
+      await KidsFed(onCommandEvent)
+      expect(spy.called).to.be.true;
+      expect((spy.getCall(0).args[0] as OnSayEvent).message).contains("We've fed 2 kids");
+    })
+    it('should initiate overlay update', async () => {
+      const spy = sinon.spy();
+      const emitter = EventBus.eventEmitter
+      emitter.on(Events.RequestGivingUpdate, spy)
+      await KidsFed(onCommandEvent)
+      expect(spy.called).to.be.true;
+    })
 
   it('should not send events if on cooldown', () => {
     const spy = sandbox.spy()
