@@ -10,7 +10,7 @@ import { activeStream, onCommandExtra, user, viewerFlags } from '../../test-obje
 import { State } from '../../../state'
 
 let onCommandEvent: OnCommandEvent
-let sandbox: sinon.SinonSandbox = sinon.createSandbox()
+const sandbox: sinon.SinonSandbox = sinon.createSandbox()
 sandbox.stub(State, "getAmountGiven").resolves(4);
 
 beforeEach(() => {

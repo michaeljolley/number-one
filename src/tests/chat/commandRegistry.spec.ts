@@ -5,7 +5,7 @@ import { OnCommandEvent } from '../../models';
 
 describe('commandRegistry', () => {
     let oldregistry:CommandRegistry = CommandRegistry;
-    let gotCalled:boolean = false;
+    let gotCalled = false;
     const stubCommand = (onCommandEvent: OnCommandEvent):void => {
         gotCalled = !!onCommandEvent;
     }
