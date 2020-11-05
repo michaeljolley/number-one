@@ -41,6 +41,7 @@
       font-weight: bold;
       margin: 0px;
       text-align: center;
+      font-family: 'PT Sans', sans-serif;
 
       &.tier {
         background: $gradient;
@@ -51,7 +52,7 @@
     }
 
     ul {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.3em;
       list-style: none;
       color: white;
