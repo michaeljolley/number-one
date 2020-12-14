@@ -3,10 +3,10 @@ import { EventBus, Events } from "../../events"
 import { ShouldThrottle } from '../shouldThrottle'
 
 /**
- * Sends a message to chat describing the Blazor Week giveaway
+ * Sends a message to chat describing the Awesum.io project
  * @param onCommandEvent 
  */
-export function Giveaway(onCommandEvent: OnCommandEvent): void {
+export function Azure(onCommandEvent: OnCommandEvent): void {
 
   const cooldownSeconds = 300
 
@@ -17,7 +17,7 @@ export function Giveaway(onCommandEvent: OnCommandEvent): void {
     return
   }
 
-  const message = `Want to win a Surface Go this week? We'll have a random drawing on Friday's stream! Register to win at http://bbb.dev/giveaway`
+  const message = `Build a knowledge mining solution using Azure AI. Check out the YT playlist at https://aka.ms/ads/AISeries`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

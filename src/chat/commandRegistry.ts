@@ -1,14 +1,13 @@
 import { Attention } from "./commands/attention";
 import { Awesum } from "./commands/awesum";
+import { Azure } from "./commands/azure";
 import { Blog } from "./commands/blog";
-import { Build } from "./commands/build";
 import { Conduct } from "./commands/conduct";
 import { Discord } from "./commands/discord";
 import { Feedback } from './commands/feedback';
 import { FFL } from "./commands/ffl";
 import { Font } from "./commands/font";
 import { GitHub } from "./commands/github";
-import { Giveaway } from "./commands/giveaway";
 import { Giving } from "./commands/giving";
 import { Hardware } from "./commands/hardware";
 import { Help } from "./commands/help";
@@ -36,8 +35,8 @@ export abstract class CommandRegistry {
     this.commands = []
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
+    this.commands.push(new Command('azure', Azure))
     this.commands.push(new Command('blog', Blog))
-    this.commands.push(new Command('build', Build))
     this.commands.push(new Command('conduct', Conduct))
     this.commands.push(new Command('discord', Discord))
     this.commands.push(new Command('feedback', Feedback))
@@ -45,7 +44,6 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('font', Font))
     this.commands.push(new Command('github', GitHub))
     this.commands.push(new Command('giving', Giving))
-    this.commands.push(new Command('giveaway', Giveaway))
     this.commands.push(new Command('hardware', Hardware))
     this.commands.push(new Command('help', Help))
     this.commands.push(new Command('heroines', Heroines))
