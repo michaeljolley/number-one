@@ -1,6 +1,5 @@
 import { Attention } from "./commands/attention";
 import { Awesum } from "./commands/awesum";
-import { Azure } from "./commands/azure";
 import { Blog } from "./commands/blog";
 import { Conduct } from "./commands/conduct";
 import { Discord } from "./commands/discord";
@@ -16,7 +15,6 @@ import { Hype } from "./commands/hype";
 import { Instagram } from "./commands/instagram";
 import { JSDefender } from "./commands/jsdefender";
 import { Keyboard } from "./commands/keyboard";
-import { KidsFed } from './commands/kidsfed';
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
 import { So } from "./commands/so";
@@ -35,7 +33,6 @@ export abstract class CommandRegistry {
     this.commands = []
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
-    this.commands.push(new Command('azure', Azure))
     this.commands.push(new Command('blog', Blog))
     this.commands.push(new Command('conduct', Conduct))
     this.commands.push(new Command('discord', Discord))
@@ -51,7 +48,6 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('instagram', Instagram))
     this.commands.push(new Command('jsdefender', JSDefender))
     this.commands.push(new Command('keyboard', Keyboard))
-    this.commands.push(new Command('kidsfed', KidsFed))
     this.commands.push(new Command('livecoders', LiveCoders))
     this.commands.push(new Command('pobox', POBox))
     this.commands.push(new Command('so', So))

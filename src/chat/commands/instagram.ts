@@ -6,7 +6,7 @@ import { ShouldThrottle } from '../shouldThrottle'
  * Sends a message to chat with info on BBB Instagram
  * @param onCommandEvent 
  */
-export function Instagram(onCommandEvent: OnCommandEvent):void {
+export function Instagram(onCommandEvent: OnCommandEvent): void {
 
   const cooldownSeconds = 300
 
@@ -17,7 +17,7 @@ export function Instagram(onCommandEvent: OnCommandEvent):void {
     return
   }
 
-  const message = `Watch pre-stream & post-stream videos and more. Follow us on Instagram at https://www.instagram.com/baldbeardedbuilder`
+  const message = `Follow BBB on Instagram at https://www.instagram.com/baldbeardedbuilder`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))
