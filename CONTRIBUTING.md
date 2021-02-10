@@ -91,14 +91,89 @@ Before you get started, you will need to gather some information (and possibly c
 
 #### Get your Twitch Bot OAuth token
 
-- Visit the [Twitch Chat OAuth Password Generator](https://twitchapps.com/tmi/) and click the **Connect** button
+- Visit the [Twitch Chat OAuth Password Generator](https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=q6batx0epp608isickayubi39itsckt&redirect_uri=https://twitchapps.com/tmi/&scope=chat:read+chat:edit+channel:moderate+whispers:read+whispers:edit+channel_editor+user:read:email+channel:read:redemptions) 
+
+NB: Use this link to obtain the correct scopes.
+
+- Click the **Connect** button
 - Once you log in, you'll be presented with your OAuth token. Copy this token to the `.env` **TWITCH_BOT_AUTH_TOKEN** value
 
 ### Fauna DB
 
-- Visit your [Fauna Dashboard](https://dashboard.fauna.com/) and once logged in, click on your account button in the upper-right corner and choose **Account settings**
-- Click on the **Account API Keys** near the bottom of the page
-- In the *Create Key* section, create a new admin key. Once you click the *Create New Admin Key* button, copy the secret key to the `.env` **FAUNADB_SECRET** value
+- Visit your [Fauna Dashboard](https://dashboard.fauna.com/) and once logged in, click on your **Database**
+- Click on the **Security** at the bottom of the menu on the left
+- Click **New Key** button, ensure the selected Database is the correct one and ensure Role is set to **Admin**
+- Click **Save**
+- Copy the secret key to the `.env` **FAUNADB_SECRET** value
+
+#### Collections
+
+You'll need 3 collections in place:
+
+- actions
+- streams
+- users
+
+#### Indexes
+
+To retrieve data from Fauna, number-one uses indexes. They are defined as:
+
+##### `actions_actionDate`
+
+```
+Collection: 
+    actions
+
+Index Name: 
+    actions_actionDate
+
+Terms: 
+    data.actionDate
+```
+
+##### `actions_date_type`
+
+```
+Collection: 
+    actions
+
+Index Name: 
+    actions_date_type
+
+Terms: 
+    data.actionDate
+    data.eventType
+```
+
+##### `streams_streamDate`
+
+```
+Collection: 
+    streams
+
+Index Name: 
+    streams_streamDate
+
+Terms: 
+    data.streamDate
+```
+
+##### `users_login`
+
+```
+Collection: 
+    users
+
+Index Name: 
+    users_login
+
+Terms: 
+    data.login
+
+Unique:
+    true
+```
+
 
 ---
 
