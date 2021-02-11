@@ -3,7 +3,6 @@ import { Awesum } from "./commands/awesum";
 import { Blog } from "./commands/blog";
 import { Conduct } from "./commands/conduct";
 import { Discord } from "./commands/discord";
-import { Fart } from "./commands/fart";
 import { Feedback } from './commands/feedback';
 import { FFL } from "./commands/ffl";
 import { Font } from "./commands/font";
@@ -16,7 +15,6 @@ import { Hype } from "./commands/hype";
 import { Instagram } from "./commands/instagram";
 import { JSDefender } from "./commands/jsdefender";
 import { Keyboard } from "./commands/keyboard";
-import { KidsFed } from './commands/kidsfed';
 import { LiveCoders } from "./commands/livecoders";
 import { POBox } from "./commands/pobox";
 import { So } from "./commands/so";
@@ -38,7 +36,6 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('blog', Blog))
     this.commands.push(new Command('conduct', Conduct))
     this.commands.push(new Command('discord', Discord))
-    this.commands.push(new Command('fart', Fart))
     this.commands.push(new Command('feedback', Feedback))
     this.commands.push(new Command('ffl', FFL))
     this.commands.push(new Command('font', Font))
@@ -51,7 +48,6 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('instagram', Instagram))
     this.commands.push(new Command('jsdefender', JSDefender))
     this.commands.push(new Command('keyboard', Keyboard))
-    this.commands.push(new Command('kidsfed', KidsFed))
     this.commands.push(new Command('livecoders', LiveCoders))
     this.commands.push(new Command('pobox', POBox))
     this.commands.push(new Command('so', So))

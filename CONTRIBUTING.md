@@ -175,6 +175,75 @@ Unique:
 ```
 
 
+#### Collections
+
+You'll need 3 collections in place:
+
+- actions
+- streams
+- users
+
+#### Indexes
+
+To retrieve data from Fauna, number-one uses indexes. They are defined as:
+
+##### `actions_actionDate`
+
+```
+Collection: 
+    actions
+
+Index Name: 
+    actions_actionDate
+
+Terms: 
+    data.actionDate
+```
+
+##### `actions_date_type`
+
+```
+Collection: 
+    actions
+
+Index Name: 
+    actions_date_type
+
+Terms: 
+    data.actionDate
+    data.eventType
+```
+
+##### `streams_streamDate`
+
+```
+Collection: 
+    streams
+
+Index Name: 
+    streams_streamDate
+
+Terms: 
+    data.streamDate
+```
+
+##### `users_login`
+
+```
+Collection: 
+    users
+
+Index Name: 
+    users_login
+
+Terms: 
+    data.login
+
+Unique:
+    true
+```
+
+
 ---
 
 **CONGRATULATIONS**, you made it! Now have all your environment variables configured and you're ready to start coding and debugging your contribution. So, get coding and we can't wait to see your first PR!
