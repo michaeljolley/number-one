@@ -63,6 +63,8 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   Twitch.init(config)
   Cron.init()
 
+  await Twitch.registerWebhooks()
+
   app.use(express.json())
 
   app.use('/webhooks', webhookRouter)
