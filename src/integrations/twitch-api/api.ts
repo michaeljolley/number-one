@@ -134,12 +134,12 @@ export class TwitchAPI {
         error: 'Missing signature'
       });
     }
-    log(LogLevel.Error, `Twitch:hooks: ${JSON.stringify(givenSignature)}`)
+    log(LogLevel.Error, `Twitch:hooks: x-hub-signature: ${JSON.stringify(givenSignature)}`)
 
     const digest = Crypto.createHmac('sha256', this.webhookSecret)
       .update(JSON.stringify(request.body))
       .digest('hex');
-    log(LogLevel.Error, `Twitch:hooks: ${digest}`)
+    log(LogLevel.Error, `Twitch:hooks: digest: ${digest}`)
 
     if (givenSignature === `sha256=${digest}`) {
       return next();
