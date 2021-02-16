@@ -29,6 +29,8 @@ export class TwitchAPI {
   public async registerWebhooks(): Promise<void> {
     this.webhookSecret = Guid.create().toString();
 
+    log(LogLevel.Info, 'registering webhooks')
+
     await this.registerFollowWebhook();
     await this.registerStreamWebhook();
   }
