@@ -14,7 +14,7 @@ beforeEach(() => {
   onCommandEvent = new OnCommandEvent(
     user(),
     'theme',
-    '!theme lasers',
+    'lasers',
     viewerFlags(),
     onCommandExtra(),
     activeStream())
