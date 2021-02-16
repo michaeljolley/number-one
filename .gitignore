@@ -1,4 +1,5 @@
 package-lock.json
+twitch_api.http
 
 # dotenv environment variables file
 .env
