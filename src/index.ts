@@ -13,7 +13,8 @@ import { overlayRouter, assetsRouter } from './web'
 import { log, LogLevel } from './common'
 import { Fauna, Twitch } from './integrations'
 import { IO } from './hub'
-import { Logger } from './logger';
+import { Cron } from './cron'
+import { Logger } from './logger'
 import StreamElements from './integrations/streamelements'
 import { State } from './state'
 
@@ -60,7 +61,7 @@ async function init(response: AxiosResponse<TwitchTokenResponse>) {
   State.init()
   Logger.init()
   Twitch.init(config)
-
+  Cron.init()
 
   app.use(express.json())
 

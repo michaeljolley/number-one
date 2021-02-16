@@ -25,12 +25,12 @@ export function Theme(onCommandEvent: OnCommandEvent):void {
     "bbbpoo"
   ]
 
-  if (words.length > 1 && shamedThemes.indexOf(words[1]) !== -1) {
+  if (words.length > 0 && shamedThemes.indexOf(words[0]) !== -1) {
 
     // dot_commie is the only viewer allowed to use
     // the lasers theme, so exit if the request came 
     // from him
-    if (words[1] === 'lasers' &&
+    if (words[0] === 'lasers' &&
       user.login === 'dot_commie') {
       return
     }

@@ -13,6 +13,9 @@ export abstract class Twitch {
   public static init(config: Config): void {
     this.config = config
     this.twitchAPI = new TwitchAPI(config)
+  }
+
+  public static async registerWebhooks(): Promise<void> {
     this.twitchAPI.registerWebhooks();
   }
 
