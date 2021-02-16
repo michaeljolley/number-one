@@ -78,7 +78,7 @@ export abstract class Twitch {
         log(LogLevel.Error, `Twitch:getStream - Fauna:getStream: ${err}`)
       }
 
-      if (!stream) {
+      if (!stream || stream.ended_at) {
         let apiStream: Stream
         try {
           apiStream = await this.twitchAPI.getStream(streamDate)
