@@ -1,5 +1,7 @@
 import { Attention } from "./commands/attention";
 import { Awesum } from "./commands/awesum";
+import { Azure } from './commands/azure';
+import { Hack } from './commands/hack';
 import { Blog } from "./commands/blog";
 import { Conduct } from "./commands/conduct";
 import { Discord } from "./commands/discord";
@@ -33,6 +35,8 @@ export abstract class CommandRegistry {
     this.commands = []
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
+    this.commands.push(new Command('azure', Azure));
+    this.commands.push(new Command('hack', Hack));
     this.commands.push(new Command('blog', Blog))
     this.commands.push(new Command('conduct', Conduct))
     this.commands.push(new Command('discord', Discord))
