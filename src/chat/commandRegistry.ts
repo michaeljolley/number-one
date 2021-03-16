@@ -10,7 +10,6 @@ import { GitHub } from "./commands/github";
 import { Giving } from "./commands/giving";
 import { Hardware } from "./commands/hardware";
 import { Help } from "./commands/help";
-import { Heroines } from "./commands/heroines";
 import { Hype } from "./commands/hype";
 import { Instagram } from "./commands/instagram";
 import { Keyboard } from "./commands/keyboard";
@@ -42,7 +41,6 @@ export abstract class CommandRegistry {
     this.commands.push(new Command('giving', Giving))
     this.commands.push(new Command('hardware', Hardware))
     this.commands.push(new Command('help', Help))
-    this.commands.push(new Command('heroines', Heroines))
     this.commands.push(new Command('hype', Hype))
     this.commands.push(new Command('instagram', Instagram))
     this.commands.push(new Command('keyboard', Keyboard))

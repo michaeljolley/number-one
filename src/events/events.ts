@@ -18,6 +18,8 @@ export enum Events {
   OnSay = 'onSay',
   OnPocketChange = 'onPocketChange',
 
+  OnOrbit = 'onOrbit',
+
   RequestCreditRoll = 'requestCreditRoll',
   RequestGivingUpdate = 'requestGivingUpdate'
 }

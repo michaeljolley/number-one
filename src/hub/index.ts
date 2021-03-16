@@ -20,6 +20,7 @@ import {
   OnPocketChangeEvent,
 } from "../models"
 import { OnStreamChangeEvent } from "../models/OnStreamChangeEvent"
+import { log, LogLevel } from "../common"
 
 export class IO {
 
@@ -31,6 +32,8 @@ export class IO {
     this.io.on('connect', (conn: io.Socket) => {
 
       conn.on('requestCreditRoll', () => this.requestCreditRoll());
+
+      conn.on('onOrbit', (streamDate: string) => this.onOrbit(streamDate))
 
       // Ensure the connection is from the bots overlays and not
       // and external actor.
@@ -72,7 +75,7 @@ export class IO {
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
     EventBus.eventEmitter.addListener(Events.OnPocketChange,
       (onPocketChangeEvent: OnPocketChangeEvent) => this.onPocketChangeEvent(onPocketChangeEvent))
-
+   
     EventBus.eventEmitter.addListener(Events.RequestGivingUpdate,
       () => this.requestGivingUpdate())
     EventBus.eventEmitter.addListener(Events.RequestCreditRoll,
@@ -141,6 +144,10 @@ export class IO {
 
   private onPocketChangeEvent(onPocketChangeEvent: OnPocketChangeEvent) {
     this.io.emit(Events.OnPocketChange, onPocketChangeEvent);
+  }
+
+  private onOrbit(streamDate: string) {
+    EventBus.eventEmitter.emit(Events.OnOrbit, streamDate);
   }
 
   private requestCreditRoll() {

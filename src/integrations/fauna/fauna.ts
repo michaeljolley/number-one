@@ -228,6 +228,31 @@ export abstract class FaunaClient {
     }
     return actions
   }
+
+  public static async getAllActions(actionDate: string): Promise<[string[]] | undefined> {
+    if (!this.client) {
+      return undefined
+    }
+
+    let actions: [string[]]
+    try {
+      const response = await this.client.query<FaunaResponse>(
+        query.Paginate(
+          query.Distinct(
+            query.Match(query.Index("actions_actionDate"), actionDate)
+          ),
+          { size: 10000 }
+        ),
+      )
+      if (response.data && response.data.length > 0) {
+        actions = response.data as [string[]]
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Fauna:getAllActions - ${err}`)
+    }
+    return actions
+  }
   
   public static async getSponsors(): Promise<Sponsor[] | undefined> {
     if (!this.client) {

@@ -93,6 +93,19 @@ export abstract class Fauna {
     return actions
   }
 
+  public static async getAllActions(actionDate: string): Promise<[string[]] | undefined> {
+    let actions: [string[]] | undefined
+
+    try {
+      actions = await FaunaClient.getAllActions(actionDate)
+    }
+    catch (err) {
+      log(LogLevel.Error, err)
+    }
+
+    return actions
+  }
+
 
   public static async saveAction(action: Action): Promise<Action> {
     try {

@@ -16,7 +16,7 @@ export function Font(onCommandEvent: OnCommandEvent):void {
     return
   }
 
-  const message = `Mike is using the Fira Code font.  You can find it at https://github.com/tonsky/FiraCode`
+  const message = `Mike is using the Fira Code font. You can find it at https://github.com/tonsky/FiraCode`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

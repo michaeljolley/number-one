@@ -22,6 +22,7 @@ export * from './OnSoundEffectEvent'
 export * from './OnStopEvent'
 export * from './OnPocketChangeEvent'
 
+export * from './Activity'
 export * from './Action'
 export * from './Credit'
 export * from './Sponsor'
