@@ -19,6 +19,7 @@ export enum Events {
   OnPocketChange = 'onPocketChange',
 
   OnOrbit = 'onOrbit',
+  OnFullOrbit = 'onFullOrbit',
 
   RequestCreditRoll = 'requestCreditRoll',
   RequestGivingUpdate = 'requestGivingUpdate'

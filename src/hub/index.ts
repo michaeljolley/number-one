@@ -35,6 +35,8 @@ export class IO {
 
       conn.on('onOrbit', (streamDate: string) => this.onOrbit(streamDate))
 
+      conn.on('onFullOrbit', (streamDate: string) => this.onFullOrbit(streamDate))
+
       // Ensure the connection is from the bots overlays and not
       // and external actor.
       if (conn.handshake.headers.host !== process.env.HOST &&
@@ -148,6 +150,10 @@ export class IO {
 
   private onOrbit(streamDate: string) {
     EventBus.eventEmitter.emit(Events.OnOrbit, streamDate);
+  }
+
+  private onFullOrbit(streamDate: string) {
+    EventBus.eventEmitter.emit(Events.OnFullOrbit, streamDate);
   }
 
   private requestCreditRoll() {

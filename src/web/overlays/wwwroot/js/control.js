@@ -12,6 +12,9 @@ const app = new Vue({
   methods: {
     sendOrbit() {
       this.socket.emit('onOrbit', this.streamDate);
+    },
+    sendFullOrbit() {
+      this.socket.emit('onFullOrbit', this.streamDate);
     }
   },
   mounted() {
@@ -24,5 +27,5 @@ const app = new Vue({
     console.log("We're loaded and listening the socket.io hub");
   },
   template:
-    `<div><input type="text" v-model="streamDate" id="streamDate"/><br/><button type="submit" @click.prevent="sendOrbit">Send onOrbit</button></div>`
+    `<div><input type="text" v-model="streamDate" id="streamDate"/><br/><button type="submit" @click.prevent="sendOrbit">Send onOrbit</button><br/><button type="submit" @click.prevent="sendFullOrbit">Send onFullOrbit</button></div>`
 });

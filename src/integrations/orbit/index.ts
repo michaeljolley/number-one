@@ -26,8 +26,7 @@ export abstract class Orbit {
       })
     }
     catch (err) {
-      
-      console.dir(err.response.data);
+      console.dir({ ...err.response.data, ...user});
       log(LogLevel.Error, err)
     }
   }

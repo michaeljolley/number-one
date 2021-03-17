@@ -32,6 +32,7 @@ export abstract class Logger {
       (onRaidEvent: OnRaidEvent) => this.onRaid(onRaidEvent))
     EventBus.eventEmitter.addListener(Events.OnStreamEnd, () => this.onStreamEnd())
     EventBus.eventEmitter.addListener(Events.OnOrbit, (streamDate: string) => this.onOrbit(streamDate))
+    EventBus.eventEmitter.addListener(Events.OnFullOrbit, (streamDate: string) => this.onFullOrbit(streamDate))
   }
 
   private static async onChatMessage(onChatMessageEvent: OnChatMessageEvent) {
@@ -62,7 +63,8 @@ export abstract class Logger {
         'Cheered on Twitch',
         `Cheered ${onCheerEvent.bits} on Twitch`,
         'twitch:cheer',
-        `twitch-cheer-${onCheerEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`),
+        `twitch-cheer-${onCheerEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+        (new Date(streamDate)).toISOString()),
       onCheerEvent.user
     )
   }
@@ -87,7 +89,8 @@ export abstract class Logger {
           'Donation on Twitch',
           `Donated ${onDonationEvent.amount} on Twitch`,
           'twitch:donation',
-          `twitch-donation-${user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`),
+          `twitch-donation-${user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+          (new Date(streamDate)).toISOString()),
         onDonationEvent.twitchUser
       )
     } else {
@@ -120,7 +123,8 @@ export abstract class Logger {
         'Followed on Twitch',
         `Followed on Twitch`,
         'twitch:follow',
-        `twitch-follow-${onFollowEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`),
+        `twitch-follow-${onFollowEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+        (new Date(streamDate)).toISOString()),
       onFollowEvent.user
     )
   }
@@ -143,7 +147,8 @@ export abstract class Logger {
         'Subscribed on Twitch',
         `Subscribed on Twitch`,
         'twitch:subscribe',
-        `twitch-subscribe-${onSubEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`),
+        `twitch-subscribe-${onSubEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+        (new Date(streamDate)).toISOString()),
       onSubEvent.user
     )
   }
@@ -166,7 +171,8 @@ export abstract class Logger {
         'Raided on Twitch',
         `Raided with ${onRaidEvent.viewers} on Twitch`,
         'twitch:raid',
-        `twitch-raid-${onRaidEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`),
+        `twitch-raid-${onRaidEvent.user.login}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+        (new Date(streamDate)).toISOString()),
       onRaidEvent.user
     )
   }
@@ -211,6 +217,7 @@ export abstract class Logger {
                 `Chatted on Twitch`,
                 'twitch:chat',
                 `twitch-chat-${chatter}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (new Date(streamDate)).toISOString(),
                 "0.2"),
               new User(chatter, '', '', chatter, date, '')
             )
@@ -220,6 +227,116 @@ export abstract class Logger {
     } 
     catch (err) {
       log(LogLevel.Error, `Logger: onOrbit: ${err}`)
+    }
+  }
+
+  public static async onFullOrbit(streamDate: string): Promise<void> {
+    try {
+      const stream = await Fauna.getStream(streamDate)
+      const date = new Date(streamDate)
+
+      if (stream) {
+        // Get all actions that occurred
+        const actions = await Fauna.getAllActions(streamDate);
+
+        // Aggregate actions
+        const chatMessages = actions.filter(f => f[3] === 'onChatMessage');
+        const follows = actions.filter(f => f[3] === 'onFollow');
+        const raids = actions.filter(f => f[3] === 'onRaid');
+        const subs = actions.filter(f => f[3] === 'onSub');
+        const donations = actions.filter(f => f[3] === 'onDonation');
+        const cheers = actions.filter(f => f[3] === 'onCheer');
+        const uniqueChatters = chatMessages.map(m => m[1]).filter((v, i, s) => {
+          return s.indexOf(v) === i;
+        });
+
+        // Store in Orbit
+        const throttle = throttledQueue(120, 60 * 1000, true)
+
+        throttle(async () => {
+          for (const follower of follows) {
+            await Orbit.addActivity(
+              new Activity(
+                'Follow on Twitch',
+                `Followed on Twitch`,
+                'twitch:follow',
+                `twitch-follow-${follower[1]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (new Date(streamDate)).toISOString(),
+                "1"),
+              new User(follower[1], '', '', follower[1], date, '')
+            )
+          }
+
+          for (const cheerer of cheers) {
+            await Orbit.addActivity(
+              new Activity(
+                'Cheer on Twitch',
+                `Cheered on Twitch`,
+                'twitch:cheer',
+                `twitch-cheer-${cheerer[1]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (new Date(streamDate)).toISOString(),
+                "0.5"),
+              new User(cheerer[1], '', '', cheerer[1], date, '')
+            )
+          }
+
+          for (const donor of donations) {
+            await Orbit.addActivity(
+              new Activity(
+                'Donate on Twitch',
+                `Donated on Twitch`,
+                'twitch:donation',
+                `twitch-donation-${donor[1]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (new Date(streamDate)).toISOString(),
+                "2"),
+              new User(donor[1], '', '', donor[1], date, '')
+            )
+          }
+
+          for (const sub of subs) {
+            await Orbit.addActivity(
+              new Activity(
+                'Subscribed on Twitch',
+                `Subscribed on Twitch`,
+                'twitch:sub',
+                `twitch-sub-${sub[1]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (new Date(streamDate)).toISOString(),
+                "1.5"),
+              new User(sub[1], '', '', sub[1], date, '')
+            )
+          }
+          for (const raider of raids) {
+            await Orbit.addActivity(
+              new Activity(
+                'Raided on Twitch',
+                `Raided on Twitch`,
+                'twitch:raid',
+                `twitch-raid-${raider[1]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (new Date(streamDate)).toISOString(),
+                "1"),
+              new User(raider[1], '', '', raider[1], date, '')
+            )
+          }
+
+          for (const chatter of uniqueChatters) {
+            await Orbit.addActivity(
+              new Activity(
+                'Chat on Twitch',
+                `Chatted on Twitch`,
+                'twitch:chat',
+                `twitch-chat-${chatter}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (new Date(streamDate)).toISOString(),
+                "0.2"),
+              new User(chatter, '', '', chatter, date, '')
+            )
+          }
+
+          log(LogLevel.Info, `Logger: onFullOrbit ${streamDate} completed`);
+        })
+      }
+    }
+    catch (err) {
+      log(LogLevel.Error, `Logger: onFullOrbit: ${err}`)
     }
   }
 }
