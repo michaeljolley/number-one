@@ -60,6 +60,7 @@ export function emoteOnlyExtra(): OnMessageExtra {
 
 export function onSubExtra(): OnSubExtra {
   return {
+    channel: 'channel',
     id: '1234567',
     roomId: 'channel',
     messageEmotes: emoteSet,

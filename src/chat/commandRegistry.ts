@@ -1,5 +1,4 @@
 import { Attention } from "./commands/attention";
-import { Azure } from './commands/azure';
 import { Awesum } from "./commands/awesum";
 import { Blog } from "./commands/blog";
 import { Conduct } from "./commands/conduct";
@@ -30,8 +29,6 @@ export abstract class CommandRegistry {
 
   public static init(): void {
     this.commands = []
-
-    this.commands.push(new Command('azure', Azure))
 
     this.commands.push(new Command('attention', Attention))
     this.commands.push(new Command('awesum', Awesum))
