@@ -2,7 +2,7 @@
 # number-one
 
 ![CI](https://github.com/builders-club/number-one/workflows/CI/badge.svg?branch=main) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Number One is a [Twitch](https://twitch.tv) chat bot that provides the following features:
@@ -57,6 +57,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/radu-duku"><img src="https://avatars0.githubusercontent.com/u/10188317?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Radu Antal </b></sub></a><br /><a href="#ideas-radu-duku" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/raushanraja"><img src="https://avatars.githubusercontent.com/u/23188940?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Raushan </b></sub></a><br /><a href="#ideas-raushanraja" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
