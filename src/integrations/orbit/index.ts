@@ -12,7 +12,7 @@ export abstract class Orbit {
         activity,
         identity: {
           source: 'twitch',
-          source_host: `https://twitch.tv/baldbeardedbuilder`,
+          source_host: `twitch.tv/baldbeardedbuilder`,
           username: user.login,
           url: `https://twitch.tv/${user.login}`
         }

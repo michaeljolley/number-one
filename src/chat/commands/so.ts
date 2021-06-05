@@ -17,7 +17,7 @@ export function So(onCommandEvent: OnCommandEvent): void {
   if (splitMessage.length === 1) {
     const username = splitMessage[0].replace("@", "");
 
-    const message = `Shout out to @${username}!  Check out their stream at https://twitch.tv/${username} and give them a follow.`;
+    const message = `Shout out to @${username}! Check out their stream at https://twitch.tv/${username} and give them a follow.`;
     // Send the message to Twitch chat
     EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))
   }

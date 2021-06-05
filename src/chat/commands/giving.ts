@@ -17,7 +17,7 @@ export function Giving(onCommandEvent: OnCommandEvent): void {
     return
   }
 
-  const message = `The BBB community is very active in giving to organizations like Backpack Buddies, Girls Who Code, and St. Judes Childrens Hospital. In addition, we sponsor underrepresented groups to attend various conferences & workshops.`
+  const message = `Your subs, cheers, donations, and Patreon support helps us support organizations like Backpack Buddies, Girls Who Code, and St. Judes Childrens Hospital. In addition, we sponsor underrepresented groups to attend various conferences & workshops.`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))

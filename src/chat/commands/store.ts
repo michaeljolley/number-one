@@ -17,7 +17,7 @@ export function Store(onCommandEvent: OnCommandEvent):void {
     return
   }
 
-  const message = `Want to support the stream? Pick up some merch at https://bbb.dev/shop`
+  const message = `Pick up some merch at https://bbb.dev/shop`
 
   // Send the message to Twitch chat
   EventBus.eventEmitter.emit(Events.OnSay, new OnSayEvent(message))
