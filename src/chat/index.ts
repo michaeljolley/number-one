@@ -143,7 +143,10 @@ export class ChatMonitor {
         'code',
         'strike',
         'blink',
-        'img'
+        'img',
+        'h1',
+        'h2',
+        'h3',
       ]
     });
 
